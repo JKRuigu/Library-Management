@@ -1,0 +1,239 @@
+import React from "react";
+import { connect } from 'react-redux';
+import BookTitleform from '../books/form/BookTitleForm';
+import BookForm from '../books/form/BookForm';
+import { titleRegister } from '../../actions/books/registration';
+import { bookRegister } from '../../actions/books/registration';
+import axios from 'axios';
+import Table from '../books/tables';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import injectTapEventPlugin from "react-tap-event-plugin";
+import orderBy from "lodash/orderBy";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import TextField from "material-ui/TextField";
+
+const invertDirection = {
+  asc: "desc",
+  desc: "asc"
+};
+
+
+class Books extends React.Component {
+  constructor(props){
+       super(props);
+       this.state = {
+           isLoading: true,
+           books: '',
+           errors: [],
+           editIdx: -1,
+           columnToSort: "",
+           sortDirection: "desc",
+           query: "",
+           columnToQuery: "bookAccession",
+           editStudId:'',
+           edited:false
+       }
+   }
+  submit = data =>{
+    this.props.titleRegister(data).then( () => {
+    }).catch( error => {
+      this.setState({ errors: error })
+    });
+  }
+  booksubmit = data =>{
+    axios.post(`/api/book/registration`,data)
+    .then(res => {
+      console.log(res);
+    });
+  }
+  componentWillMount() {
+    console.log('componentWillMount') ||
+        localStorage.getItem('books') && this.setState({
+            books: JSON.parse(localStorage.getItem('books')),
+            isLoading: false
+        })
+    }
+
+  componentDidMount(){
+    console.log('componentDidMount') ||
+    !localStorage.getItem('books') ? this.fetchData():console.log(`Using data from localStorage that `)
+  }
+  componentWillUpdate(nextProps, nextState) {
+        localStorage.setItem('books', JSON.stringify(nextState.books));
+    }
+  fetchData(){
+    axios.get(`/api/fetch/books`)
+    .then(res => {
+      let books = res.data.data;
+      this.setState({
+        books:books,
+        isLoading: false
+      });
+    });
+  }
+}
+
+  handleRemove = (e,i) => {
+    const {id} = e.target;
+    if (id) {
+      this.setState({
+         isLoading:true
+        });
+      axios.delete(`/api/book/${id}/delete`)
+      .then(res =>{
+        if (res.status === 200) {
+          let books = res.data.data;
+          this.setState(state => ({
+            books: books,
+            isLoading:false
+          }))
+        }else if (res.status === 400) {
+          this.fetchData()
+        }
+      })
+    }
+  };
+  startEditing = i => {
+    this.setState({ editIdx: i });
+  };
+
+  stopEditing = () => {
+    const {isLoading, editStudId,books,edited} = this.state;
+    if (editStudId && edited==true) {
+      var studEditDetails =  books.filter(function(hero) {
+          return hero._id == editStudId;
+        });
+      if (studEditDetails) {
+        const {isLoading, books} = this.state;
+        this.setState({
+           isLoading:true,
+           books:''
+          });
+        let data = studEditDetails;
+        axios.put(`/api/book/${editStudId}/edit`,data)
+          .then(res => {
+            let books = res.data.data;
+            this.setState(state => ({
+              books:books,
+              isLoading:false,
+              editStudId:''
+            }));
+          });
+      }
+
+    }
+    this.setState({ editIdx: -1 });
+  };
+
+  handleChange = (e, name, i) => {
+    const { value,id } = e.target;
+    this.setState(state => ({
+      books: state.books.map(
+        (row, j) => (j === i ? { ...row, [name]: value } : row)
+      ),
+      editStudId:id,
+      edited:true
+    }));
+  };
+  handleSort = columnName => {
+  this.setState(state => ({
+    columnToSort: columnName,
+    sortDirection:
+      state.columnToSort === columnName
+        ? invertDirection[state.sortDirection]
+        : "asc"
+  }));
+};
+
+  render(){
+    const lowerCaseQuery = this.state.query.toLowerCase();
+    const {isLoading, books} = this.state;
+    console.log(books);
+    return(
+      <MuiThemeProvider>
+      <div className="content">
+        <div className="card" id="main-card">
+          <div className="card-body">
+            <div className="col-lg-12">
+            <div className="card col-md-6"><BookTitleform submit={this.submit}/></div>
+            <div className="card col-md-6"><BookForm submit={this.booksubmit}/></div>
+            </div>
+            <div className="col-lg-12">
+            <div className="row">
+            <TextField
+               hintText="Search.."
+               floatingLabelText="Search"
+               value={this.state.query}
+               onChange={e => this.setState({ query: e.target.value })}
+               floatingLabelFixed
+             />
+             <SelectField
+               style={{ marginLeft: "1em" }}
+               floatingLabelText="Select a column"
+               value={this.state.columnToQuery}
+               onChange={(event, index, value) =>
+                 this.setState({ columnToQuery: value })
+               }
+             >
+             <MenuItem value="bookAccession" primaryText="Book Acc Number" />
+             <MenuItem value="studentName" primaryText="Student Name" />
+             <MenuItem value="Isbn" primaryText="Isbn" />
+             <MenuItem value="bookCondition" primaryText="Book Condition" />
+           </SelectField>
+            </div>
+            <div className={`card-body ${isLoading ? 'loader' : ''}`} >
+            <Table
+              handleSort={this.handleSort}
+              handleRemove={this.handleRemove}
+              startEditing={this.startEditing}
+              editIdx={this.state.editIdx}
+              stopEditing={this.stopEditing}
+              handleChange={this.handleChange}
+              columnToSort={this.state.columnToSort}
+              sortDirection={this.state.sortDirection}
+              books={orderBy(
+                this.state.query
+                  ? this.state.books.filter(x =>
+                      x[this.state.columnToQuery]
+                        .toLowerCase()
+                        .includes(lowerCaseQuery)
+                    )
+                  : this.state.books,
+                this.state.columnToSort,
+                this.state.sortDirection
+              )}
+              titles={[
+                {
+                  name: "Book Accession No:",
+                  prop: "bookAccession"
+                },
+                {
+                  name: "Isbn",
+                  prop: "Isbn"
+                },
+                {
+                  name: "Book Title",
+                  prop: "bookTitle"
+                },
+                {
+                  name: "bookCondition",
+                  prop: "bookCondition"
+                }
+              ]}
+            />
+
+            </div>
+            </div>
+          </div>
+          <div className="card-footer">
+          </div>
+        </div>
+      </div>
+      </MuiThemeProvider>
+
+    )
+  }
+}
+
+export default connect(null, {titleRegister})(Books);
