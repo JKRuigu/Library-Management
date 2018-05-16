@@ -1,10 +1,48 @@
 import React from "react";
+import axios from 'axios';
 
 class StudentForm extends React.Component {
-      state = {
-      data:{}
-    };
+  constructor(props){
+       super(props);
+       this.state = {
+           stream:[],
+           data:{}
+       }
+   }
 
+   componentWillMount() {
+     this.fetchData() ||
+         localStorage.getItem('stream')  && this.setState({
+             stream: JSON.parse(localStorage.getItem('stream')),
+         })
+     }
+
+   componentDidMount(){
+     console.log('chlid componentDidMount');
+      !localStorage.getItem('stream')? this.fetchData():console.log(`Using data from localStorage that `);
+    }
+   componentWillUpdate(nextProps, nextState) {
+         localStorage.setItem('stream', JSON.stringify(nextState.stream));
+     }
+
+     fetchData(){
+       axios.get(`/api/fetch/stream`)
+       .then(res => {
+         let stream = res.data.data;
+         var bookAcc = [];
+         var i =0;
+         stream.forEach(function (form) {
+           if(form.hasOwnProperty('stream')){
+               bookAcc[i] = form.stream;
+               i++;
+           }
+         });
+         this.setState({
+           stream:bookAcc,
+           isLoading: false
+         });
+       });
+     }
     submit = ()=> {
       this.props.submit(this.state.data);
       console.log(this.state.data)
@@ -14,6 +52,7 @@ class StudentForm extends React.Component {
       this.setState({ data : { ...this.state.data, [e.target.name]: e.target.value } });
     };
     render(){
+      const {stream} = this.state;
   return(
     <form onSubmit={this.submit}>
       <div className="row">
@@ -35,10 +74,12 @@ class StudentForm extends React.Component {
                   <div className="form-group">
                       <label data-toggle="tooltip">Class</label><br/>
                       <select name="form"	onChange={this.handleChange} className="selectOption">
-                        <option selected value="North">North</option>
-                        <option value="East">East</option>
-                        <option value="West">West</option>
-                        <option value="South">South</option>
+                      <option selected  value="" style={{display:"none"}}></option>
+                      {
+                        stream.map((x,i) =>(
+                          <option key={`opt-${i}`} value={x}>{x}</option>
+                        ))
+                      }
                       </select>
                     </div>
               </div>
@@ -46,7 +87,8 @@ class StudentForm extends React.Component {
                   <div className="form-group">
                         <label data-toggle="tooltip">Stream </label>
                         <select name="stream"	onChange={this.handleChange} className="selectOption">
-                          <option selected value="1">1</option>
+                          <option selected  value="" style={{display:"none"}}></option>
+                          <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
                           <option value="4">4</option>

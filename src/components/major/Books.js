@@ -1,17 +1,17 @@
 import React from "react";
-import { connect } from 'react-redux';
-import BookTitleform from '../books/form/BookTitleForm';
-import BookForm from '../books/form/BookForm';
-import { titleRegister } from '../../actions/books/registration';
-import { bookRegister } from '../../actions/books/registration';
-import axios from 'axios';
-import Table from '../books/tables';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { connect } from 'react-redux';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
+import { titleRegister } from '../../actions/books/registration';
+import { bookRegister } from '../../actions/books/registration';
+import axios from 'axios';
+import BookTitleform from '../books/form/BookTitleForm';
+import BookForm from '../books/form/BookForm';
+import Table from '../books/tables';
 
 const invertDirection = {
   asc: "desc",
@@ -35,18 +35,21 @@ class Books extends React.Component {
            edited:false
        }
    }
+
   submit = data =>{
     this.props.titleRegister(data).then( () => {
     }).catch( error => {
       this.setState({ errors: error })
     });
   }
+
   booksubmit = data =>{
     axios.post(`/api/book/registration`,data)
     .then(res => {
       console.log(res);
     });
   }
+
   componentWillMount() {
     console.log('componentWillMount') ||
         localStorage.getItem('books') && this.setState({
@@ -59,9 +62,11 @@ class Books extends React.Component {
     console.log('componentDidMount') ||
     !localStorage.getItem('books') ? this.fetchData():console.log(`Using data from localStorage that `)
   }
+
   componentWillUpdate(nextProps, nextState) {
         localStorage.setItem('books', JSON.stringify(nextState.books));
     }
+
   fetchData(){
     axios.get(`/api/fetch/books`)
     .then(res => {
@@ -72,7 +77,7 @@ class Books extends React.Component {
       });
     });
   }
-}
+
 
   handleRemove = (e,i) => {
     const {id} = e.target;
@@ -156,11 +161,12 @@ class Books extends React.Component {
         <div className="card" id="main-card">
           <div className="card-body">
             <div className="col-lg-12">
+            
             <div className="card col-md-6"><BookTitleform submit={this.submit}/></div>
             <div className="card col-md-6"><BookForm submit={this.booksubmit}/></div>
             </div>
-            <div className="col-lg-12">
-            <div className="row">
+            <div className=" col-lg-12">
+            <div className="row" style={{ display: "flex", margin: "auto" }}>
             <TextField
                hintText="Search.."
                floatingLabelText="Search"
@@ -177,7 +183,6 @@ class Books extends React.Component {
                }
              >
              <MenuItem value="bookAccession" primaryText="Book Acc Number" />
-             <MenuItem value="studentName" primaryText="Student Name" />
              <MenuItem value="Isbn" primaryText="Isbn" />
              <MenuItem value="bookCondition" primaryText="Book Condition" />
            </SelectField>

@@ -48,7 +48,6 @@ router.post('/student/registration',function (req,res) {
 
 //Book Titles registration
 router.post('/book/registration/titles',function (req,res) {
-    console.log(req.body);
 const {bookTitle, bookAuthor,bookCategory, bookSection,bookPublisher,numberOfCopies} = req.body;
     var newTitle = new Title({
       "bookTitle": bookTitle,
@@ -138,7 +137,21 @@ router.get('/fetch/students',(req, res) =>{
       let db = client.db('library-react');
       db.collection('users').find().toArray((err,results)=>{
         let data = results;
-        res.status(200).json({data:data});
+        res.status(200).json({data});
+        client.close();
+      })
+    }).catch( error => {
+      res.status(404).json({message:'Server Error.'});
+    });
+});
+
+//fetch stream
+router.get('/fetch/stream',(req, res) =>{
+    MongoClient.connect(url).then(client =>{
+      let db = client.db('library-react');
+      db.collection('streams').find().toArray((err,results)=>{
+        let data = results;
+        res.status(200).json({data});
         client.close();
       })
     }).catch( error => {
@@ -160,6 +173,39 @@ router.put('/student/:studId/edit',(req, res) =>{
             let db = client.db('library-react');
             db.collection('users').find().toArray((err,data)=>{
               res.status(200).json({data:data});
+              client.close();
+            })
+          }).catch( error => {
+            console.log(error);
+            res.status(404).json({message:'Server Error.'});
+          });
+        }).catch(error => {
+          console.log(error);
+          res.status(404).json({message:'The book accession number is already in use.'});
+        });
+        client.close();
+      }).catch( error => {
+        console.log(error);
+        res.status(404).json({message:'The book accession number is already in use.'});
+      });
+    } else {
+      res.status(404).json({message:"Send a valid body"});
+    }
+  });
+
+router.put('/stream/:Id/edit',(req, res) =>{
+  let data = req.body[0]
+  if(data && req.params.Id) {
+    MongoClient.connect(url).then(client =>{
+      let db = client.db('library-react');
+      const {stream} = data;
+      db.collection('streams').update(
+        {_id:ObjectId(req.params.Id)},
+        { $set:{stream}}).then( ()=>{
+          MongoClient.connect(url).then(client =>{
+            let db = client.db('library-react');
+            db.collection('streams').find().toArray((err,data)=>{
+              res.status(200).json({data});
               client.close();
             })
           }).catch( error => {
@@ -236,6 +282,7 @@ router.delete('/student/:studId/delete',  (req, res) =>{
     res.status(404).json({message:error.message});
   });
 });
+
 router.delete('/book/:bookId/delete',  (req, res) =>{
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
@@ -258,7 +305,28 @@ router.delete('/book/:bookId/delete',  (req, res) =>{
     res.status(404).json({message:error.message});
   });
 });
-
+router.delete('/stream/:streamId/delete',  (req, res) =>{
+  MongoClient.connect(url).then(client =>{
+    let db = client.db('library-react');
+    db.collection('streams').deleteOne({_id:ObjectId(req.params.streamId)}).then( ()=>{
+      MongoClient.connect(url).then(client =>{
+        let db = client.db('library-react');
+        db.collection('streams').find().toArray((err,data)=>{
+          res.status(200).json({data:data});
+          client.close();
+        })
+      }).catch( error => {
+        console.log(error);
+        res.status(404).json({message:'Server Error.'});
+      });
+    }).catch(error => {
+      res.status(404).json({message:error.message});
+    });
+    client.close();
+  }).catch( error => {
+    res.status(404).json({message:error.message});
+  });
+});
 
 router.get('/fetch/books',  (req, res) =>{
   MongoClient.connect(url, function(err, db) {

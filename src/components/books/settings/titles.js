@@ -1,23 +1,26 @@
 import React from "react";
 import axios from 'axios';
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import injectTapEventPlugin from "react-tap-event-plugin";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import TextField from "material-ui/TextField";
+
 
 class TitleConfig extends React.Component {
   constructor(props){
        super(props);
        this.state = {
-           titles;''
+           titles:[]
        }
    }
+
    componentWillMount() {
+     this.fetchData() ||
          localStorage.getItem('titles')  && this.setState({
              titles: JSON.parse(localStorage.getItem('titles')),
          })
      }
-   componentDidMount(){ !localStorage.getItem('titles')? this.fetchdata():console.log(`Using data from localStorage that `);}
+
+   componentDidMount(){
+      !localStorage.getItem('titles')? this.fetchData():console.log(`Using data from localStorage that `);
+    }
    componentWillUpdate(nextProps, nextState) {
          localStorage.setItem('titles', JSON.stringify(nextState.titles));
      }
@@ -35,15 +38,25 @@ class TitleConfig extends React.Component {
                i++;
            }
          });
+
          this.setState({
            titles:bookAcc,
            isLoading: false
          });
        });
-
+     }
   render(){
+    const {titles} = this.state;
     return(
-        <h1>Hello</h1>
+    <div>
+    <datalist id="datalist1">
+    {
+      titles.map((x,i) =>(
+        <option key={`datalist-${i}`} value={x}></option>
+      ))
+    }
+    </datalist>
+    </div>
     )
   }
 }

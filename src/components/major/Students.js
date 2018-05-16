@@ -1,17 +1,19 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Form from '../students/form/StudentForm';
-import BookTitles from '../students/settings/titles';
 import Table from '../students/table';
 import { studRegister } from '../../actions/students/registration';
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import injectTapEventPlugin from "react-tap-event-plugin";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import axios from 'axios';
 import './student.css';
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
+
+
+injectTapEventPlugin();
 
 const invertDirection = {
   asc: "desc",
@@ -23,7 +25,7 @@ class Students extends React.Component {
        super(props);
        this.state = {
            isLoading: true,
-           students: '',
+           students: [],
            errors: [],
            editIdx: -1,
            columnToSort: "",
@@ -42,6 +44,7 @@ class Students extends React.Component {
     });
   }
   componentWillMount() {
+    console.log('componentWillMount') ||
         localStorage.getItem('students') && this.setState({
             students: JSON.parse(localStorage.getItem('students')),
             isLoading: false
@@ -49,16 +52,17 @@ class Students extends React.Component {
 
     }
 
-  componentDidMount(){!localStorage.getItem('students') ? this.fetchData() :console.log(`Using data from localStorage that `);}
+  componentDidMount(){
+    console.log('componentDidMount') ||
+    !localStorage.getItem('students') ? this.fetchData() :console.log(`Using data from localStorage that `);}
   componentWillUpdate(nextProps, nextState) {
         localStorage.setItem('students', JSON.stringify(nextState.students));
     }
   fetchData(){
     axios.get(`/api/fetch/students`)
       .then(res => {
-        let students = res.data.data;
         this.setState({
-           students:students,
+           students:res.data.data,
            isLoading: false
          });
       });
@@ -72,9 +76,8 @@ class Students extends React.Component {
       axios.delete(`/api/student/${id}/delete`)
       .then(res =>{
         if (res.status === 200) {
-          let students = res.data.data;
           this.setState(state => ({
-            students: students,
+            students: res.data.data,
             isLoading:false
           }))
         }else if (res.status === 400) {
