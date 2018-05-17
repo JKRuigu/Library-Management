@@ -227,37 +227,54 @@ router.put('/stream/:Id/edit',(req, res) =>{
   });
 
 router.put('/book/:bookId/edit',(req, res) =>{
-  let data = req.body[0]
-  if(req.body && req.params.bookId) {
-    MongoClient.connect(url).then(client =>{
-      let db = client.db('library-react');
-      const {bookAccession, bookCategoryId, bookCondition, Isbn} = data;
-      db.collection('books').update(
-        {_id:ObjectId(req.params.bookId)},
-        { $set:{bookAccession, bookCategoryId, bookCondition, Isbn}}).then( ()=>{
-          MongoClient.connect(url).then(client =>{
-            let db = client.db('library-react');
-            db.collection('books').find().toArray((err,data)=>{
-              console.log(data);
-              res.status(200).json({data:data});
-              client.close();
-            })
-          }).catch( error => {
-            console.log(error);
-            res.status(404).json({message:'Server Error.'});
-          });
-        }).catch(error => {
-          console.log(error);
-          res.status(404).json({message:'The book accession number is already in use.'});
-        });
-        client.close();
-      }).catch( error => {
-        console.log(error);
-        res.status(404).json({message:'The book accession number is already in use.'});
-      });
-    } else {
-      res.status(404).json({message:"Send a valid body"});
-    }
+  var bodyData = req.body[0];
+  var bookTitle = req.body[0].orderdetails[0].bookTitle;
+  console.log(bookTitle);
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("library-react");
+    dbo.collection("titles").find({bookTitle:bookTitle}).toArray(function(err, result) {
+      if (err) {
+        res.status(404).json({message:"Database Error!"})
+      }else{
+        const bookCategoryId = result[0]._id
+          if (bookCategoryId) {
+            MongoClient.connect(url).then(client =>{
+              let db = client.db('library-react');
+              const {bookAccession,bookCondition,Isbn} = bodyData;
+              db.collection('books').update(
+                {_id:ObjectId(req.params.bookId)},
+                { $set:{bookAccession, bookCategoryId, bookCondition, Isbn,bookCategoryId}}).then( ()=>{
+                  MongoClient.connect(url).then(client =>{
+                    let db = client.db('library-react');
+                    db.collection('books').find().toArray((err,data)=>{
+                      console.log(data);
+                      res.status(200).json({data:data});
+                      client.close();
+                    })
+                  }).catch( error => {
+                    console.log(error);
+                    res.status(404).json({message:'Server Error.'});
+                  });
+                }).catch(error => {
+                  console.log(error);
+                  res.status(404).json({message:'The book accession number is already in use.'});
+                });
+                client.close();
+              }).catch( error => {
+                console.log(error);
+                res.status(404).json({message:'The book accession number is already in use.'});
+              });
+
+          }
+        db.close();
+      }
+    });
+  });
+  // if(!req.body && !req.params.bookId) {
+  //   } else {
+  //     res.status(404).json({message:"Send a valid body"});
+  //   }
   });
 
 router.delete('/student/:studId/delete',  (req, res) =>{
@@ -305,6 +322,7 @@ router.delete('/book/:bookId/delete',  (req, res) =>{
     res.status(404).json({message:error.message});
   });
 });
+
 router.delete('/stream/:streamId/delete',  (req, res) =>{
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
@@ -316,7 +334,6 @@ router.delete('/stream/:streamId/delete',  (req, res) =>{
           client.close();
         })
       }).catch( error => {
-        console.log(error);
         res.status(404).json({message:'Server Error.'});
       });
     }).catch(error => {
@@ -341,14 +358,10 @@ router.get('/fetch/books',  (req, res) =>{
            as: 'orderdetails'
          }
        }
-     ]).toArray(function(err, results) {
-      if (err) throw err;
-      let data = results;
-      console.log(data);
-      if (data) {
+     ]).toArray(function(err, data) {
+      err ?   res.status(404).json({message:'Unable to fetch data'}):
         res.status(200).json({data});
         db.close();
-      }
     });
   });
 });

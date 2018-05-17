@@ -59,6 +59,7 @@ class Books extends React.Component {
     }
 
   componentDidMount(){
+    this.setState({ editIdx: -1 }) ||
     console.log('componentDidMount') ||
     !localStorage.getItem('books') ? this.fetchData():console.log(`Using data from localStorage that `)
   }
@@ -80,7 +81,8 @@ class Books extends React.Component {
 
 
   handleRemove = (e,i) => {
-    const {id} = e.target;
+    const {id } = e.target;
+    const {books} = this.state;
     if (id) {
       this.setState({
          isLoading:true
@@ -88,11 +90,10 @@ class Books extends React.Component {
       axios.delete(`/api/book/${id}/delete`)
       .then(res =>{
         if (res.status === 200) {
-          let books = res.data.data;
           this.setState(state => ({
-            books: books,
-            isLoading:false
-          }))
+        books: state.books.filter((row, j) => j !== i),
+        isLoading:false
+      }));
         }else if (res.status === 400) {
           this.fetchData()
         }
@@ -116,11 +117,12 @@ class Books extends React.Component {
            books:''
           });
         let data = studEditDetails;
+        console.log(data);
+        this.setState({ editIdx: -1 });
         axios.put(`/api/book/${editStudId}/edit`,data)
           .then(res => {
-            let books = res.data.data;
             this.setState(state => ({
-              books:books,
+              books:res.data.data,
               isLoading:false,
               editStudId:''
             }));
@@ -154,14 +156,13 @@ class Books extends React.Component {
   render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {isLoading, books} = this.state;
-    console.log(books);
     return(
       <MuiThemeProvider>
       <div className="content">
         <div className="card" id="main-card">
           <div className="card-body">
             <div className="col-lg-12">
-            
+
             <div className="card col-md-6"><BookTitleform submit={this.submit}/></div>
             <div className="card col-md-6"><BookForm submit={this.booksubmit}/></div>
             </div>
@@ -190,6 +191,8 @@ class Books extends React.Component {
             <div className={`card-body ${isLoading ? 'loader' : ''}`} >
             <Table
               handleSort={this.handleSort}
+              isLoading={this.state.isLoading}
+              edited={this.state.edited}
               handleRemove={this.handleRemove}
               startEditing={this.startEditing}
               editIdx={this.state.editIdx}

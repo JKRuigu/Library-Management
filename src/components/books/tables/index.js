@@ -8,22 +8,36 @@ const row = (
    startEditing,
    editIdx,
    handleChange,
-   stopEditing
+   stopEditing,
+   edited
 ) =>
 {
   const currentlyEditing = editIdx === i;
   return (
   <tr key={`tr-${i}`}>
-    {titles.map((y, k) =>
+    { titles.map((y, k) =>
       <td key={`trc-${k}`}>
-      {currentlyEditing ? (
+      {
+        edited === true ? (
+        currentlyEditing ? (
           <input
+            autocomplete="off"
+            list="datalist1"
             id={x._id}
             name={y.prop}
             onChange={e => handleChange(e, y.prop, i)}
-            value={x[y.prop]}
           />
-        ) : (
+        ):
+        currentlyEditing ?
+          <input
+            autocomplete="off"
+            list="datalist1"
+            id={x._id}
+            name={y.prop}
+            onChange={e => handleChange(e, y.prop, i)}
+            value={x[y.prop] || x.orderdetails[0].bookTitle}
+          />
+        : (
           x[y.prop] || x.orderdetails[0].bookTitle
         )}
       </td>
@@ -41,6 +55,8 @@ const row = (
   }
 
 export default ({
+  edited,
+  isLoading,
    books,
    titles,
    handleRemove,
@@ -54,7 +70,9 @@ export default ({
   }) =>(
   <table className="table table-striped table-bordered table-hover">
     <thead className="">
-    {titles.map((x, i) =>(
+    {
+      books.length === 0  ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No books data available</h2></th>:
+      titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
           style={{
@@ -75,11 +93,11 @@ export default ({
       </th>
     )
     )}
-    <th>Edit</th>
-    <th>Delete</th>
     </thead>
     <tbody>
-    {books.map((x, i) => row(
+    {
+      books.length === 0? '' :
+      books.map((x, i) => row(
        x,
        i,
        titles,
@@ -87,7 +105,8 @@ export default ({
        startEditing,
        editIdx,
        handleChange,
-       stopEditing
+       stopEditing,
+       edited
       ))}
     </tbody>
   </table>

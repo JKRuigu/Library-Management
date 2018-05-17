@@ -3,4 +3,5 @@
        background: url('./loader.gif');
        background-repeat: no-repeat;
        min-height: 200px;
+       background-position: center;
 }

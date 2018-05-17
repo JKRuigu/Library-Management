@@ -188,6 +188,7 @@ class Students extends React.Component {
                 <div className={`card-body ${isLoading ? 'loader' : ''}`}>
                 <Table
                   handleSort={this.handleSort}
+                  isLoading={this.state.isLoading}
                   handleRemove={this.handleRemove}
                   startEditing={this.startEditing}
                   editIdx={this.state.editIdx}

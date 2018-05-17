@@ -16130,3 +16130,6 @@ button, select {
   min-height: 90vh !important;
   min-width: 500px !important;
 }
+.material-icons{
+  cursor: pointer;
+}

@@ -8,13 +8,9 @@ const ObjectId = require('mongodb').ObjectId;
 const url ='mongodb://localhost:27017';
 
 router.get('/books/titles',(req,res) =>{
-  console.log('hey');
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
-    db.collection('titles').find({}).toArray((err,results)=>{
-      console.log(results);
-      let data = results;
-      console.log(results);
+    db.collection('titles').find({}).toArray((err,data)=>{
       res.status(200).json({data});
       client.close();
     })

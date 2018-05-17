@@ -50,11 +50,15 @@ export default ({
    stopEditing,
    handleSort,
    sortDirection,
-   columnToSort
+   columnToSort,
+   isLoading
   }) =>(
   <table className="table table-striped table-bordered table-hover">
     <thead className="">
-    {titles.map((x, i) =>(
+
+    {
+      students.length === 0 ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No students data available</h2></th>:
+      titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
           style={{
@@ -75,11 +79,12 @@ export default ({
       </th>
     )
     )}
-    <th>Edit</th>
-    <th>Delete</th>
+
     </thead>
     <tbody>
-    {students.map((x, i) => row(
+    {
+      students.length === 0? '' :
+      students.map((x, i) => row(
        x,
        i,
        titles,
