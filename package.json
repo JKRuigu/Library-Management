@@ -38,13 +38,14 @@
   },
   "scripts": {
     "server": "nodemon server.js",
-    "start": "set PORT=3080 && react-scripts start",
+    "start": "set PORT=3020 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "dev": "nodemon server"
   },
   "devDependencies": {
+    "nodemon": "^1.17.4",
     "redux-devtools-extension": "^2.13.2"
   },
   "proxy": "http://localhost:5000"

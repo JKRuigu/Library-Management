@@ -12,47 +12,45 @@ const row = (
    edited
 ) =>
 {
-  const currentlyEditing = editIdx === i;
-  return (
-  <tr key={`tr-${i}`}>
-    { titles.map((y, k) =>
-      <td key={`trc-${k}`}>
-      {
-        edited === true ? (
-        currentlyEditing ? (
-          <input
-            autocomplete="off"
-            list="datalist1"
-            id={x._id}
-            name={y.prop}
-            onChange={e => handleChange(e, y.prop, i)}
-          />
-        ):
-        currentlyEditing ?
-          <input
-            autocomplete="off"
-            list="datalist1"
-            id={x._id}
-            name={y.prop}
-            onChange={e => handleChange(e, y.prop, i)}
-            value={x[y.prop] || x.orderdetails[0].bookTitle}
-          />
-        : (
-          x[y.prop] || x.orderdetails[0].bookTitle
-        )}
-      </td>
-    )}
-    <td>
-        {currentlyEditing ? (
-          <i className="material-icons" onClick={() => stopEditing()}>done</i>
-        ) : (
-          <i className="material-icons" onClick={() => startEditing(i)}>edit</i>
-        )}
-      </td>
-    <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
-    </tr>
-  )
-  }
+ const currentlyEditing = editIdx === i;
+ return (
+   <tr key={`tr-${i}`} >
+     {titles.map((y, k) => (
+       <td key={`trc-${k}`}>
+         {currentlyEditing ? (
+           edited ? (
+             <input
+               autocomplete="off"
+               list="datalist1"
+               id={x._id}
+               name={y.prop}
+               onChange={e => handleChange(e, y.prop, i)}
+             />
+           ):
+           <input
+             autocomplete="off"
+             list="datalist1"
+             id={x._id}
+             name={y.prop}
+             onChange={e => handleChange(e, y.prop, i)}
+             value={x[y.prop] || x.orderdetails[0].bookTitle }
+           />
+         ) : (
+           x[y.prop] || x.orderdetails[0].bookTitle
+         )}
+       </td>
+     ))}
+     <td>
+       {currentlyEditing ? (
+         <i className="material-icons" onClick={() => stopEditing()}>done</i>
+       ) : (
+           <i className="material-icons" onClick={() => startEditing(i)}>edit</i>
+       )}
+     </td>
+     <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+   </tr>
+ );
+};
 
 export default ({
   edited,
@@ -96,7 +94,7 @@ export default ({
     </thead>
     <tbody>
     {
-      books.length === 0? '' :
+      books.length == 0 ? '' :
       books.map((x, i) => row(
        x,
        i,

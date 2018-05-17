@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 export const bookRegister = (data) => (dispatch) => axios.post('/api/book/registration', {...data}).then( response => {
-  localStorage.setItem('id_token', response.data.id);
+  localStorage.setItem('id_token', 'false');
   dispatch({
     type: "BOOK_REGISTER",
     payload: response.data

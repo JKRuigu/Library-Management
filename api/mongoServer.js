@@ -84,18 +84,15 @@ const {bookTitle, bookAuthor,bookCategory, bookSection,bookPublisher,numberOfCop
 
 //Books registration
 router.post('/book/registration',(req, res) =>{
-  console.log(req.body);
   if (req.body) {
     MongoClient.connect(url).then(client =>{
       let db = client.db('library-react');
       const {bookAccession, bookCondition,bookIsbn} = req.body;
       db.collection('titles').find({"bookTitle":req.body.bookTitle}).toArray((err,data)=>{
         if (err) {
-          console.log('err');
           console.log(err);
         }else {
           var id = data[0]._id;
-          console.log(id);
           var newBook = new Book({
             "bookAccession":bookAccession,
             "bookCondition":bookCondition,
@@ -108,21 +105,16 @@ router.post('/book/registration',(req, res) =>{
               MongoClient.connect(url).then(client =>{
                 let db = client.db('library-react');
                 db.collection('books').find().toArray((err,data)=>{
-                  res.status(200).json({data:data});
+                  res.status(200).json({data});
                   client.close();
                 })
               }).catch( error => {
-                console.log(error);
                 res.status(404).json({message:'Server Error.'});
               });
             }
           });
         }
       })
-      .catch(error => {
-        res.status(404).json({message:'Database Error'});
-      });
-      client.close();
     }).catch( error => {
       res.status(404).json({message:'Server Error '});
     });
@@ -226,56 +218,54 @@ router.put('/stream/:Id/edit',(req, res) =>{
     }
   });
 
-router.put('/book/:bookId/edit',(req, res) =>{
+router.put('/book/:bookTitle/edit',(req, res) =>{
   var bodyData = req.body[0];
-  var bookTitle = req.body[0].orderdetails[0].bookTitle;
-  console.log(bookTitle);
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("library-react");
-    dbo.collection("titles").find({bookTitle:bookTitle}).toArray(function(err, result) {
-      if (err) {
-        res.status(404).json({message:"Database Error!"})
-      }else{
-        const bookCategoryId = result[0]._id
-          if (bookCategoryId) {
-            MongoClient.connect(url).then(client =>{
-              let db = client.db('library-react');
-              const {bookAccession,bookCondition,Isbn} = bodyData;
-              db.collection('books').update(
-                {_id:ObjectId(req.params.bookId)},
-                { $set:{bookAccession, bookCategoryId, bookCondition, Isbn,bookCategoryId}}).then( ()=>{
-                  MongoClient.connect(url).then(client =>{
-                    let db = client.db('library-react');
-                    db.collection('books').find().toArray((err,data)=>{
-                      console.log(data);
-                      res.status(200).json({data:data});
-                      client.close();
-                    })
-                  }).catch( error => {
-                    console.log(error);
-                    res.status(404).json({message:'Server Error.'});
-                  });
-                }).catch(error => {
-                  console.log(error);
-                  res.status(404).json({message:'The book accession number is already in use.'});
-                });
-                client.close();
-              }).catch( error => {
-                console.log(error);
-                res.status(404).json({message:'The book accession number is already in use.'});
-              });
+  var bookId = req.body[0]._id
+  var num = req.params.bookTitle;
+  var n = num.toString();
+  if ( n === '123') {
+    var bookTitle = req.body[0].orderdetails[0].bookTitle
+  }else {
+    var bookTitle = req.params.bookTitle
+  }
+  if (bodyData && bookTitle  && bookId) {
+   MongoClient.connect(url).then(client =>{
+     let db = client.db('library-react');
+     db.collection('titles').find({bookTitle:bookTitle})
+     .toArray((err,data)=>{
+       if (err) {
+         res.status(404).json({message:'Database Error(final)'})
+       }else{
+         let n = data[0]._id
+         let bookCategoryId = n.toString()
+         const {bookAccession,bookCondition,Isbn} = bodyData;
+         MongoClient.connect(url).then(client =>{
+             let db = client.db('library-react');
+             db.collection('books').update(
+               {_id:ObjectId(bookId)},
+               { $set:{bookAccession, bookCategoryId, bookCondition, Isbn,bookCategoryId}})
+             .then(()=>{
+               res.status(200).json({message:'Ok'});
+                 })
+               .catch( error => {
+                res.status(404).json({message:'Database Error(final)'});
+               });
+               client.close();
+             })
+             .catch(error => {
+               res.status(404).json({message:'Database Error'});
+             });
+             client.close();}
+           })
+     })
+     .catch( error => {
+      res.status(404).json({message:error.message});
+     });
+  }else {
+   res.status(404).json({message:"Fill in all the spaces"});
+  }
 
-          }
-        db.close();
-      }
-    });
-  });
-  // if(!req.body && !req.params.bookId) {
-  //   } else {
-  //     res.status(404).json({message:"Send a valid body"});
-  //   }
-  });
+});
 
 router.delete('/student/:studId/delete',  (req, res) =>{
   MongoClient.connect(url).then(client =>{
@@ -358,7 +348,7 @@ router.get('/fetch/books',  (req, res) =>{
            as: 'orderdetails'
          }
        }
-     ]).toArray(function(err, data) {
+     ]).toArray((err, data)=> {
       err ?   res.status(404).json({message:'Unable to fetch data'}):
         res.status(200).json({data});
         db.close();

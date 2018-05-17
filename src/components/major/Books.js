@@ -24,7 +24,8 @@ class Books extends React.Component {
        super(props);
        this.state = {
            isLoading: true,
-           books: '',
+           books: [],
+           oldState:[],
            errors: [],
            editIdx: -1,
            columnToSort: "",
@@ -32,7 +33,8 @@ class Books extends React.Component {
            query: "",
            columnToQuery: "bookAccession",
            editStudId:'',
-           edited:false
+           edited:false,
+           BookTitle:'123'
        }
    }
 
@@ -71,10 +73,11 @@ class Books extends React.Component {
   fetchData(){
     axios.get(`/api/fetch/books`)
     .then(res => {
-      let books = res.data.data;
       this.setState({
-        books:books,
-        isLoading: false
+        oldState:res.data.data,
+        books:res.data.data,
+        isLoading: false,
+        edited:false
       });
     });
   }
@@ -100,49 +103,64 @@ class Books extends React.Component {
       })
     }
   };
+
   startEditing = i => {
     this.setState({ editIdx: i });
   };
 
   stopEditing = () => {
-    const {isLoading, editStudId,books,edited} = this.state;
+    const {isLoading, editStudId,books,edited,oldState,BookTitle} = this.state;
     if (editStudId && edited==true) {
       var studEditDetails =  books.filter(function(hero) {
           return hero._id == editStudId;
         });
       if (studEditDetails) {
-        const {isLoading, books} = this.state;
         this.setState({
            isLoading:true,
-           books:''
+           books:[]
           });
         let data = studEditDetails;
-        console.log(data);
         this.setState({ editIdx: -1 });
-        axios.put(`/api/book/${editStudId}/edit`,data)
+        this.state.BookTitle === ''  ? this.setState({ BookTitle: '123' }) :
+        axios.put(`/api/book/${BookTitle}/edit`,data)
           .then(res => {
+            console.log(res.status);
+            res.status ===200 ?
+              this.fetchData() &&
+              this.setState(state => ({
+                isLoading:false,
+                editStudId:'',
+                editIdx: -1,
+                edited:false,
+                BookTitle:''
+              }))
+            :
             this.setState(state => ({
-              books:res.data.data,
+              books:oldState,
               isLoading:false,
-              editStudId:''
-            }));
+              editStudId:'',
+              editIdx: -1,
+              edited:false,
+              BookTitle:''
+            }))
           });
       }
-
     }
-    this.setState({ editIdx: -1 });
   };
 
   handleChange = (e, name, i) => {
     const { value,id } = e.target;
+    name == 'bookTitle' ? this.setState({ BookTitle: value })  || console.log(e.target.value) : console.log('false')
     this.setState(state => ({
       books: state.books.map(
-        (row, j) => (j === i ? { ...row, [name]: value } : row)
+        (row, j) => (j === i ? { ...row, [name]: value  } : row)
       ),
       editStudId:id,
       edited:true
     }));
+    console.log(this.state.BookTitle)
   };
+
   handleSort = columnName => {
   this.setState(state => ({
     columnToSort: columnName,
@@ -155,7 +173,7 @@ class Books extends React.Component {
 
   render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
-    const {isLoading, books} = this.state;
+    const {isLoading, books,oldState} = this.state;
     return(
       <MuiThemeProvider>
       <div className="content">
