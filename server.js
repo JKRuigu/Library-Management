@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoServer = require('./api/mongoServer');
+const serverProcess = require('./api/process');
 const Config = require('./config/settings');
 const loginAuth = require('./api/login');
 const mongo = require('mongodb');
@@ -63,5 +64,6 @@ const port = 5000 || process.env.PORT ;
 server.use('/api',loginAuth);
 server.use('/api',mongoServer);
 server.use('/settings',Config);
+server.use('/process',serverProcess);
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

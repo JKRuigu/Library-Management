@@ -7,6 +7,7 @@ import TextField from "material-ui/TextField";
 import axios from 'axios';
 import AdmDataList from '../dashboard/borrow/search/datalist'
 import AccDataList from '../dashboard/borrow/search/bookDatalist'
+import ButtonIssue from '../dashboard/borrow/button/button'
 import StudBorrForm from '../dashboard/borrow/form/student'
 import BookBorrowForm from '../dashboard/borrow/form/book'
 
@@ -89,10 +90,21 @@ fetchData(){
     : this.setState({bookBorrowAva:false})
  }
 
+ issueBook = () => {
+   const {studBorrow,bookBorrowed} = this.state;
+   let studIdNum = studBorrow[0]._id
+   let BookAcc = bookBorrowed[0].bookAccession
+   let data = {adminNo:studIdNum}
+   axios.post(`/process/borrow/${BookAcc}/issue`,data)
+   .then(res => {
+     console.log(res.status)
+   });
+
+ };
+
   render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {isLoading, students,studentDash,query,studBorrow,studBorrowAva,bookBorrowAva} = this.state;
-      console.log(studBorrow)
     return(
           <div className="content">
             <div className="content-main">
@@ -114,36 +126,48 @@ fetchData(){
                         </div>
                     </div>
                   <div className="card-body">
-                  <h1 className="text-center">{!studBorrowAva ? 'No results':''}</h1>
                     {<StudBorrForm
                       students={this.state.studBorrow}
                       studBorrowAva={this.state.studBorrowAva} />}
                   </div>
                 </div>
                   <div className="col-md-6">
-                    <div className="card-head" style={{ display: "flex"}}>
-                        <div className="row" style={{ display: "flex", margin: "auto" }}>
-                        <TextField
-                           autocomplete="off"
-                           list="datalist3"
-                           hintText="Search.."
-                           floatingLabelText="Enter Book Accession Number"
-                           value={this.state.bkQuery}
-                           onChange={this.handleBookQueryChange}
-                           floatingLabelFixed
-                         />
-                          <AccDataList books={this.state.bookDash}/>
-                        </div>
+                    <div className="card-head" >
+                    <div className="row">
+                        <div className="col-md-6" style={{paddingLeft: "100px"}}>
+                          <TextField
+                             autocomplete="off"
+                             list="datalist3"
+                             hintText="Search.."
+                             floatingLabelText="Enter Book Accession Number"
+                             value={this.state.bkQuery}
+                             onChange={this.handleBookQueryChange}
+                             floatingLabelFixed
+                           />
+                            <AccDataList books={this.state.bookDash}/>
+                          </div>
+                          <div className="col-md-6" style={{paddingLeft:"100px",margin: "auto"}}>
+                            <ButtonIssue
+                              book={this.state.studBorrowAva}
+                              student={this.state.bookBorrowAva}
+                              issueBook={this.issueBook}
+
+                            />
+                          </div>
+                      </div>
                     </div>
                   <div className="card-body">
-                  <h1 className="text-center">{!bookBorrowAva ? 'No results':''}</h1>
                     {<BookBorrowForm
                       books={this.state.bookBorrowed}
                       bookBorrowAva={this.state.bookBorrowAva} />}
                   </div>
                 </div>
               </div>
-              <div className="row"><h1>Table</h1></div>
+              <div className="row">
+                <div className="container-fluid">
+                  <div className="card"><h1>Table</h1></div>
+                </div>
+              </div>
              </div>
             </div>
           </div>
