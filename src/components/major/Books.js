@@ -53,7 +53,6 @@ class Books extends React.Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount') ||
         localStorage.getItem('books') && this.setState({
             books: JSON.parse(localStorage.getItem('books')),
             isLoading: false
@@ -62,7 +61,6 @@ class Books extends React.Component {
 
   componentDidMount(){
     this.setState({ editIdx: -1 }) ||
-    console.log('componentDidMount') ||
     !localStorage.getItem('books') ? this.fetchData():console.log(`Using data from localStorage that `)
   }
 

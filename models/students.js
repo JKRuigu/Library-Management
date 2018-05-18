@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 var UserSchema = mongoose.Schema({
 	adminNo:{
 		type:String,
-		required: true
+		required: true,
+		unique: true,
 	},
 	studentName:{
 		required: true,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import Header from './components/major/Header';
 import Dashboard from './components/major/Dashboard';
 import Students from './components/major/Students';
@@ -9,10 +10,11 @@ import Settings from './components/major/Settings';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import './css/App.css';
-
+injectTapEventPlugin();
 class App extends Component {
   render() {
     return (
+      <MuiThemeProvider>
         <Router>
             <div className="">
             <div className="wrapper">
@@ -25,6 +27,7 @@ class App extends Component {
             </div>
             </div>
         </Router>
+      </MuiThemeProvider>
     );
   }
 }

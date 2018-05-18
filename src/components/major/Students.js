@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import Form from '../students/form/StudentForm';
 import Table from '../students/table';
 import { studRegister } from '../../actions/students/registration';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import axios from 'axios';
 import './student.css';
 import orderBy from "lodash/orderBy";
@@ -13,7 +11,6 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 
 
-injectTapEventPlugin();
 
 const invertDirection = {
   asc: "desc",
@@ -43,6 +40,7 @@ class Students extends React.Component {
       this.setState({ errors: error })
     });
   }
+
   componentWillMount() {
     console.log('componentWillMount') ||
         localStorage.getItem('students') && this.setState({
@@ -55,6 +53,7 @@ class Students extends React.Component {
   componentDidMount(){
     console.log('componentDidMount') ||
     !localStorage.getItem('students') ? this.fetchData() :console.log(`Using data from localStorage that `);}
+
   componentWillUpdate(nextProps, nextState) {
         localStorage.setItem('students', JSON.stringify(nextState.students));
     }
@@ -67,6 +66,7 @@ class Students extends React.Component {
          });
       });
   }
+
   handleRemove = (e,i) => {
     const {id} = e.target;
     if (id) {
@@ -86,6 +86,7 @@ class Students extends React.Component {
       })
     }
   };
+
   startEditing = i => {
     this.setState({ editIdx: i });
   };
@@ -128,6 +129,7 @@ class Students extends React.Component {
       edited:true
     }));
   };
+
   handleSort = columnName => {
   this.setState(state => ({
     columnToSort: columnName,
@@ -142,8 +144,6 @@ class Students extends React.Component {
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {isLoading, students} = this.state;
     return(
-      <MuiThemeProvider>
-
       <div className="content">
           <div className="btn-group" role="group" aria-label="Basic example">
             <button type="button" className="btn btn-info">Add <span><i className="material-icons">playlist_add</i></span></button>
@@ -234,7 +234,6 @@ class Students extends React.Component {
                 </div>
             </div>
       </div>
-      </MuiThemeProvider>
     );
   }
 }

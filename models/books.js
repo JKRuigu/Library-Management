@@ -4,11 +4,16 @@ const mongoose = require('mongoose');
 var BookSchema = mongoose.Schema({
 	bookAccession:{
 		type:String,
+		unique: true,
 		required: true
 	},
 	bookCondition:{
 		type:String,
 		required: true
+	},
+	isavailbe:{
+		type: Boolean,
+		 default: true
 	},
 	Isbn:{
 		required: true,

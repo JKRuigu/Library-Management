@@ -29,6 +29,7 @@ class TitleConfig extends React.Component {
        axios.get(`/settings/books/titles`)
        .then(res => {
          let titles = res.data.data;
+         console.log(titles);
          const {bookTitle} = titles
          var bookAcc = [];
          var i =0;
@@ -38,7 +39,9 @@ class TitleConfig extends React.Component {
                i++;
            }
          });
-
+         // const bookAccs = titles.map(book=>{return book.title})
+         // console.log(bookAccs);
+         // console.log(bookAcc);
          this.setState({
            titles:bookAcc,
            isLoading: false

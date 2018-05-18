@@ -137,6 +137,20 @@ router.get('/fetch/students',(req, res) =>{
     });
 });
 
+//fetch students
+router.get('/fetch/borrowing/books',(req, res) =>{
+    MongoClient.connect(url).then(client =>{
+      let db = client.db('library-react');
+      db.collection('books').find({isavailbel:true}).toArray((err,results)=>{
+        let data = results;
+        res.status(200).json({data});
+        client.close();
+      })
+    }).catch( error => {
+      res.status(404).json({message:'Server Error.'});
+    });
+});
+
 //fetch stream
 router.get('/fetch/stream',(req, res) =>{
     MongoClient.connect(url).then(client =>{
