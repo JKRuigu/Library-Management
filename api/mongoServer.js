@@ -123,7 +123,6 @@ router.post('/book/registration',(req, res) =>{
   }
 });
 
-//fetch students
 router.get('/fetch/students',(req, res) =>{
     MongoClient.connect(url).then(client =>{
       let db = client.db('library-react');
@@ -137,21 +136,6 @@ router.get('/fetch/students',(req, res) =>{
     });
 });
 
-//fetch students
-router.get('/fetch/borrowing/books',(req, res) =>{
-    MongoClient.connect(url).then(client =>{
-      let db = client.db('library-react');
-      db.collection('books').find({isavailbel:true}).toArray((err,results)=>{
-        let data = results;
-        res.status(200).json({data});
-        client.close();
-      })
-    }).catch( error => {
-      res.status(404).json({message:'Server Error.'});
-    });
-});
-
-//fetch stream
 router.get('/fetch/stream',(req, res) =>{
     MongoClient.connect(url).then(client =>{
       let db = client.db('library-react');
@@ -164,7 +148,6 @@ router.get('/fetch/stream',(req, res) =>{
       res.status(404).json({message:'Server Error.'});
     });
 });
-
 
 router.put('/student/:studId/edit',(req, res) =>{
   let data = req.body[0]
@@ -350,6 +333,27 @@ router.delete('/stream/:streamId/delete',  (req, res) =>{
 });
 
 router.get('/fetch/books',  (req, res) =>{
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("library-react");
+    dbo.collection('books').aggregate([
+      { $lookup:
+         {
+           from: 'titles',
+           localField: 'bookCategoryId',
+           foreignField: 'bookId',
+           as: 'orderdetails'
+         }
+       }
+     ]).toArray((err, data)=> {
+      err ?   res.status(404).json({message:'Unable to fetch data'}):
+        res.status(200).json({data});
+        db.close();
+    });
+  });
+});
+
+router.get('/fetch/borrowing/books',  (req, res) =>{
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("library-react");

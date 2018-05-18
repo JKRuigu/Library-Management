@@ -11,7 +11,7 @@ var BookSchema = mongoose.Schema({
 		type:String,
 		required: true
 	},
-	isavailbe:{
+	isAvailable:{
 		type: Boolean,
 		 default: true
 	},
