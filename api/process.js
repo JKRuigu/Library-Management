@@ -11,16 +11,17 @@ router.get('/mongodb/test',(req,res)=>{
 })
 
 router.post('/borrow/:BookAcc/issue',(req,res) =>{
-  const {adminNo} = req.body
+  const {AdmNo} = req.body
+  console.log(req.body);
+  console.log(AdmNo);
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
     db.collection('users')
     .update(
-        {_id:ObjectId(adminNo)},
+        {adminNo:AdmNo},
         { $push :{
-          "myBooks":[
-            {"bookAcc":req.params.Book}
-          ]
+          "myBooks":
+            {"bookAcc":req.params.BookAcc}          
         }})
 
       .then(() =>{

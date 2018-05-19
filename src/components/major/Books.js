@@ -179,8 +179,8 @@ class Books extends React.Component {
           <div className="card-body">
             <div className="col-lg-12">
 
-            <div className="card col-md-6"><BookTitleform submit={this.submit}/></div>
-            <div className="card col-md-6"><BookForm submit={this.booksubmit}/></div>
+            <div className="card col-lg-6"><BookTitleform submit={this.submit}/></div>
+            <div className="card col-lg-6"><BookForm submit={this.booksubmit}/></div>
             </div>
             <div className=" col-lg-12">
             <div className="row" style={{ display: "flex", margin: "auto" }}>

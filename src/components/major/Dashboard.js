@@ -107,10 +107,9 @@ fetchData(){
     const {isLoading, students,studentDash,query,studBorrow,studBorrowAva,bookBorrowAva} = this.state;
     return(
           <div className="content">
-            <div className="content-main">
-                <div className="card">
+                <div className="card" id="main-card">
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-lg-6">
                     <div className="card-head" style={{ display: "flex"}}>
                         <div className="row" style={{ display: "flex", margin: "auto" }}>
                         <TextField
@@ -131,7 +130,7 @@ fetchData(){
                       studBorrowAva={this.state.studBorrowAva} />}
                   </div>
                 </div>
-                  <div className="col-md-6">
+                  <div className="col-lg-6">
                     <div className="card-head" >
                     <div className="row">
                         <div className="col-md-6" style={{paddingLeft: "100px"}}>
@@ -169,7 +168,6 @@ fetchData(){
                 </div>
               </div>
              </div>
-            </div>
           </div>
     )
   }

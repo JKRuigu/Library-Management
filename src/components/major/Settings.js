@@ -117,7 +117,7 @@ console.log(this.state.streams);
             <h1>Settings</h1>
               <div className="card">
                 <div className="card-body">
-                  <div className="col-md-6">
+                  <div className="col-lg-6">
                     <div className="card">
                     <ClassForm/>
                     <StreamTable
@@ -136,7 +136,7 @@ console.log(this.state.streams);
                     />
                     </div>
                   </div>
-                  <div className="col-md-6"></div>
+                  <div className="col-lg-6"></div>
                 </div>
               </div>
           </div>
