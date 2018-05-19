@@ -4,7 +4,7 @@
 /node_modules
 /api
 /config
-/models
+
 # testing
 /coverage
 
