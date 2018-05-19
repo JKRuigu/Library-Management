@@ -12,37 +12,21 @@ router.get('/mongodb/test',(req,res)=>{
 })
 
 //student registration
-router.post('/student/registration',function (req,res) {
-  if (req.body) {
-    const {adminNo, studentName, form,stream,admissionDate} = req.body;
+router.post('/student/register',function (req,res) {
+  if (!req.body == '') {
+    const {adminNo, studentName, form,stream,admissionDate} = req.body.data;
     var newUser = new User({
       "adminNo": adminNo,
       "studentName":studentName,
       "form":form,
       "stream":stream,
       "admissionDate":admissionDate
-    }).save(function(err,data) {
-      if (err) res.status(404).json({message: "The Book Accession Number is already Taken."});
-      else {
-        MongoClient.connect(url).then(client =>{
-          let db = client.db('library-react');
-          const {_id} = data;
-          let n =_id.toString();
-          db.collection('users').update(
-            {_id:ObjectId(data._id)},
-            { $set:{"studentId":n}}).then( ()=>{
-            res.json({status:'ok'});
-          }).catch(error => {
-            res.status(404).json({message:'The student administration number is already in use.'});
-          });
-          client.close();
-        }).catch( error => {
-          res.status(404).json({message:'The student administration number is already in use.'});
-        });
-      }
+    }).save(function(err,student) {
+      err ? res.status(404):
+      res.status(200).json({student})
     });
   }else {
-    console.log('error');
+    res.status(404).json({message:'Empty'})
   }
 });
 
@@ -126,9 +110,8 @@ router.post('/book/registration',(req, res) =>{
 router.get('/fetch/students',(req, res) =>{
     MongoClient.connect(url).then(client =>{
       let db = client.db('library-react');
-      db.collection('users').find().toArray((err,results)=>{
-        let data = results;
-        res.status(200).json({data});
+      db.collection('users').find().toArray((err,students)=>{
+        res.status(200).json({students});
         client.close();
       })
     }).catch( error => {

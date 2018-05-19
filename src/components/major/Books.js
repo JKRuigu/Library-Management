@@ -6,8 +6,6 @@ import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
-import { titleRegister } from '../../actions/books/registration';
-import { bookRegister } from '../../actions/books/registration';
 import axios from 'axios';
 import BookTitleform from '../books/form/BookTitleForm';
 import BookForm from '../books/form/BookForm';
@@ -38,12 +36,12 @@ class Books extends React.Component {
        }
    }
 
-  submit = data =>{
-    this.props.titleRegister(data).then( () => {
-    }).catch( error => {
-      this.setState({ errors: error })
-    });
-  }
+  // submit = data =>{
+  //   this.props.titleRegister(data).then( () => {
+  //   }).catch( error => {
+  //     this.setState({ errors: error })
+  //   });
+  // }
 
   booksubmit = data =>{
     axios.post(`/api/book/registration`,data)
@@ -260,4 +258,4 @@ class Books extends React.Component {
   }
 }
 
-export default connect(null, {titleRegister})(Books);
+export default connect(null, {})(Books);

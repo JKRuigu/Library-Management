@@ -10,6 +10,10 @@ import Settings from './components/major/Settings';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import './css/App.css';
+import { fetch } from './actions/students';
+import Store from './store';
+Store.dispatch(fetch());
+
 injectTapEventPlugin();
 class App extends Component {
   render() {

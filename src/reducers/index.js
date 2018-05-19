@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import student from './books/book';
-import book from './students/student';
+import students from './student';
+import books from './book';
 
-export default combineReducers({ student, book });
+export default combineReducers({ students, books });

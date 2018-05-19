@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from 'react-redux';
 import Form from '../students/form/StudentForm';
 import Table from '../students/table';
-import { studRegister } from '../../actions/students/registration';
 import axios from 'axios';
 import './student.css';
+import { register,remove } from '../../actions/students.js';
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
@@ -22,7 +22,6 @@ class Students extends React.Component {
        super(props);
        this.state = {
            isLoading: true,
-           students: [],
            errors: [],
            editIdx: -1,
            columnToSort: "",
@@ -35,57 +34,23 @@ class Students extends React.Component {
    }
 
   submit = data =>{
-    this.props.studRegister(data).then( () => {
+    console.log(data)
+    this.props.register(data).then(() => {
+      debugger
     }).catch( error => {
       this.setState({ errors: error })
     });
-  }
 
-  componentWillMount() {
-    console.log('componentWillMount') ||
-        localStorage.getItem('students') && this.setState({
-            students: JSON.parse(localStorage.getItem('students')),
-            isLoading: false
-        })
-
-    }
-
-  componentDidMount(){
-    console.log('componentDidMount') ||
-    !localStorage.getItem('students') ? this.fetchData() :console.log(`Using data from localStorage that `);}
-
-  componentWillUpdate(nextProps, nextState) {
-        localStorage.setItem('students', JSON.stringify(nextState.students));
-    }
-  fetchData(){
-    axios.get(`/api/fetch/students`)
-      .then(res => {
-        this.setState({
-           students:res.data.data,
-           isLoading: false
-         });
-      });
   }
 
   handleRemove = (e,i) => {
     const {id} = e.target;
-    if (id) {
-      this.setState({
-         isLoading:true
-        });
-      axios.delete(`/api/student/${id}/delete`)
-      .then(res =>{
-        if (res.status === 200) {
-          this.setState(state => ({
-            students: res.data.data,
-            isLoading:false
-          }))
-        }else if (res.status === 400) {
-          this.fetchData()
-        }
-      })
-    }
-  };
+    !id ? '' :
+      this.props.remove(id).then(() => {})
+        .catch( error => {
+          this.setState({ errors: error })
+        })
+  }
 
   startEditing = i => {
     this.setState({ editIdx: i });
@@ -185,7 +150,7 @@ class Students extends React.Component {
                  <MenuItem value="admissionDate" primaryText="Admission Date" />
                </SelectField>
                 </div>
-                <div className={`card-body ${isLoading ? 'loader' : ''}`}>
+                <div className="card-body">
                 <Table
                   handleSort={this.handleSort}
                   isLoading={this.state.isLoading}
@@ -198,12 +163,12 @@ class Students extends React.Component {
                   sortDirection={this.state.sortDirection}
                   students={orderBy(
                     this.state.query
-                      ? this.state.students.filter(x =>
+                      ? this.props.students.filter(x =>
                           x[this.state.columnToQuery]
                             .toLowerCase()
                             .includes(lowerCaseQuery)
                         )
-                      : this.state.students,
+                      : this.props.students,
                     this.state.columnToSort,
                     this.state.sortDirection
                   )}
@@ -237,5 +202,8 @@ class Students extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+    students: state.students
+});
 
-export default connect(null, {studRegister})(Students);
+export default connect(mapStateToProps,{register,remove})(Students);
