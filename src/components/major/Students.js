@@ -4,7 +4,7 @@ import Form from '../students/form/StudentForm';
 import Table from '../students/table';
 import axios from 'axios';
 import './student.css';
-import { register,remove } from '../../actions/students.js';
+import { register,remove,edit } from '../../actions/students.js';
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
@@ -21,35 +21,41 @@ class Students extends React.Component {
   constructor(props){
        super(props);
        this.state = {
-           isLoading: true,
+           isLoading: false,
+           editStudent:[],
            errors: [],
            editIdx: -1,
            columnToSort: "",
            sortDirection: "desc",
            query: "",
            columnToQuery: "admissionDate",
-           editStudId:'',
-           edited:false
+           editStudId:''
        }
    }
 
   submit = data =>{
-    console.log(data)
+    this.setState({ isLoading: true })
     this.props.register(data).then(() => {
-      debugger
+      this.setState({ isLoading: false })
     }).catch( error => {
-      this.setState({ errors: error })
+      this.setState({
+         errors: error,
+         isLoading:false
+       })
     });
 
   }
 
   handleRemove = (e,i) => {
     const {id} = e.target;
-    !id ? '' :
-      this.props.remove(id).then(() => {})
-        .catch( error => {
-          this.setState({ errors: error })
-        })
+    if (id) {
+      this.props.remove(id).then(() => {
+        console.log('hello')
+      })
+      .catch( error => {
+        this.setState({ errors: error })
+      })
+    }
   }
 
   startEditing = i => {
@@ -57,57 +63,35 @@ class Students extends React.Component {
   };
 
   stopEditing = () => {
-    const {isLoading, editStudId,students,edited} = this.state;
-    if (editStudId && edited==true) {
-      var studEditDetails =  students.filter(function(hero) {
-        	return hero._id == editStudId;
-        });
-      if (studEditDetails) {
-        const {isLoading, students} = this.state;
-        this.setState({
-           isLoading:true,
-           students:''
-          });
-        let data = studEditDetails;
-        axios.put(`/api/student/${editStudId}/edit`,data)
-          .then(res => {
-            let students = res.data.data;
-            this.setState(state => ({
-              students:students,
-              isLoading:false,
-              editStudId:''
-            }));
-          });
-      }
+     this.setState({ editIdx: -1 });
+   };
 
+  handleSave = (i, x,edited) => {
+    if (edited) {
+      this.props.edit(x).then(() => {
+        console.log('hello')
+      })
+      .catch( error => {
+        this.setState({ errors: error })
+      })
+      this.stopEditing();
     }
-    this.setState({ editIdx: -1 });
-  };
-
-  handleChange = (e, name, i) => {
-    const { value,id } = e.target;
-    this.setState(state => ({
-      students: state.students.map(
-        (row, j) => (j === i ? { ...row, [name]: value } : row)
-      ),
-      editStudId:id,
-      edited:true
-    }));
-  };
+    this.stopEditing();
+    };
 
   handleSort = columnName => {
-  this.setState(state => ({
-    columnToSort: columnName,
-    sortDirection:
-      state.columnToSort === columnName
-        ? invertDirection[state.sortDirection]
-        : "asc"
-  }));
-}
+    this.setState(state => ({
+      columnToSort: columnName,
+      sortDirection:
+        state.columnToSort === columnName
+          ? invertDirection[state.sortDirection]
+          : "asc"
+    }));
+  }
 
   render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
-    const {isLoading, students} = this.state;
+    const {isLoading, students,edited} = this.state;
     return(
       <div className="content">
           <div className="btn-group" role="group" aria-label="Basic example">
@@ -150,7 +134,7 @@ class Students extends React.Component {
                  <MenuItem value="admissionDate" primaryText="Admission Date" />
                </SelectField>
                 </div>
-                <div className="card-body">
+                <div className={isLoading ? "loader" : "card-body"}>
                 <Table
                   handleSort={this.handleSort}
                   isLoading={this.state.isLoading}
@@ -158,7 +142,7 @@ class Students extends React.Component {
                   startEditing={this.startEditing}
                   editIdx={this.state.editIdx}
                   stopEditing={this.stopEditing}
-                  handleChange={this.handleChange}
+                  handleSave={this.handleSave}
                   columnToSort={this.state.columnToSort}
                   sortDirection={this.state.sortDirection}
                   students={orderBy(
@@ -175,23 +159,28 @@ class Students extends React.Component {
                   titles={[
                     {
                       name: "Admission Number",
-                      prop: "adminNo"
+                      prop: "adminNo",
+                      type:"number"
                     },
                     {
                       name: "Name",
-                      prop: "studentName"
+                      prop: "studentName",
+                      type:"text"
                     },
                     {
                       name: "Form",
-                      prop: "form"
+                      prop: "form",
+                      type:"number"
                     },
                     {
                       name: "Stream",
-                      prop: "stream"
+                      prop: "stream",
+                      type:"text"
                     },
                     {
                       name: "Admission Date",
-                      prop: "admissionDate"
+                      prop: "admissionDate",
+                      type:"date"
                     }
                   ]}
                 />
@@ -206,4 +195,4 @@ const mapStateToProps = state => ({
     students: state.students
 });
 
-export default connect(mapStateToProps,{register,remove})(Students);
+export default connect(mapStateToProps,{register,remove,edit})(Students);

@@ -72,8 +72,8 @@ class StudentForm extends React.Component {
         <div className="row">
               <div className="col-sm-6">
                   <div className="form-group">
-                      <label data-toggle="tooltip">Class</label><br/>
-                      <select name="form"	onChange={this.handleChange} className="selectOption">
+                      <label data-toggle="tooltip">Stream</label><br/>
+                      <select name="stream"	onChange={this.handleChange} className="selectOption">
                       <option selected  value="" style={{display:"none"}}></option>
                       {
                         stream.map((x,i) =>(
@@ -85,15 +85,15 @@ class StudentForm extends React.Component {
               </div>
               <div className="col-sm-6">
                   <div className="form-group">
-                        <label data-toggle="tooltip">Stream </label>
-                        <select name="stream"	onChange={this.handleChange} className="selectOption">
-                          <option selected  value="" style={{display:"none"}}></option>
+                      <label data-toggle="tooltip">Class</label><br/>
+                      <select name="form"	onChange={this.handleChange} className="selectOption">
+                      <option selected  value="" style={{display:"none"}}></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
                           <option value="4">4</option>
-                        </select>
-                  </div>
+                      </select>
+                    </div>
               </div>
           </div>
           <div className="row">

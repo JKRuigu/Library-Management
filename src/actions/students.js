@@ -10,6 +10,7 @@ export const register = (data) => ( dispatch) => axios.post('/api/student/regist
   });
 });
 
+
 export const fetch = () => (dispatch) => axios.get('/api/fetch/students')
   .then( response => {
       dispatch({
@@ -18,9 +19,15 @@ export const fetch = () => (dispatch) => axios.get('/api/fetch/students')
       });
   });
 
-export const remove = id => dispatch => axios.delete('/student/${id}/edit').then( response => {
+export const edit = (data) => ( dispatch) => axios.put('/api/student/edit',{data}).then( response => {
+  dispatch({
+    type: types.STUD_EDIT,
+    payload: response.data.data
+  });
+});
+export const remove = id => dispatch => axios.delete(`/api/student/${id}/delete`).then( response => {
   dispatch({
     type: types.STUD_DELETED,
-    id: response.data.id
+    id: response.data.data
   });
 });

@@ -1,7 +1,10 @@
 .loader{
-        padding-left: 500px;
+       padding-left: 500px;
        background: url('./loader.gif');
        background-repeat: no-repeat;
        min-height: 200px;
        background-position: center;
+}
+.tbl{
+  display: none;  
 }

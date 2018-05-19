@@ -1,5 +1,5 @@
 import React from "react";
-
+import InlineForm from "./inlineForm";
 const row = (
    x,
    i,
@@ -7,46 +7,41 @@ const row = (
    handleRemove,
    startEditing,
    editIdx,
-   handleChange,
-   stopEditing
+   handleSave,
+   stopEditing,
+   edited
 ) =>
 {
   const currentlyEditing = editIdx === i;
-  return (
-  <tr key={`tr-${i}`}>
-    {titles.map((y, k) =>
-      <td key={`trc-${k}`}>
-      {currentlyEditing ? (
-          <input
-            id={x._id}
-            name={y.prop}
-            onChange={e => handleChange(e, y.prop, i)}
-            value={x[y.prop]}
-          />
-        ) : (
-          x[y.prop]
-        )}
-      </td>
-    )}
-    <td>
-        {currentlyEditing ? (
-          <i className="material-icons" onClick={() => stopEditing()}>done</i>
-        ) : (
-          <i className="material-icons" onClick={() => startEditing(i)}>edit</i>
-        )}
-      </td>
-    <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+  return currentlyEditing ? (
+    <tr key={`inline-form-${i}`} >
+      <InlineForm
+        handleSave={handleSave}
+        titles={titles}
+        x={x}
+        i={i}
+        stopEditing={stopEditing}
+      />
     </tr>
-  )
-  }
+  ) : (
+    <tr key={`tr-${i}`} >
+      {titles.map((y, k) => (
+        <td key={`trc-${k}`}>{x[y.prop]}</td>
+      ))}
+        <td><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
+        <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+    </tr>
+  );
+  };
 
 export default ({
+   edited,
    students,
    titles,
    handleRemove,
    startEditing,
    editIdx,
-   handleChange,
+   handleSave,
    stopEditing,
    handleSort,
    sortDirection,
@@ -54,10 +49,9 @@ export default ({
    isLoading
   }) =>(
   <table className="table table-striped table-bordered table-hover">
-    <thead className="">
-
+    <thead>
     {
-      students.length === 0 ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No students data available</h2></th>:
+      students.length === 0 ? <th rowspan="7"><h2 className="text-center">No students data available</h2></th>:
       titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
@@ -91,8 +85,9 @@ export default ({
        handleRemove,
        startEditing,
        editIdx,
-       handleChange,
-       stopEditing
+       handleSave,
+       stopEditing,
+       edited
       ))}
     </tbody>
   </table>

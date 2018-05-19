@@ -132,35 +132,23 @@ router.get('/fetch/stream',(req, res) =>{
     });
 });
 
-router.put('/student/:studId/edit',(req, res) =>{
-  let data = req.body[0]
-  if(req.body && req.params.studId) {
+router.put('/student/edit',(req, res) =>{
+  if(!req.body == '') {
+    const {adminNo, studentName, form, stream, admissionDate,_id} = req.body.data;
     MongoClient.connect(url).then(client =>{
       let db = client.db('library-react');
-      const {adminNo, studentName, form, stream, admissionDate} = data;
       db.collection('users').update(
-        {_id:ObjectId(req.params.studId)},
-        { $set:{adminNo, studentName, form, stream, admissionDate }}).then( ()=>{
-          MongoClient.connect(url).then(client =>{
-            let db = client.db('library-react');
-            db.collection('users').find().toArray((err,data)=>{
-              res.status(200).json({data:data});
-              client.close();
-            })
-          }).catch( error => {
-            console.log(error);
-            res.status(404).json({message:'Server Error.'});
-          });
-        }).catch(error => {
-          console.log(error);
-          res.status(404).json({message:'The book accession number is already in use.'});
-        });
-        client.close();
-      }).catch( error => {
+        {_id:ObjectId(_id)},
+        { $set:{adminNo, studentName, form, stream, admissionDate }})
+        .then(()=>{
+          res.status(200).json({data:req.body.data});
+      })
+      .catch( error => {
         console.log(error);
         res.status(404).json({message:'The book accession number is already in use.'});
       });
-    } else {
+    })
+  }else {
       res.status(404).json({message:"Send a valid body"});
     }
   });
@@ -248,19 +236,12 @@ router.put('/book/:bookTitle/edit',(req, res) =>{
 });
 
 router.delete('/student/:studId/delete',  (req, res) =>{
+  console.log(req.params.studId);
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
-    db.collection('users').deleteOne({_id:ObjectId(req.params.studId)}).then( ()=>{
-      MongoClient.connect(url).then(client =>{
-        let db = client.db('library-react');
-        db.collection('users').find().toArray((err,data)=>{
-          res.status(200).json({data:data});
-          client.close();
-        })
-      }).catch( error => {
-        console.log(error);
-        res.status(404).json({message:'Server Error.'});
-      });
+    db.collection('users').deleteOne({_id:ObjectId(req.params.studId)})
+    .then(()=>{
+      res.status(200).json({data:req.params.studId})
     }).catch(error => {
       res.status(404).json({message:error.message});
     });
