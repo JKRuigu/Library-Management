@@ -11,3 +11,5 @@ export const STREAM_FETCH = 'STREAM_FETCH';
 export const BOOK_FETCH = 'BOOK_FETCH';
 
 export const BOOK_REGISTER = 'BOOK_REGISTER';
+
+export const TITLE_REGISTER = 'TITLE_REGISTER';

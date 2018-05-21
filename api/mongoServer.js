@@ -6,7 +6,6 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const url ='mongodb://localhost:27017';
 
-//student registration
 router.post('/student/register',function (req,res) {
   if (!req.body == '') {
     const {adminNo, studentName, form,stream,admissionDate} = req.body.data;
@@ -25,7 +24,6 @@ router.post('/student/register',function (req,res) {
   }
 });
 
-//Book Titles registration
 router.post('/book/registration/titles',function (req,res) {
   const {bookTitle, bookAuthor,bookCategory, bookSection,bookPublisher,numberOfCopies} = req.body;
     var newTitle = new Title({
@@ -61,7 +59,6 @@ router.post('/book/registration/titles',function (req,res) {
     });
 });
 
-//Books registration
 router.post('/book/registration',(req, res) =>{
   if (!req.body == '') {
     MongoClient.connect(url).then(client =>{

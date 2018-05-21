@@ -15,3 +15,10 @@ export const addBook = (data) => ( dispatch) => axios.post('/api/book/registrati
     payload: response.data.books
   });
 });
+
+export const addTitle = (data) => ( dispatch) => axios.post('/api/book/registration',{data}).then( response => {
+  dispatch({
+    type: types.TITLE_REGISTER,
+    payload: response.data.tiltes
+  });
+});

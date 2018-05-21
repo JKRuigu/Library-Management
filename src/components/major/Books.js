@@ -1,7 +1,7 @@
 import React from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { connect } from 'react-redux';
-import { addBook} from '../../actions/books.js';
+import { addBook,addTitle} from '../../actions/books.js';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
@@ -37,17 +37,16 @@ class Books extends React.Component {
        }
    }
 
-  // submit = data =>{
-  //   this.props.titleRegister(data).then( () => {
-  //   }).catch( error => {
-  //     this.setState({ errors: error })
-  //   });
-  // }
+submit = data =>{
+  this.props.addTitle(data).then( () => {
+    this.setState({ isLoading: false })
+  }).catch( error => {
+    this.setState({ errors: error })
+  });
+}
 
 booksubmit = data =>{
-  console.log(data);
   this.props.addBook(data).then(() => {
-    console.log("200");
     this.setState({ isLoading: false })
   }).catch(error => {
     this.setState({
@@ -55,7 +54,7 @@ booksubmit = data =>{
        isLoading:false
      })
   });
-  }
+}
 
 
 handleRemove = (e,i) => {
@@ -240,4 +239,4 @@ const mapStateToProps = state => ({
     books:state.books
 });
 
-export default connect(mapStateToProps,{addBook})(Books);
+export default connect(mapStateToProps,{addBook,addTitle})(Books);
