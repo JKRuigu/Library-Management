@@ -1,2 +1,2 @@
 # Library-Management
-A school Library Management System
+A Library Management System
