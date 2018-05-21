@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { connect } from 'react-redux';
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
@@ -28,35 +29,12 @@ class Dashboard extends React.Component {
            bookBorrowAva:false,
            bookBorrowed:[]
        }
+       console.log(this.props.students)
        this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
        this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
    }
 
-componentWillMount() {
-     localStorage.getItem('studentDash') && localStorage.getItem('bookDash')&& this.setState({
-         bookDash: JSON.parse(localStorage.getItem('bookDash')),
-         studentDash: JSON.parse(localStorage.getItem('studentDash')),
-         isLoading: false
-     })
-
- }
-
-componentDidMount(){
- !localStorage.getItem('studentDash') && !localStorage.getItem('bookDash')? this.fetchData() :console.log(`Using data from localStorage that `);}
-
-componentWillUpdate(nextProps, nextState) {
-     localStorage.setItem('studentDash', JSON.stringify(nextState.studentDash));
-     localStorage.setItem('bookDash', JSON.stringify(nextState.bookDash));
- }
-
 fetchData(){
- axios.get(`/api/fetch/students`)
-   .then(res => {
-     this.setState({
-        studentDash:res.data.data,
-        isLoading: false
-      });
-   });
    axios.get(`/api/fetch/borrowing/books`)
    .then(res => {
      this.setState({
@@ -67,15 +45,15 @@ fetchData(){
 }
 
  handleStudentQueryChange(e) {
-   const {studBorrow,studentDash,studBorrowAva } = this.state
-   this.setState({query:e.target.value})
-   const result = studentDash.filter(x => x.adminNo == e.target.value)
-   result.length == 1 ?
-    this.setState({
-      studBorrow:result,
-      studBorrowAva:true
-    })
-    : this.setState({studBorrowAva:false})
+     const {studBorrow,studBorrowAva } = this.state
+     this.setState({query:e.target.value})
+     const result = this.props.students.filter(x => x.adminNo == e.target.value)
+     result.length == 1 ?
+      this.setState({
+        studBorrow:result,
+        studBorrowAva:true
+      })
+      : this.setState({studBorrowAva:false})
  }
 
  handleBookQueryChange(e) {
@@ -121,12 +99,12 @@ fetchData(){
                            onChange={this.handleStudentQueryChange}
                            floatingLabelFixed
                          />
-                          <AdmDataList students={this.state.studentDash}/>
+                          <AdmDataList students={this.props.students}/>
                         </div>
                     </div>
                   <div className="card-body">
                     {<StudBorrForm
-                      students={this.state.studBorrow}
+                      students={this.props.students}
                       studBorrowAva={this.state.studBorrowAva} />}
                   </div>
                 </div>
@@ -172,5 +150,9 @@ fetchData(){
     )
   }
 }
+const mapStateToProps = state => ({
+    students: state.students,
+    books:state.books
+});
 
-export default Dashboard;
+export default connect(mapStateToProps,{})(Dashboard);

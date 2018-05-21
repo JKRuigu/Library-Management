@@ -1,15 +1,15 @@
-// import { combineReducers } from 'redux';
+import * as types from '../consts';
 
-const bookReducer = (state=[], action={}) => {
-	const { payload, type } = action;
-	switch (type){
-		case "TITLE_REGISTER":
-			return payload;
-		case "BOOK_REGISTER":
-			return payload;
-		default:
-			return state;
-	}
+const books = (state=[], action={}) =>{
+  const { type, payload,id} = action;
+  switch (type) {
+    case types.BOOK_FETCH:
+        return [
+          ...state,
+          ...payload
+        ];
+    default: return state;
+  }
 };
 
-export default bookReducer;
+export default books;

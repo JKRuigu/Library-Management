@@ -77,7 +77,7 @@ class Students extends React.Component {
       this.stopEditing();
     }
     this.stopEditing();
-    };
+  };
 
   handleSort = columnName => {
     this.setState(state => ({

@@ -1,7 +1,10 @@
+import axios from 'axios';
+import * as types from '../consts';
+
 export const fetchStream = () => (dispatch) => axios.get('/api/fetch/stream')
   .then( response => {
       dispatch({
        type: types.STREAM_FETCH,
-       payload: response.data.streams
+       payload: response.data.data
       });
   });

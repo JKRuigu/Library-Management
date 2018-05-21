@@ -1,18 +1,10 @@
 import axios from 'axios';
+import * as types from '../consts';
 
-
-// export const bookRegister = (data) => (dispatch) => axios.post('/api/book/registration', {...data}).then( response => {
-//   localStorage.setItem('id_token', 'false');
-//   dispatch({
-//     type: "BOOK_REGISTER",
-//     payload: response.data
-//   });
-// });
-// 
-// export const titleRegister = (data) => (dispatch) => axios.post('/api/book/registration/titles', {...data}).then( response => {
-//   localStorage.setItem('id_token', response.data.id);
-//   dispatch({
-//     type: "TITLE_REGISTER",
-//     payload: response.data
-//   });
-// });
+export const fetchBooks = () => (dispatch) => axios.get('/api/fetch/borrowing/books')
+  .then( response => {
+      dispatch({
+       type: types.BOOK_FETCH,
+       payload: response.data.books
+      });
+  });

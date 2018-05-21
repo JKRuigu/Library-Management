@@ -32,7 +32,7 @@ router.post('/student/register',function (req,res) {
 
 //Book Titles registration
 router.post('/book/registration/titles',function (req,res) {
-const {bookTitle, bookAuthor,bookCategory, bookSection,bookPublisher,numberOfCopies} = req.body;
+  const {bookTitle, bookAuthor,bookCategory, bookSection,bookPublisher,numberOfCopies} = req.body;
     var newTitle = new Title({
       "bookTitle": bookTitle,
       "bookAuthor":bookAuthor,
@@ -65,7 +65,6 @@ const {bookTitle, bookAuthor,bookCategory, bookSection,bookPublisher,numberOfCop
       }
     });
 });
-
 //Books registration
 router.post('/book/registration',(req, res) =>{
   if (req.body) {
@@ -296,27 +295,6 @@ router.delete('/stream/:streamId/delete',  (req, res) =>{
   });
 });
 
-router.get('/fetch/books',  (req, res) =>{
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("library-react");
-    dbo.collection('books').aggregate([
-      { $lookup:
-         {
-           from: 'titles',
-           localField: 'bookCategoryId',
-           foreignField: 'bookId',
-           as: 'orderdetails'
-         }
-       }
-     ]).toArray((err, data)=> {
-      err ?   res.status(404).json({message:'Unable to fetch data'}):
-        res.status(200).json({data});
-        db.close();
-    });
-  });
-});
-
 router.get('/fetch/borrowing/books',  (req, res) =>{
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -330,9 +308,9 @@ router.get('/fetch/borrowing/books',  (req, res) =>{
            as: 'orderdetails'
          }
        }
-     ]).toArray((err, data)=> {
+     ]).toArray((err, books)=> {
       err ?   res.status(404).json({message:'Unable to fetch data'}):
-        res.status(200).json({data});
+        res.status(200).json({books});
         db.close();
     });
   });
