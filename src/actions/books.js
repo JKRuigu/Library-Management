@@ -16,6 +16,13 @@ export const addBook = (data) => ( dispatch) => axios.post('/api/book/registrati
   });
 });
 
+export const bookIssue = (data) => ( dispatch) => axios.post('/process/borrow/issue',{data}).then( response => {
+  dispatch({
+    type: types.BOOK_ISSUE,
+    payload: response.data.books
+  });
+});
+
 export const addTitle = (data) => ( dispatch) => axios.post('/api/book/registration/titles',{data}).then( response => {
   dispatch({
     type: types.TITLE_REGISTER,

@@ -17,3 +17,7 @@ export const TITLE_REGISTER = 'TITLE_REGISTER';
 export const BOOK_DELETED = 'BOOK_DELETED';
 
 export const BOOK_EDIT = 'BOOK_EDIT';
+
+export const BOOK_ISSUE = 'BOOK_ISSUE';
+
+export const TITLES_FETCH = 'TITLES_FETCH';

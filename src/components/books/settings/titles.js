@@ -1,7 +1,5 @@
 import React from "react";
-import axios from 'axios';
-import TextField from "material-ui/TextField";
-
+import { connect } from 'react-redux';
 
 class TitleConfig extends React.Component {
   constructor(props){
@@ -10,53 +8,36 @@ class TitleConfig extends React.Component {
            titles:[]
        }
    }
+//
+// componentDidMount(){
+//   let books = this.props.titles;
+//   console.log(this.props.titles);
+//   console.log(this.state.titles );
+//   var booksTitles = [];
+//   var i =0;
+//   console.log(books);
+//   console.log('componentDidMount');
+//   books.forEach(function (book) {
+//     if(book.hasOwnProperty('bookTitle')){
+//       console.log(book);
+//         booksTitles[i] = book.bookTitle;
+//         i++;
+//     }
+//   });
+//   this.setState({
+//     titles1:booksTitles,
+//     isLoading: false
+//   });
+//   console.log(booksTitles);
+// }
 
-   componentWillMount() {
-     this.fetchData() ||
-         localStorage.getItem('titles')  && this.setState({
-             titles: JSON.parse(localStorage.getItem('titles')),
-         })
-     }
-
-   componentDidMount(){
-      !localStorage.getItem('titles')? this.fetchData():console.log(`Using data from localStorage that `);
-    }
-   componentWillUpdate(nextProps, nextState) {
-         localStorage.setItem('titles', JSON.stringify(nextState.titles));
-     }
-
-     fetchData(){
-       axios.get(`/settings/books/titles`)
-       .then(res => {
-         let titles = res.data.data;
-         console.log(titles);
-         const {bookTitle} = titles
-         var bookAcc = [];
-         var i =0;
-         titles.forEach(function (book) {
-           if(book.hasOwnProperty('bookTitle')){
-               bookAcc[i] = book.bookTitle;
-               i++;
-           }
-         });
-         // const bookAccs = titles.map(book=>{return book.title})
-         // console.log(bookAccs);
-         // console.log(bookAcc);
-         this.setState({
-           titles:bookAcc,
-           isLoading: false
-         });
-       });
-     }
   render(){
-    const {titles} = this.state;
     return(
     <div>
     <datalist id="datalist1">
     {
-      titles.map((x,i) =>(
-        <option key={`datalist-${i}`} value={x}></option>
-      ))
+      console.log(this.props.titles)||      
+      console.log(this.props.books)
     }
     </datalist>
     </div>
@@ -64,4 +45,10 @@ class TitleConfig extends React.Component {
   }
 }
 
-export default TitleConfig;
+const mapStateToProps = state => {
+  console.log(state.titles);
+    titles:state.titles
+    books:state.books
+};
+
+export default connect(mapStateToProps)(TitleConfig);

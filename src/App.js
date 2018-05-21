@@ -12,10 +12,12 @@ import Route from 'react-router-dom/Route';
 import './css/App.css';
 import { fetch } from './actions/students';
 import { fetchBooks } from './actions/books';
+import { fetchTitles } from './actions/titles';
 import { fetchStream } from './actions/config';
 import Store from './store';
 Store.dispatch(fetch());
 Store.dispatch(fetchBooks());
+Store.dispatch(fetchTitles());
 Store.dispatch(fetchStream());
 
 injectTapEventPlugin();
