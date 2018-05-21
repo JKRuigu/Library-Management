@@ -1,6 +1,7 @@
 import React from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { connect } from 'react-redux';
+import { addBook} from '../../actions/books.js';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
@@ -43,43 +44,21 @@ class Books extends React.Component {
   //   });
   // }
 
-  booksubmit = data =>{
-    axios.post(`/api/book/registration`,data)
-    .then(res => {
-      console.log(res);
-    });
-  }
-
-  componentWillMount() {
-        localStorage.getItem('books') && this.setState({
-            books: JSON.parse(localStorage.getItem('books')),
-            isLoading: false
-        })
-    }
-
-  componentDidMount(){
-    this.setState({ editIdx: -1 }) ||
-    !localStorage.getItem('books') ? this.fetchData():console.log(`Using data from localStorage that `)
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-        localStorage.setItem('books', JSON.stringify(nextState.books));
-    }
-
-  fetchData(){
-    axios.get(`/api/fetch/books`)
-    .then(res => {
-      this.setState({
-        oldState:res.data.data,
-        books:res.data.data,
-        isLoading: false,
-        edited:false
-      });
-    });
+booksubmit = data =>{
+  console.log(data);
+  this.props.addBook(data).then(() => {
+    console.log("200");
+    this.setState({ isLoading: false })
+  }).catch(error => {
+    this.setState({
+       errors: error,
+       isLoading:false
+     })
+  });
   }
 
 
-  handleRemove = (e,i) => {
+handleRemove = (e,i) => {
     const {id } = e.target;
     const {books} = this.state;
     if (id) {
@@ -100,11 +79,11 @@ class Books extends React.Component {
     }
   };
 
-  startEditing = i => {
+startEditing = i => {
     this.setState({ editIdx: i });
-  };
+};
 
-  stopEditing = () => {
+stopEditing = () => {
     const {isLoading, editStudId,books,edited,oldState,BookTitle} = this.state;
     if (editStudId && edited==true) {
       var studEditDetails =  books.filter(function(hero) {
@@ -144,7 +123,7 @@ class Books extends React.Component {
     }
   };
 
-  handleChange = (e, name, i) => {
+handleChange = (e, name, i) => {
     const { value,id } = e.target;
     name == 'bookTitle' ? this.setState({ BookTitle: value })  || console.log(e.target.value) : console.log('false')
     this.setState(state => ({
@@ -155,9 +134,9 @@ class Books extends React.Component {
       edited:true
     }));
     console.log(this.state.BookTitle)
-  };
+};
 
-  handleSort = columnName => {
+handleSort = columnName => {
   this.setState(state => ({
     columnToSort: columnName,
     sortDirection:
@@ -167,7 +146,7 @@ class Books extends React.Component {
   }));
 };
 
-  render(){
+render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {isLoading, books,oldState} = this.state;
     return(
@@ -202,49 +181,48 @@ class Books extends React.Component {
              <MenuItem value="bookCondition" primaryText="Book Condition" />
            </SelectField>
             </div>
-            <div className={`card-body ${isLoading ? 'loader' : ''}`} >
-            <Table
-              handleSort={this.handleSort}
-              isLoading={this.state.isLoading}
-              edited={this.state.edited}
-              handleRemove={this.handleRemove}
-              startEditing={this.startEditing}
-              editIdx={this.state.editIdx}
-              stopEditing={this.stopEditing}
-              handleChange={this.handleChange}
-              columnToSort={this.state.columnToSort}
-              sortDirection={this.state.sortDirection}
-              books={orderBy(
-                this.state.query
-                  ? this.state.books.filter(x =>
-                      x[this.state.columnToQuery]
-                        .toLowerCase()
-                        .includes(lowerCaseQuery)
-                    )
-                  : this.state.books,
-                this.state.columnToSort,
-                this.state.sortDirection
-              )}
-              titles={[
-                {
-                  name: "Book Accession No:",
-                  prop: "bookAccession"
-                },
-                {
-                  name: "Isbn",
-                  prop: "Isbn"
-                },
-                {
-                  name: "Book Title",
-                  prop: "bookTitle"
-                },
-                {
-                  name: "bookCondition",
-                  prop: "bookCondition"
-                }
-              ]}
-            />
-
+            <div className="card-body" >
+              <Table
+                handleSort={this.handleSort}
+                isLoading={this.state.isLoading}
+                edited={this.state.edited}
+                handleRemove={this.handleRemove}
+                startEditing={this.startEditing}
+                editIdx={this.state.editIdx}
+                stopEditing={this.stopEditing}
+                handleChange={this.handleChange}
+                columnToSort={this.state.columnToSort}
+                sortDirection={this.state.sortDirection}
+                books={orderBy(
+                  this.state.query
+                    ? this.props.books.filter(x =>
+                        x[this.state.columnToQuery]
+                          .toLowerCase()
+                          .includes(lowerCaseQuery)
+                      )
+                    : this.props.books,
+                  this.state.columnToSort,
+                  this.state.sortDirection
+                )}
+                titles={[
+                  {
+                    name: "Book Accession No:",
+                    prop: "bookAccession"
+                  },
+                  {
+                    name: "Isbn",
+                    prop: "Isbn"
+                  },
+                  {
+                    name: "Book Title",
+                    prop: "bookTitle"
+                  },
+                  {
+                    name: "bookCondition",
+                    prop: "bookCondition"
+                  }
+                ]}
+              />
             </div>
             </div>
           </div>
@@ -253,9 +231,13 @@ class Books extends React.Component {
         </div>
       </div>
       </MuiThemeProvider>
-
     )
-  }
+}
 }
 
-export default connect(null, {})(Books);
+
+const mapStateToProps = state => ({
+    books:state.books
+});
+
+export default connect(mapStateToProps,{addBook})(Books);

@@ -9,3 +9,5 @@ export const STUD_EDIT = 'STUD_EDIT';
 export const STREAM_FETCH = 'STREAM_FETCH';
 
 export const BOOK_FETCH = 'BOOK_FETCH';
+
+export const BOOK_REGISTER = 'BOOK_REGISTER';

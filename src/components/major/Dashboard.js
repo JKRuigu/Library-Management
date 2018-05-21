@@ -32,15 +32,6 @@ class Dashboard extends React.Component {
        this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
    }
 
-fetchData(){
-   axios.get(`/api/fetch/borrowing/books`)
-   .then(res => {
-     this.setState({
-       bookDash:res.data.data,
-       isLoading: false
-     });
-   });
-}
 
  handleStudentQueryChange(e) {
      const {studBorrow,studBorrowAva } = this.state

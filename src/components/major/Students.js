@@ -33,7 +33,7 @@ class Students extends React.Component {
        }
    }
 
-  submit = data =>{
+submit = data =>{
     this.setState({ isLoading: true })
     this.props.register(data).then(() => {
       this.setState({ isLoading: false })
@@ -43,10 +43,9 @@ class Students extends React.Component {
          isLoading:false
        })
     });
+}
 
-  }
-
-  handleRemove = (e,i) => {
+handleRemove = (e,i) => {
     const {id} = e.target;
     if (id) {
       this.props.remove(id).then(() => {

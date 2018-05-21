@@ -60,37 +60,31 @@ router.post('/book/registration/titles',function (req,res) {
       }
     });
 });
+
 //Books registration
 router.post('/book/registration',(req, res) =>{
-  if (req.body) {
+  if (!req.body == '') {
     MongoClient.connect(url).then(client =>{
       let db = client.db('library-react');
-      const {bookAccession, bookCondition,bookIsbn} = req.body;
-      db.collection('titles').find({"bookTitle":req.body.bookTitle}).toArray((err,data)=>{
+      const {bookAccession, bookCondition,bookIsbn,bookTitle} = req.body.data;
+      db.collection('titles').find({"bookTitle":bookTitle}).toArray((err,data)=>{
         if (err) {
-          console.log(err);
+          res.status(404).json({message:"Database Error"})
         }else {
-          var id = data[0]._id;
-          var newBook = new Book({
-            "bookAccession":bookAccession,
-            "bookCondition":bookCondition,
-            "Isbn":bookIsbn,
-            "bookCategoryId":id
-          }).save(function(err,data) {
-            if (err){
-               throw err;
-            }else {
-              MongoClient.connect(url).then(client =>{
-                let db = client.db('library-react');
-                db.collection('books').find().toArray((err,data)=>{
-                  res.status(200).json({data});
-                  client.close();
-                })
-              }).catch( error => {
-                res.status(404).json({message:'Server Error.'});
-              });
-            }
-          });
+          if (data.length == 0 ) {
+            res.status(404).json({message:"Database Error"})
+          }else {
+            var id = data[0]._id;
+            var newBook = new Book({
+              "bookAccession":bookAccession,
+              "bookCondition":bookCondition,
+              "Isbn":bookIsbn,
+              "bookCategoryId":id
+            }).save(function(err,books) {
+              err ? res.status(200).json({message:"Database Error"}) :
+              res.status(200).json({books});
+            });
+          }
         }
       })
     }).catch( error => {
@@ -124,6 +118,27 @@ router.get('/fetch/stream',(req, res) =>{
     }).catch( error => {
       res.status(404).json({message:'Server Error.'});
     });
+});
+
+router.get('/fetch/borrowing/books',  (req, res) =>{
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("library-react");
+    dbo.collection('books').aggregate([
+      { $lookup:
+         {
+           from: 'titles',
+           localField: 'bookCategoryId',
+           foreignField: 'bookId',
+           as: 'orderdetails'
+         }
+       }
+     ]).toArray((err, books)=> {
+      err ?   res.status(404).json({message:'Unable to fetch data'}):
+        res.status(200).json({books});
+        db.close();
+    });
+  });
 });
 
 router.put('/student/edit',(req, res) =>{
@@ -290,25 +305,5 @@ router.delete('/stream/:streamId/delete',  (req, res) =>{
   });
 });
 
-router.get('/fetch/borrowing/books',  (req, res) =>{
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("library-react");
-    dbo.collection('books').aggregate([
-      { $lookup:
-         {
-           from: 'titles',
-           localField: 'bookCategoryId',
-           foreignField: 'bookId',
-           as: 'orderdetails'
-         }
-       }
-     ]).toArray((err, books)=> {
-      err ?   res.status(404).json({message:'Unable to fetch data'}):
-        res.status(200).json({books});
-        db.close();
-    });
-  });
-});
 
 module.exports = router;

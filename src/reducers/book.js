@@ -4,6 +4,7 @@ const books = (state=[], action={}) =>{
   const { type, payload,id} = action;
   switch (type) {
     case types.BOOK_FETCH:
+    case types.BOOK_REGISTER:
         return [
           ...state,
           ...payload
