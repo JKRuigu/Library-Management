@@ -1,2 +1,2 @@
-# Library-Management
-A Library Management System
+# GHS
+A GHS Management System
