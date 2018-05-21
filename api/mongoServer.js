@@ -6,11 +6,6 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const url ='mongodb://localhost:27017';
 
-router.get('/mongodb/test',(req,res)=>{
-  console.log('hey');
-  res.status(200)
-})
-
 //student registration
 router.post('/student/register',function (req,res) {
   if (!req.body == '') {

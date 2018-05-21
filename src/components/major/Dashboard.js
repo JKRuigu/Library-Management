@@ -18,8 +18,6 @@ class Dashboard extends React.Component {
        this.state = {
            isLoading: true,
            studBorrow: [],
-           studentDash:[],
-           bookDash:[],
            bookBorrow:[],
            errors: [],
            query: "",
@@ -58,8 +56,8 @@ fetchData(){
 
  handleBookQueryChange(e) {
    this.setState({bkQuery:e.target.value})
-   const {bookBorrowed,bookDash,bookBorrowAva } = this.state
-   const results = bookDash.filter(x => x.bookAccession == e.target.value)
+   const {bookBorrowed,bookBorrowAva } = this.state
+   const results = this.props.books.filter(x => x.bookAccession == e.target.value)
    results.length == 1 ?
     this.setState({
       bookBorrowed:results,
@@ -121,7 +119,7 @@ fetchData(){
                              onChange={this.handleBookQueryChange}
                              floatingLabelFixed
                            />
-                            <AccDataList books={this.state.bookDash}/>
+                            <AccDataList books={this.props.books}/>
                           </div>
                           <div className="col-md-6" style={{paddingLeft:"100px",margin: "auto"}}>
                             <ButtonIssue
