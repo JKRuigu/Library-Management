@@ -1,7 +1,7 @@
 import React from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { connect } from 'react-redux';
-import { addBook,addTitle} from '../../actions/books.js';
+import { addBook,addTitle,remove,edit} from '../../actions/books.js';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
@@ -20,11 +20,9 @@ const invertDirection = {
 
 class Books extends React.Component {
   constructor(props){
-       super(props);
+    super(props);
        this.state = {
            isLoading: true,
-           books: [],
-           oldState:[],
            errors: [],
            editIdx: -1,
            columnToSort: "",
@@ -34,8 +32,8 @@ class Books extends React.Component {
            editStudId:'',
            edited:false,
            BookTitle:'123'
-       }
-   }
+      }
+}
 
 submit = data =>{
   this.props.addTitle(data).then( () => {
@@ -56,83 +54,39 @@ booksubmit = data =>{
   });
 }
 
-
 handleRemove = (e,i) => {
-    const {id } = e.target;
-    const {books} = this.state;
-    if (id) {
-      this.setState({
-         isLoading:true
-        });
-      axios.delete(`/api/book/${id}/delete`)
-      .then(res =>{
-        if (res.status === 200) {
-          this.setState(state => ({
-        books: state.books.filter((row, j) => j !== i),
-        isLoading:false
-      }));
-        }else if (res.status === 400) {
-          this.fetchData()
-        }
-      })
-    }
-  };
+  const {id} = e.target;
+  if (id) {
+    this.props.remove(id).then(() => {
+      console.log('hello')
+    })
+    .catch( error => {
+      this.setState({ errors: error })
+    })
+  }
+};
 
 startEditing = i => {
-    this.setState({ editIdx: i });
+  this.setState({ editIdx: i });
 };
 
 stopEditing = () => {
-    const {isLoading, editStudId,books,edited,oldState,BookTitle} = this.state;
-    if (editStudId && edited==true) {
-      var studEditDetails =  books.filter(function(hero) {
-          return hero._id == editStudId;
-        });
-      if (studEditDetails) {
-        this.setState({
-           isLoading:true,
-           books:[]
-          });
-        let data = studEditDetails;
-        this.setState({ editIdx: -1 });
-        this.state.BookTitle === ''  ? this.setState({ BookTitle: '123' }) :
-        axios.put(`/api/book/${BookTitle}/edit`,data)
-          .then(res => {
-            console.log(res.status);
-            res.status ===200 ?
-              this.fetchData() &&
-              this.setState(state => ({
-                isLoading:false,
-                editStudId:'',
-                editIdx: -1,
-                edited:false,
-                BookTitle:''
-              }))
-            :
-            this.setState(state => ({
-              books:oldState,
-              isLoading:false,
-              editStudId:'',
-              editIdx: -1,
-              edited:false,
-              BookTitle:''
-            }))
-          });
-      }
-    }
-  };
+    this.setState({ editIdx: -1 });
+};
 
-handleChange = (e, name, i) => {
-    const { value,id } = e.target;
-    name == 'bookTitle' ? this.setState({ BookTitle: value })  || console.log(e.target.value) : console.log('false')
-    this.setState(state => ({
-      books: state.books.map(
-        (row, j) => (j === i ? { ...row, [name]: value  } : row)
-      ),
-      editStudId:id,
-      edited:true
-    }));
-    console.log(this.state.BookTitle)
+handleSave = (i, x,edited,currentBook) => {
+  console.log(x);
+  console.log(currentBook);
+    // if (edited) {
+    //   this.props.edit(x).then(() => {
+    //     console.log('hello')
+    //   })
+    //   .catch( error => {
+    //     this.setState({ errors: error })
+    //   })
+    //   this.stopEditing();
+    // }
+    // this.stopEditing();
 };
 
 handleSort = columnName => {
@@ -189,7 +143,7 @@ render(){
                 startEditing={this.startEditing}
                 editIdx={this.state.editIdx}
                 stopEditing={this.stopEditing}
-                handleChange={this.handleChange}
+                handleSave={this.handleSave}
                 columnToSort={this.state.columnToSort}
                 sortDirection={this.state.sortDirection}
                 books={orderBy(
@@ -236,7 +190,7 @@ render(){
 
 
 const mapStateToProps = state => ({
-    books:state.books
+  books:state.books
 });
 
-export default connect(mapStateToProps,{addBook,addTitle})(Books);
+export default connect(mapStateToProps,{addBook,addTitle,remove,edit})(Books);

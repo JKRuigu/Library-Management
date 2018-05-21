@@ -55,17 +55,17 @@ handleRemove = (e,i) => {
         this.setState({ errors: error })
       })
     }
-  }
+}
 
-  startEditing = i => {
+startEditing = i => {
     this.setState({ editIdx: i });
-  };
+};
 
-  stopEditing = () => {
-     this.setState({ editIdx: -1 });
-   };
+stopEditing = () => {
+    this.setState({ editIdx: -1 });
+};
 
-  handleSave = (i, x,edited) => {
+handleSave = (i, x,edited) => {
     if (edited) {
       this.props.edit(x).then(() => {
         console.log('hello')
@@ -76,9 +76,9 @@ handleRemove = (e,i) => {
       this.stopEditing();
     }
     this.stopEditing();
-  };
+};
 
-  handleSort = columnName => {
+handleSort = columnName => {
     this.setState(state => ({
       columnToSort: columnName,
       sortDirection:
@@ -86,9 +86,9 @@ handleRemove = (e,i) => {
           ? invertDirection[state.sortDirection]
           : "asc"
     }));
-  }
+}
 
-  render(){
+render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {isLoading, students,edited} = this.state;
     return(
@@ -190,6 +190,7 @@ handleRemove = (e,i) => {
     );
   }
 }
+
 const mapStateToProps = state => ({
     students: state.students
 });

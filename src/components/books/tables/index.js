@@ -1,4 +1,5 @@
 import React from "react";
+import InlineForm from "./inlineForm.js";
 
 const row = (
    x,
@@ -7,50 +8,33 @@ const row = (
    handleRemove,
    startEditing,
    editIdx,
-   handleChange,
+   handleSave,
    stopEditing,
    edited
 ) =>
 {
- const currentlyEditing = editIdx === i;
- return (
-   <tr key={`tr-${i}`} >
-     {titles.map((y, k) => (
-       <td key={`trc-${k}`}>
-         {currentlyEditing ? (
-           edited ? (
-             <input
-               autocomplete="off"
-               list="datalist1"
-               id={x._id}
-               name={y.prop}
-               onChange={e => handleChange(e, y.prop, i)}
-             />
-           ):
-           <input
-             autocomplete="off"
-             list="datalist1"
-             id={x._id}
-             name={y.prop}
-             onChange={e => handleChange(e, y.prop, i)}
-             value={x[y.prop] || x.orderdetails[0].bookTitle }
-           />
-         ) : (
-           x[y.prop] || x.orderdetails[0].bookTitle
-         )}
-       </td>
-     ))}
-     <td>
-       {currentlyEditing ? (
-         <i className="material-icons" onClick={() => stopEditing()}>done</i>
-       ) : (
-           <i className="material-icons" onClick={() => startEditing(i)}>edit</i>
-       )}
-     </td>
-     <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
-   </tr>
- );
-};
+  const currentlyEditing = editIdx === i;
+  return currentlyEditing ? (
+    <tr key={`inline-form-${i}`} >
+      <InlineForm
+        handleSave={handleSave}
+        titles={titles}
+        x={x}
+        currentBook={x.orderdetails[0].bookTitle}
+        i={i}
+        stopEditing={stopEditing}
+      />
+    </tr>
+  ) : (
+    <tr key={`tr-${i}`} >
+      {titles.map((y, k) => (
+        <td key={`trc-${k}`}>{x[y.prop] || x.orderdetails[0].bookTitle}</td>
+      ))}
+        <td><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
+        <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+    </tr>
+  );
+  };
 
 export default ({
   edited,
@@ -60,7 +44,7 @@ export default ({
    handleRemove,
    startEditing,
    editIdx,
-   handleChange,
+   handleSave,
    stopEditing,
    handleSort,
    sortDirection,
@@ -102,7 +86,7 @@ export default ({
        handleRemove,
        startEditing,
        editIdx,
-       handleChange,
+       handleSave,
        stopEditing,
        edited
       ))}

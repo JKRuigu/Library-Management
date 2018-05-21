@@ -9,6 +9,18 @@ const books = (state=[], action={}) =>{
           ...state,
           ...payload
         ];
+    case types.TITLE_REGISTER:
+        return [
+          ...state,
+          ...payload
+        ];
+    case types.BOOK_DELETED:
+      let books = [];
+      state.map( book => {
+        if( book._id !== id)
+          books.push(book);
+      });
+      return books;            
     default: return state;
   }
 };

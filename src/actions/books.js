@@ -16,9 +16,23 @@ export const addBook = (data) => ( dispatch) => axios.post('/api/book/registrati
   });
 });
 
-export const addTitle = (data) => ( dispatch) => axios.post('/api/book/registration',{data}).then( response => {
+export const addTitle = (data) => ( dispatch) => axios.post('/api/book/registration/titles',{data}).then( response => {
   dispatch({
     type: types.TITLE_REGISTER,
-    payload: response.data.tiltes
+    payload: response.data.title
+  });
+});
+
+export const remove = id => dispatch => axios.delete(`/api/book/${id}/delete`).then( response => {
+  dispatch({
+    type: types.BOOK_DELETED,
+    id: response.data.data
+  });
+});
+
+export const edit = (data) => ( dispatch) => axios.put('/api/book/edit',{data}).then( response => {
+  dispatch({
+    type: types.BOOK_EDIT,
+    payload: response.data.data
   });
 });

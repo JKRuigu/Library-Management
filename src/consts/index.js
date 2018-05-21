@@ -13,3 +13,7 @@ export const BOOK_FETCH = 'BOOK_FETCH';
 export const BOOK_REGISTER = 'BOOK_REGISTER';
 
 export const TITLE_REGISTER = 'TITLE_REGISTER';
+
+export const BOOK_DELETED = 'BOOK_DELETED';
+
+export const BOOK_EDIT = 'BOOK_EDIT';

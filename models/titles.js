@@ -7,6 +7,7 @@ var TitleSchema = mongoose.Schema({
 	},
 	bookTitle:{
 		type:String,
+		unique: true,
 		required: true
 	},
 	bookAuthor:{
