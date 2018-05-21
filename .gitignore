@@ -24,4 +24,4 @@ yarn-error.log*
 index
 text
 api
-/config
+/config/*
