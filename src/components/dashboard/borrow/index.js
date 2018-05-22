@@ -15,6 +15,7 @@ import BookBorrowForm from './form/book'
 import { fetch } from '../../../actions/students';
 import Store from '../../../store';
 import Table from './table';
+import Moment from 'react-moment';
 
 class Borrow extends React.Component {
   constructor(props){
@@ -22,6 +23,7 @@ class Borrow extends React.Component {
       this.state = {
           isLoading: false,
           studBorrow: [],
+          studBorrowedBooks:[],
           bookBorrow:[],
           errors: [],
           query: "",
@@ -30,7 +32,8 @@ class Borrow extends React.Component {
           studBorrowAva:false,
           bookBorrowAva:false,
           bookBorrowed:[],
-          borrow:true
+          borrow:true,
+          borrowPeriod:5
       }
     this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
     this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
@@ -39,19 +42,34 @@ class Borrow extends React.Component {
 handleStudentQueryChange(e) {
      const {studBorrow,studBorrowAva } = this.state
      this.setState({query:e.target.value})
-     const result = this.props.students.filter(x => x.adminNo == e.target.value)
-     result.length == 1 ?
+     let result = this.props.students.filter(x => x.adminNo == e.target.value)
+     console.log(result);
+      var myBooks = [];
+      var i =0;
+    if (result.length ===1 || result.length !==0) {
+        this.setState({
+          studBorrow:result,
+          studBorrowAva:true
+        })
+      if(result[0].hasOwnProperty('myBooks')){
+        let borrowedBooks = result[0].myBooks;
+         this.setState({studBorrowedBooks:borrowedBooks})
+      }else {
+        this.setState({studBorrowedBooks:[]})
+      }
+    }else {
       this.setState({
-        studBorrow:result,
-        studBorrowAva:true
+        studBorrow:[],
+        studBorrowedBooks:[],
+        studBorrowAva:false
       })
-      : this.setState({studBorrowAva:false})
+    }
 }
 
 handleBookQueryChange(e) {
    this.setState({bkQuery:e.target.value})
    const {bookBorrowed,bookBorrowAva } = this.state
-   const results = this.props.books.filter(x => x.bookAccession == e.target.value)
+   let results = this.props.books.filter(x => x.bookAccession == e.target.value)
    results.length == 1 ?
     this.setState({
       bookBorrowed:results,
@@ -64,11 +82,23 @@ issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
    let studId = studBorrow[0]._id
    let BookAcc = bookBorrowed[0].bookAccession
-   let data = {studId,BookAcc}
+   const startDate = Date.now();
+   const deadLine = startDate + 1000*60*60*24*this.state.borrowPeriod
+   let data = {studId,BookAcc,startDate,deadLine}
    console.log(data);
    this.setState({ isLoading: true })
    if (!data=='') {
      this.props.bookIssue(data).then( () => {
+       console.log('hey');
+       this.setState({
+          isLoading: false,
+          studBorrow: [],
+          studBorrowedBooks:[],
+          bookBorrow:[],
+          errors: [],
+          query: "",
+          bkQuery:""
+        })
        Store.dispatch(fetch());
        Store.dispatch(fetchBooks());
        this.setState({ isLoading: false })
@@ -144,16 +174,20 @@ render(){
         </div>
   </div>
     <Table
-      student={this.state.studBorrow}
+      books={this.state.studBorrowedBooks}
       studBorrowAva={this.state.studBorrowAva}
       titles={[
         {
           name: "Book Accession No:",
-          prop: "bookAccession"
+          prop: "bookAcc"
         },
         {
           name: "Date Borrowed",
-          prop: "Date Borrowed"
+          prop: "dateIssued"
+        },
+        {
+          name: "Deadline",
+          prop: "deadLine"
         }
       ]}
     />

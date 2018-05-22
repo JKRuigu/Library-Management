@@ -1,4 +1,5 @@
 import React from "react";
+import Moment from 'react-moment';
 
 export default ({
   students,
@@ -24,13 +25,13 @@ export default ({
               <div className="col-sm-6">
                   <div className="form-group">
                       <label data-toggle="tooltip">Class</label><br/>
-                    <input type="number" name="form"  value={!studBorrowAva ? '' : students[0].stream}	 className="form-control" disabled/>
+                    <input type="number" name="form"  value={!studBorrowAva ? '' : students[0].form}	 className="form-control" disabled/>
                     </div>
               </div>
               <div className="col-sm-6">
                   <div className="form-group">
                     <label data-toggle="tooltip">Stream </label>
-                        <input type="text" name="form"	value={!studBorrowAva ? '' : students[0].form} className="form-control" disabled/>
+                        <input type="text" name="form"	value={!studBorrowAva ? '' : students[0].stream} className="form-control" disabled/>
                   </div>
               </div>
           </div>
@@ -38,7 +39,11 @@ export default ({
               <div className="col-sm-12">
                   <div className="form-group">
                       <label data-toggle="tooltip">Admission Date</label>
-                        <input type="text" name="adminNo"	 value={!studBorrowAva ? '' : students[0].admissionDate} className="form-control" disabled/>
+                        <p><b>
+                        {
+                          !studBorrowAva ? '' : <Moment>{students[0].admissionDate}</Moment>
+                        }
+                        </b></p><hr/>
                     </div>
               </div>
           </div>

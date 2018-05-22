@@ -11,8 +11,7 @@ router.get('/mongodb/test',(req,res)=>{
 })
 
 router.post('/borrow/issue',(req,res) =>{
-  let date = Date.now()
-  const {BookAcc,studId} = req.body.data
+  const {BookAcc,studId,startDate,deadLine} = req.body.data
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
     db.collection('users')
@@ -22,7 +21,8 @@ router.post('/borrow/issue',(req,res) =>{
           "myBooks":
             {
               "bookAcc":BookAcc,
-              "dateIssued":date
+              "dateIssued":startDate,
+              "deadLine":deadLine
             }
         }})
       .then(res =>{
