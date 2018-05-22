@@ -27,7 +27,7 @@ class Header extends React.Component {
                     </li>
                     <li className="nav-item ">
                         <Link to='/books' className="active">
-                            <i className="material-icons">description</i>
+                            <i className="material-icons">library_books</i>
                             <p>Books</p>
                         </Link>
                     </li>

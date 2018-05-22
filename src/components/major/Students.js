@@ -68,7 +68,6 @@ stopEditing = () => {
 handleSave = (i, x,edited) => {
     if (edited) {
       this.props.edit(x).then(() => {
-        console.log('hello')
       })
       .catch( error => {
         this.setState({ errors: error })
