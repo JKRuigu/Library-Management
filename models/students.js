@@ -19,6 +19,10 @@ var UserSchema = mongoose.Schema({
 		required: true,
 		type:String
 	},
+	isChecked:{
+		type: Boolean,
+		default: false
+	},
   admissionDate: {
 	 	type: Date
 	}

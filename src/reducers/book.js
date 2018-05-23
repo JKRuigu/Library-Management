@@ -25,6 +25,10 @@ const books = (state=[], action={}) =>{
           books.push(book);
       });
       return books;
+      case types.BOOK_ISSUE:
+        return [
+          ...state,
+        ];
     default: return state;
   }
 };

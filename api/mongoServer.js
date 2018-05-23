@@ -152,7 +152,6 @@ router.put('/student/edit',(req, res) =>{
 });
 
 router.put('/book/edit',(req, res) =>{
-
   if (!req.body == '') {
    MongoClient.connect(url).then(client =>{
      let db = client.db('library-react');

@@ -12,7 +12,5 @@ var StreamSchema = mongoose.Schema({
 var Stream = module.exports = mongoose.model('Stream',StreamSchema);
 
 module.exports.createStream = function (newStream,callback) {
-	console.log('hey');
-	console.log(newStream);
 	newStream.save(callback);
 }

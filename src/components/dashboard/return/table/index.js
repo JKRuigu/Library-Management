@@ -1,55 +1,72 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import Moment from 'react-moment';
+const todayDate = Date.now()
+
+const row = (
+   x,
+   i,
+   titles,
+   returnBooks
+) =>
+{
+  return (
+    <tr key={`tr-${i}`} >
+      {
+        titles.map((y, k) => (
+        <td key={`trc-${k}`}>
+        {
+          y.prop == 'dateIssued' ?
+            <Moment date={x[y.prop]} />:
+            y.prop == 'deadLine' ?
+              <Moment date={x[y.prop]} />:
+            y.prop == 'bookAcc' ?
+               x[y.prop]:
+               new Date()-x['deadLine'] <= 0 ? 'None':<Moment diff={x['deadLine']} unit="days">{new Date()}</Moment>
+
+        }
+             </td>
+          ))
+        }
+      <td><button className="btn btn-success" id={x.bookAcc} name={x.deadLine} onClick={e => returnBooks(e,i)}>RETURN</button></td>
+    </tr>
+  );
+  };
 
 
-export default ({}) =>(
-  <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHeaderColumn>Book Number</TableHeaderColumn>
-          <TableHeaderColumn>Date Issued</TableHeaderColumn>
-          <TableHeaderColumn>Overdue</TableHeaderColumn>
-          <TableHeaderColumn>Action</TableHeaderColumn>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableRowColumn>1</TableRowColumn>
-          <TableRowColumn>John Smith</TableRowColumn>
-          <TableRowColumn>Employed</TableRowColumn>
-          <TableRowColumn><i className="material-icons">done</i></TableRowColumn>
-        </TableRow>
-        <TableRow>
-          <TableRowColumn>2</TableRowColumn>
-          <TableRowColumn>Randal White</TableRowColumn>
-          <TableRowColumn>Unemployed</TableRowColumn>
-          <TableRowColumn><i className="material-icons">done</i></TableRowColumn>
-        </TableRow>
-        <TableRow>
-          <TableRowColumn>3</TableRowColumn>
-          <TableRowColumn>Stephanie Sanders</TableRowColumn>
-          <TableRowColumn>Employed</TableRowColumn>
-          <TableRowColumn><i className="material-icons">done</i></TableRowColumn>
-        </TableRow>
-        <TableRow>
-          <TableRowColumn>4</TableRowColumn>
-          <TableRowColumn>Steve Brown</TableRowColumn>
-          <TableRowColumn>Employed</TableRowColumn>
-          <TableRowColumn><i className="material-icons">done</i></TableRowColumn>
-        </TableRow>
-        <TableRow>
-          <TableRowColumn>5</TableRowColumn>
-          <TableRowColumn>Christopher Nolan</TableRowColumn>
-          <TableRowColumn>Unemployed</TableRowColumn>
-          <TableRowColumn><i className="material-icons">done</i></TableRowColumn>
-        </TableRow>
-      </TableBody>
-    </Table>
+export default ({
+   studBorrowAva,
+   books,
+   titles,
+   returnBooks
+  }) =>(
+  <table className="table table-striped table-bordered table-hover">
+    <thead>
+      {
+        books.length === 0 ? <th rowspan="7"><h2 className="text-center">No borrowed books yet.</h2></th>:
+        titles.map((x, i) =>(
+        <th key={`thc-${i}`}>
+        <div
+            style={{
+              display: "flex",
+              alignItems: "center"
+            }}
+          >
+          <span>{x.name}</span>
+          </div>
+        </th>
+        ))
+      }
+    </thead>
+    <tbody>
+    {
+      books.length == 0 ? '':
+      books.map((x, i) => row(
+       x,
+       i,
+       titles,
+       returnBooks
+      ))
+    }
+    </tbody>
+  </table>
 )

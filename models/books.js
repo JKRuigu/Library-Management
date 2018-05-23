@@ -13,7 +13,7 @@ var BookSchema = mongoose.Schema({
 	},
 	isAvailable:{
 		type: Boolean,
-		 default: true
+		default: true
 	},
 	Isbn:{
 		required: true,

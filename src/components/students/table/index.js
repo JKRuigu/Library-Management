@@ -29,7 +29,7 @@ const row = (
         <td key={`trc-${k}`}>{x[y.prop]}</td>
       ))}
         <td><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
-        <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+        <td><i className="material-icons" style={{color:"blue"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
     </tr>
   );
   };

@@ -27,7 +27,11 @@ var TitleSchema = mongoose.Schema({
 		type:String
 	},
   numberOfCopies: {
-	 	type: String
+	 	type: Number
+	},
+	isReserved: {
+		type: Boolean,
+		default: false
 	}
 }, {
 	timestamps:true

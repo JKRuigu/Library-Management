@@ -26,7 +26,23 @@ router.post('/borrow/issue',(req,res) =>{
             }
         }})
       .then(res =>{
-        res.status(200).json({data:req.body.data})
+        MongoClient.connect(url).then(client =>{
+          let db = client.db('library-react');
+          db.collection('books').update(
+            {bookAccession:BookAcc},
+            { $set:{
+              isAvailable:false
+            }}
+          )
+          .then(()=>{
+            res.status(200).json({data:BookAcc})
+          }).catch(error => {
+            res.status(404).json({message:error.message});
+          });
+          client.close();
+        }).catch( error => {
+          res.status(404).json({message:error.message});
+        });
         client.close();
       })
   }).catch( error => {
@@ -35,4 +51,44 @@ router.post('/borrow/issue',(req,res) =>{
   });
 })
 
+router.put('/return/book',(req, res) =>{
+  console.log(req.body.data);
+  const{studId,id} = req.body.data
+
+  MongoClient.connect(url).then(client =>{
+      let db = client.db('library-react');
+      db.collection('users')
+      .update(
+        {_id:ObjectId(studId)},
+        { $pull: { myBooks: { bookAcc: id} } },
+        { multi: true }
+      )
+      .then( ()=>{
+        MongoClient.connect(url).then(client =>{
+            let db = client.db('library-react');
+            db.collection('books')
+            .update(
+              {bookAccession:id},
+              { $set:{
+                isAvailable:true
+              }}
+            )
+            .then( ()=>{
+              console.log('success');
+              res.json({status:'ok'});
+            }).catch(error => {
+              res.status(404).json({message:error.message});
+            });
+            client.close();
+          }).catch( error => {
+            res.status(404).json({message:error.message});
+          });
+      }).catch(error => {
+        res.status(404).json({message:error.message});
+      });
+      client.close();
+    }).catch( error => {
+      res.status(404).json({message:error.message});
+    });
+});
 module.exports = router;

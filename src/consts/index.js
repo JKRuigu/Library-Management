@@ -21,3 +21,7 @@ export const BOOK_EDIT = 'BOOK_EDIT';
 export const BOOK_ISSUE = 'BOOK_ISSUE';
 
 export const TITLES_FETCH = 'TITLES_FETCH';
+
+export const BOOK_RETURN = 'BOOK_RETURN';
+
+export const STUD_CHARGE = 'STUD_CHARGE';
