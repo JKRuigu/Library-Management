@@ -26,7 +26,7 @@ export const bookIssue = (data) => ( dispatch) => axios.post('/process/borrow/is
 export const returnBook = (data) => ( dispatch) => axios.put('/process/return/book',{data}).then( response => {
   dispatch({
     type: types.BOOK_RETURN,
-    payload: response.data.data
+    payload: response.data
   });
 });
 

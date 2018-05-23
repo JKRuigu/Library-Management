@@ -260,7 +260,7 @@ router.delete('/stream/:streamId/delete',  (req, res) =>{
       MongoClient.connect(url).then(client =>{
         let db = client.db('library-react');
         db.collection('streams').find().toArray((err,data)=>{
-          res.status(200).json({data:data});
+          res.status(200).json({data});
           client.close();
         })
       }).catch( error => {

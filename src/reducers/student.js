@@ -5,6 +5,7 @@ const students = (state=[], action={}) =>{
   switch (type) {
     case types.STUD_FETCH:
     case types.STUD_REGISTER:
+    case types.STUD_CHARGE:      
         return [
           ...state,
           ...payload

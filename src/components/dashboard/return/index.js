@@ -52,14 +52,12 @@ returnBooks = (e,i) => {
   let overDue =Math.floor((new Date() - name)/(1000*60*60*24))
   if (overDue >= 1) {
     let data ={
-      studId:this.state.studBorrow[0]._id
+      studId:this.state.studBorrow[0]._id,
+      days:overDue,
+      bookAcc:id
     }
+    console.log(data);
     this.props.chargeOverdue(data).then( () => {
-      this.setState({ isLoading: false })
-    }).catch( error => {
-      this.setState({ errors: error })
-    });
-  }else{
       let data ={
         id,
         studId:this.state.studBorrow[0]._id
@@ -69,7 +67,21 @@ returnBooks = (e,i) => {
       }).catch( error => {
         this.setState({ errors: error })
       });
+    }).catch( error => {
+      this.setState({ errors: error })
+    });
+  }else{
+    let data ={
+      id,
+      studId:this.state.studBorrow[0]._id
     }
+    this.props.returnBook(data).then( () => {
+      this.setState({ isLoading: false })
+    }).catch( error => {
+      this.setState({ errors: error })
+    });
+    }
+
 };
 render(){
     return(
@@ -138,4 +150,4 @@ function mapStateToProps(state){
     };
 }
 
-export default connect(mapStateToProps,{returnBook})(Borrow);
+export default connect(mapStateToProps,{returnBook,chargeOverdue})(Borrow);

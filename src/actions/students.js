@@ -26,12 +26,13 @@ export const edit = (data) => ( dispatch) => axios.put('/api/student/edit',{data
   });
 });
 
-export const chargeOverdue = (data) => ( dispatch) => axios.put('/api/student/edit',{data}).then( response => {
+export const chargeOverdue = (data) => ( dispatch) => axios.put('/process/student/overdue/charge',{data}).then( response => {
   dispatch({
     type: types.STUD_CHARGE,
     payload: response.data.data
   });
 });
+
 export const remove = id => dispatch => axios.delete(`/api/student/${id}/delete`).then( response => {
   dispatch({
     type: types.STUD_DELETED,
