@@ -25,11 +25,18 @@ const row = (
     </tr>
   ) : (
     <tr key={`tr-${i}`} >
-      {titles.map((y, k) => (
-        <td key={`trc-${k}`}>{x[y.prop]}</td>
-      ))}
-        <td><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
-        <td><i className="material-icons" style={{color:"blue"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+      {
+        titles.map((y, k) => (
+          <td key={`trc-${k}`} className="text-center">
+          {
+            y.name == '#' ? i+1 :
+            x[y.prop]
+          }
+          </td>
+        ))
+      }
+        <td className="text-center"><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
+        <td className="text-center"><i className="material-icons" style={{color:"blue"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
     </tr>
   );
   };

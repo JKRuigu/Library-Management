@@ -28,10 +28,14 @@ const row = (
   ) : (
     <tr key={`tr-${i}`} >
       {titles.map((y, k) => (
-        <td key={`trc-${k}`}>{x[y.prop] || x.orderdetails[0].bookTitle}</td>
+        <td key={`trc-${k}`} className="text-center">
+        {
+          y.name == '#' ? i+1 :
+          x[y.prop] || x.orderdetails[0].bookTitle
+        }</td>
       ))}
-        <td><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
-        <td><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+        <td className="text-center"><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
+        <td className="text-center"><i className="material-icons" id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
     </tr>
   );
   };

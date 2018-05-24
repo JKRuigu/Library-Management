@@ -162,6 +162,10 @@ render(){
                   )}
                   titles={[
                     {
+                      name: "#",
+                      type:"number"
+                    },
+                    {
                       name: "Admission Number",
                       prop: "adminNo",
                       type:"number"

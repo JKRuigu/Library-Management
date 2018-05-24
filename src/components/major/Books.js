@@ -146,26 +146,28 @@ render(){
             </ButtonToolbar>
             </div>
             <div className=" col-lg-12">
-            <div className="row" style={{ display: "flex", margin: "auto" }}>
-            <TextField
-               hintText="Search.."
-               floatingLabelText="Search"
-               value={this.state.query}
-               onChange={e => this.setState({ query: e.target.value })}
-               floatingLabelFixed
-             />
-             <SelectField
-               style={{ marginLeft: "1em" }}
-               floatingLabelText="Select a column"
-               value={this.state.columnToQuery}
-               onChange={(event, index, value) =>
-                 this.setState({ columnToQuery: value })
-               }
-             >
-             <MenuItem value="bookAccession" primaryText="Book Acc Number" />
-             <MenuItem value="Isbn" primaryText="Isbn" />
-             <MenuItem value="bookCondition" primaryText="Book Condition" />
-           </SelectField>
+            <div className="row" style={{ display: "flex"}}>
+              <div style={{display:"flex", margin: "auto" }}>
+              <TextField
+                 hintText="Search.."
+                 floatingLabelText="Search"
+                 value={this.state.query}
+                 onChange={e => this.setState({ query: e.target.value })}
+                 floatingLabelFixed
+               />
+               <SelectField
+                 style={{ marginLeft: "1em" }}
+                 floatingLabelText="Select a column"
+                 value={this.state.columnToQuery}
+                 onChange={(event, index, value) =>
+                   this.setState({ columnToQuery: value })
+                 }
+               >
+               <MenuItem value="bookAccession" primaryText="Book Acc Number" />
+               <MenuItem value="Isbn" primaryText="Isbn" />
+               <MenuItem value="bookCondition" primaryText="Book Condition" />
+             </SelectField>
+              </div>
             </div>
             <div className="card-body" >
               <Table
@@ -191,6 +193,9 @@ render(){
                   this.state.sortDirection
                 )}
                 titles={[
+                  {
+                    name: "#"
+                  },
                   {
                     name: "Book Accession No:",
                     prop: "bookAccession"
