@@ -1,30 +1,29 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
+import { Modal,ButtonToolbar,Button} from 'react-bootstrap';
 
-class Report extends React.Component {
-  constructor(props, context) {
-    super(props, context);
 
-    this.handleShow = this.handleShow.bind(this);
-    this.handleHide = this.handleHide.bind(this);
+class AddBookModal extends React.Component {
+  constructor(props){
+       super(props);
+       this.state = {
+           isLoading: false,
+           show: false
+       }
+   this.handleShow = this.handleShow.bind(this);
+   this.handleHide = this.handleHide.bind(this);
+}
 
-    this.state = {
-      show: false
-    };
-  }
+handleShow() {
+  this.setState({ show: true });
+}
 
-  handleShow() {
-    this.setState({ show: true });
-  }
+handleHide() {
+  this.setState({ show: false });
+}
 
-  handleHide() {
-    this.setState({ show: false });
-  }
-
-  render() {
-    return (
-      <div className="content">
-        <div className="card" id="main-card">
+render(){
+  const {value} = this.state
+    return(
       <ButtonToolbar>
         <Button bsStyle="primary" onClick={this.handleShow}>
           Launch demo modal
@@ -54,9 +53,9 @@ class Report extends React.Component {
           </Modal.Footer>
         </Modal>
       </ButtonToolbar>
-      </div>
-      </div>
-    );
+    )
   }
 }
-export default Report;
+
+
+export default AddBookModal;

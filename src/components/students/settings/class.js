@@ -49,7 +49,6 @@ class StreamTitles extends React.Component {
     <div>
     {
       streams.map((x,i) =>(
-        console.log(x) ||
         <option key={`datalist-${i}`} value={x}>{x}</option>
       ))
     }

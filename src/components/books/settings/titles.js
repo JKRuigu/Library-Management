@@ -8,47 +8,29 @@ class TitleConfig extends React.Component {
            titles:[]
        }
    }
-//
-// componentDidMount(){
-//   let books = this.props.titles;
-//   console.log(this.props.titles);
-//   console.log(this.state.titles );
-//   var booksTitles = [];
-//   var i =0;
-//   console.log(books);
-//   console.log('componentDidMount');
-//   books.forEach(function (book) {
-//     if(book.hasOwnProperty('bookTitle')){
-//       console.log(book);
-//         booksTitles[i] = book.bookTitle;
-//         i++;
-//     }
-//   });
-//   this.setState({
-//     titles1:booksTitles,
-//     isLoading: false
-//   });
-//   console.log(booksTitles);
-// }
-
+   componentWillReceiveProps(nextProps) {
+     this.setState({
+       titles:nextProps.titles
+     });
+   }
   render(){
     return(
     <div>
-    <datalist id="datalist1">
-    {
-      console.log(this.props.titles)||      
-      console.log(this.props.books)
-    }
-    </datalist>
+        {
+          this.state.titles.forEach(function (title,i) {
+            <p key={`datalist-${i}`}>{title.bookTitle || console.log('hey')}</p>
+          })
+        }
     </div>
     )
   }
 }
 
-const mapStateToProps = state => {
-  console.log(state.titles);
-    titles:state.titles
-    books:state.books
-};
+const mapStateToProps = state => ({
+        titles: state.titles,
+        students:state.students
+});
+
+
 
 export default connect(mapStateToProps)(TitleConfig);

@@ -1,5 +1,5 @@
 import React from 'react';
-import TitleConfig from '../settings/titles';
+// import TitleConfig from '../settings/titles';
 
 class bookForm extends React.Component {
   state = {
@@ -21,7 +21,6 @@ class bookForm extends React.Component {
           <div className="form-group">
             <label data-toggle="tooltip">Book Title</label>
             <input type="text" autocomplete="off"	onChange={this.handleChange} className="form-control" list="datalist1" name="bookTitle" />
-            <TitleConfig />
           </div>
       </div>
       </div>

@@ -9,7 +9,7 @@ import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
-
+import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
 
 
 const invertDirection = {
@@ -29,10 +29,19 @@ class Students extends React.Component {
            sortDirection: "desc",
            query: "",
            columnToQuery: "admissionDate",
-           editStudId:''
+           editStudId:'',
+           show: false
        }
+       this.handleShow = this.handleShow.bind(this);
+       this.handleHide = this.handleHide.bind(this);
    }
+handleShow() {
+ this.setState({ show: true });
+}
 
+handleHide() {
+ this.setState({ show: false });
+}
 submit = data =>{
     this.setState({ isLoading: true })
     this.props.register(data).then(() => {
@@ -46,15 +55,17 @@ submit = data =>{
 }
 
 handleRemove = (e,i) => {
+  if (window.confirm("Are you sure you want to delete this record ?")) {
     const {id} = e.target;
     if (id) {
       this.props.remove(id).then(() => {
-        console.log('hello')
+        alert('Item deleted')
       })
       .catch( error => {
         this.setState({ errors: error })
       })
     }
+  }
 }
 
 startEditing = i => {
@@ -67,12 +78,15 @@ stopEditing = () => {
 
 handleSave = (i, x,edited) => {
     if (edited) {
-      this.props.edit(x).then(() => {
-      })
-      .catch( error => {
-        this.setState({ errors: error })
-      })
-      this.stopEditing();
+      if (window.confirm("Are you sure you want to save this changes ?")) {
+        this.props.edit(x).then(() => {
+        })
+        .catch( error => {
+          this.setState({ errors: error })
+        })
+      }else {
+        this.stopEditing();
+      }
     }
     this.stopEditing();
 };
@@ -92,21 +106,13 @@ render(){
     const {isLoading, students,edited} = this.state;
     return(
       <div className="content">
-          <div className="btn-group" role="group" aria-label="Basic example">
-            <button type="button" className="btn btn-info">Add <span><i className="material-icons">playlist_add</i></span></button>
-            <button type="button" className="btn btn-info">Export <span><i className="material-icons">swap_horiz</i></span></button>
-          </div>
             <div className="card" id="main-card">
                 <div className="card-header">
-                </div>
-                <div className="card-footer">
-                  <div className="row">
-                    <div className="card">
-                    <div className="card-header">
-                    </div>
-                      <Form submit={this.submit}/>
-                    </div>
-                  </div>
+                <ButtonToolbar>
+                  <Button bsStyle="primary" onClick={this.handleShow}>
+                    Add New Book
+                  </Button>
+                </ButtonToolbar>
                 </div>
                 <div className="card" style={{ display: "flex" }}>
                 <div className="row"  style={{ display: "flex", margin: "auto" }}>
@@ -185,6 +191,20 @@ render(){
                 </div>
                 </div>
             </div>
+            <ButtonToolbar>
+            <Modal
+              {...this.props}
+              show={this.state.show}
+              onHide={this.handleHide}
+              dialogClassName="custom-modal"
+            >
+              <Modal.Body>
+                <div className="">
+                <Form submit={this.submit}/>
+                </div>
+              </Modal.Body>
+            </Modal>
+          </ButtonToolbar>
       </div>
     );
   }

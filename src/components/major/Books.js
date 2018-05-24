@@ -11,6 +11,7 @@ import axios from 'axios';
 import BookTitleform from '../books/form/BookTitleForm';
 import BookForm from '../books/form/BookForm';
 import Table from '../books/tables';
+import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
 
 const invertDirection = {
   asc: "desc",
@@ -31,8 +32,18 @@ class Books extends React.Component {
            columnToQuery: "bookAccession",
            editStudId:'',
            edited:false,
-           BookTitle:'123'
+           show: false
       }
+    this.handleShow = this.handleShow.bind(this);
+    this.handleHide = this.handleHide.bind(this);
+}
+
+handleShow() {
+  this.setState({ show: true });
+}
+
+handleHide() {
+  this.setState({ show: false });
 }
 
 submit = data =>{
@@ -57,26 +68,32 @@ booksubmit = data =>{
 handleRemove = (e,i) => {
   const {id} = e.target;
   if (id) {
+    if (window.confirm("Are you sure you want to delete this record ?")) {
     this.props.remove(id).then(() => {
-      console.log('hello')
+      alert('Item deleted')
     })
     .catch( error => {
       this.setState({ errors: error })
     })
   }
+}
 };
 
 startEditing = i => {
   this.setState({ editIdx: i });
 };
 
-stopEditing = () => {
+ stopEditing = () => {
     this.setState({ editIdx: -1 });
-};
+  };
 
 handleSave = (i, x,edited,currentBook) => {
   console.log(x);
   console.log(currentBook);
+  if (window.confirm("Are you sure you want to save this changes ?")) {
+
+
+  }
     // if (edited) {
     //   this.props.edit(x).then(() => {
     //     console.log('hello')
@@ -108,9 +125,25 @@ render(){
         <div className="card" id="main-card">
           <div className="card-body">
             <div className="col-lg-12">
-
-            <div className="card col-lg-6"><BookTitleform submit={this.submit}/></div>
-            <div className="card col-lg-6"><BookForm submit={this.booksubmit}/></div>
+            <ButtonToolbar>
+              <Button bsStyle="primary" onClick={this.handleShow}>
+                Add New Book
+              </Button>
+            </ButtonToolbar>
+              <ButtonToolbar>
+              <Modal
+                {...this.props}
+                show={this.state.show}
+                onHide={this.handleHide}
+                dialogClassName="custom-modal"
+              >
+                <Modal.Body>
+                  <div className="">
+                    <BookTitleform submit={this.submit}/>
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </ButtonToolbar>
             </div>
             <div className=" col-lg-12">
             <div className="row" style={{ display: "flex", margin: "auto" }}>
