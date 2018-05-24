@@ -11,9 +11,18 @@ const row = (
     <tr key={`tr-${i}`} >
       {
         titles.map((y, k) => (
-        <td key={`trc-${k}`}>{y.prop == 'dateIssued' ?
-          <Moment date={x[y.prop]} />:
-           x[y.prop] }</td>
+        <td key={`trc-${k}`}>
+        {
+          y.prop == 'dateIssued' ?
+            <Moment date={x[y.prop]} />:
+            y.prop == 'deadLine' ?
+              <Moment date={x[y.prop]} />:
+            y.prop == 'bookAcc' ?
+               x[y.prop]:
+               new Date()-x['deadLine'] <= 0 ? 'None':<Moment diff={x['deadLine']} unit="days">{new Date()}</Moment>
+
+        }
+          </td>
         ))
       }
     </tr>
