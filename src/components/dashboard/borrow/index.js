@@ -84,8 +84,8 @@ issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
    let studId = studBorrow[0]._id
    let BookAcc = bookBorrowed[0].bookAccession
-   const startDate = Date.now() -1000*60*60*24*5;
-   const deadLine = Date.now() - 1000*60*60*24*4
+   const startDate = Date.now()
+   const deadLine = Date.now() + this.state.borrowPeriod*60*60*24*4
    let data = {studId,BookAcc,startDate,deadLine}
    console.log(data);
    this.setState({ isLoading: true })
@@ -125,7 +125,7 @@ render(){
                         value={this.state.query}
                         onChange={this.handleStudentQueryChange}
                         floatingLabelFixed
-                     />
+                      />
                     <AdmDataList students={this.props.students}/>
                 </div>
             </div>
@@ -134,7 +134,7 @@ render(){
                     <StudBorrForm
                         students={this.state.studBorrow}
                         studBorrowAva={this.state.studBorrowAva}
-                    />
+                     />
                 }
             </div>
         </div>
@@ -150,7 +150,7 @@ render(){
                           value={this.state.bkQuery}
                           onChange={this.handleBookQueryChange}
                           floatingLabelFixed
-                      />
+                       />
                       <AccDataList books={this.state.bookBorrow}/>
                   </div>
                   <div className="col-md-6" style={{paddingLeft:"100px",margin:"auto"}}>
@@ -158,7 +158,7 @@ render(){
                           book={this.state.studBorrowAva}
                           student={this.state.bookBorrowAva}
                           issueBook={this.issueBook}
-                      />
+                       />
                   </div>
               </div>
           </div>
