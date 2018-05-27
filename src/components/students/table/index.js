@@ -35,8 +35,8 @@ const row = (
           </td>
         ))
       }
-        <td className="text-center"><i className="material-icons" onClick={() => startEditing(i)}>edit</i></td>
-        <td className="text-center"><i className="material-icons" style={{color:"blue"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+        <td className="text-center"><i className="material-icons" style={{color:"blue"}}  onClick={() => startEditing(i)}>edit</i></td>
+        <td className="text-center"><i className="material-icons" style={{color:"red"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
     </tr>
   );
   };

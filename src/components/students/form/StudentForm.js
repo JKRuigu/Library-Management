@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-
+import TextField from "material-ui/TextField";
 
 class StudentForm extends React.Component {
   constructor(props){
@@ -24,8 +24,17 @@ render(){
         <div className="row">
               <div className="col-sm-4">
                   <div className="form-group">
-                      <label data-toggle="tooltip">Student Adm No</label>
-                      <input type="number" name="adminNo"	onChange={this.handleChange} className="form-control" required="" id="searchBookAcc"  />
+                      <label data-toggle="tooltip"></label>
+                      <TextField
+                        name="adminNo"
+                        hintText="Enter Admission Number"
+                        floatingLabelText="Student Adm No"
+                        value={this.state.adminNo}
+                        onChange={e => this.handleChange(e)}
+                        errorText={this.state.adminNoError}
+                        floatingLabelFixed
+                      />
+
                   </div>
               </div>
               <div className="col-sm-8">
