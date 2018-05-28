@@ -29,6 +29,10 @@ const books = (state=[], action={}) =>{
         return [
           ...state,
         ];
+      case types.BOOK_RETURN:
+        return [
+          ...payload,
+        ];
     default: return state;
   }
 };

@@ -5,7 +5,7 @@ import Table from './table';
 import FormStudent from '../borrow/form/student';
 import AdmDataList from '../borrow/search/datalist';
 import {returnBook} from '../../../actions/books';
-import {chargeOverdue} from '../../../actions/students';
+import {chargeOverdue} from '../../../actions/overdue';
 
 class Borrow extends React.Component {
   constructor(props){
@@ -47,22 +47,30 @@ handleStudentQueryChange(e) {
     }
 }
 
-returnBooks = (e,i) => {
-  const {id,name} = e.target;
-  let overDue =Math.floor((new Date() - name)/(1000*60*60*24))
+returnBooks = (e,i,x) => {
+  let books = this.props.books
+  let returnBook = books.filter(book => book.bookAccession == x.bookAcc);
+  let overDue =Math.floor((new Date() - x.deadLine)/(1000*60*60*24));
   if (overDue >= 1) {
     let data ={
-      studId:this.state.studBorrow[0]._id,
+      bookTitleId:returnBook[0].bookCategoryId,
+      studId:this.state.studBorrow[0].adminNo,
+      studName:this.state.studBorrow[0].studentName,
       days:overDue,
-      bookAcc:id
+      bookAcc:x.bookAcc
     }
-    console.log(data);
-    this.props.chargeOverdue(data).then( () => {
+    this.props.chargeOverdue(data).then( res => {
+      console.log(res);
+      console.log('hey');
+      let id = x.bookAcc
       let data ={
         id,
         studId:this.state.studBorrow[0]._id
       }
-      this.props.returnBook(data).then( () => {
+      console.log(data);
+      this.props.returnBook(data).then( res => {
+        console.log(res);
+        console.log('hey');
         this.setState({ isLoading: false })
       }).catch( error => {
         this.setState({ errors: error })
@@ -71,10 +79,12 @@ returnBooks = (e,i) => {
       this.setState({ errors: error })
     });
   }else{
+    let id = x.bookAcc
     let data ={
       id,
       studId:this.state.studBorrow[0]._id
     }
+    console.log(data);
     this.props.returnBook(data).then( () => {
       this.setState({ isLoading: false })
     }).catch( error => {
@@ -83,6 +93,7 @@ returnBooks = (e,i) => {
     }
 
 };
+
 render(){
     return(
       <div>

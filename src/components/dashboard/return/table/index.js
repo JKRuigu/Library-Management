@@ -27,7 +27,7 @@ const row = (
              </td>
           ))
         }
-      <td><button className="btn btn-success" id={x.bookAcc} name={x.deadLine} onClick={e => returnBooks(e,i)}>RETURN</button></td>
+      <td><button className="btn btn-success"  onClick={e => returnBooks(e,i,x)}>RETURN</button></td>
     </tr>
   );
   };

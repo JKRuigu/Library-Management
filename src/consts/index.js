@@ -25,3 +25,7 @@ export const TITLES_FETCH = 'TITLES_FETCH';
 export const BOOK_RETURN = 'BOOK_RETURN';
 
 export const STUD_CHARGE = 'STUD_CHARGE';
+
+export const OVERDUE_FETCH = 'OVERDUE_FETCH';
+
+export const OVERDUE_ADD = 'OVERDUE_ADD';

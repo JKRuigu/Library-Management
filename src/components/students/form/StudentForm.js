@@ -24,17 +24,8 @@ render(){
         <div className="row">
               <div className="col-sm-4">
                   <div className="form-group">
-                      <label data-toggle="tooltip"></label>
-                      <TextField
-                        name="adminNo"
-                        hintText="Enter Admission Number"
-                        floatingLabelText="Student Adm No"
-                        value={this.state.adminNo}
-                        onChange={e => this.handleChange(e)}
-                        errorText={this.state.adminNoError}
-                        floatingLabelFixed
-                      />
-
+                      <label data-toggle="tooltip">Admission Number</label>
+                      <input type="text" name="adminNo"	onChange={this.handleChange} className="form-control" required="" id="searchPublisher" />
                   </div>
               </div>
               <div className="col-sm-8">
