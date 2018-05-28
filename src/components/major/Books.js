@@ -76,23 +76,22 @@ handleRemove = (e,i) => {
       this.setState({ errors: error })
     })
   }
-}
+ }
 };
 
 startEditing = i => {
   this.setState({ editIdx: i });
 };
 
- stopEditing = () => {
+stopEditing = () => {
     this.setState({ editIdx: -1 });
-  };
+};
 
 handleSave = (i, x,edited,currentBook) => {
   console.log(x);
   console.log(currentBook);
   if (window.confirm("Are you sure you want to save this changes ?")) {
-
-
+    this.setState({ editIdx: -1 });
   }
     // if (edited) {
     //   this.props.edit(x).then(() => {

@@ -84,8 +84,8 @@ issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
    let studId = studBorrow[0]._id
    let BookAcc = bookBorrowed[0].bookAccession
-   const startDate = Date.now()
-   const deadLine = Date.now() + this.state.borrowPeriod*60*60*24*4
+   const startDate = Date.now() - 1000*60*60*24*6
+   const deadLine = startDate + 1000*360*24*2
    let data = {studId,BookAcc,startDate,deadLine}
    console.log(data);
    this.setState({ isLoading: true })
