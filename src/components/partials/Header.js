@@ -1,8 +1,28 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errors:[],
+      isLoading:false,
+      active:'dashboard'
+    };
+}
+
+handleEvent(e){
+  console.log(this.props);
+   const {id} = e.target
+   this.setState({
+     active:id
+   })
+}
+
   render(){
+    const {active} = this.state
     return(
     <div className="">
         <div className="sidebar" data-color="green" data-background-color="orange">
@@ -13,34 +33,34 @@ class Header extends React.Component {
             </div>
             <div className="sidebar-wrapper">
                 <ul className="nav">
-                    <li className="nav-item active ">
-                        <Link to='/' extact>
+                    <li className={active == 'dashboard' ? 'nav-item active' :'nav-item'} id="dashboard" onClick={e => this.handleEvent(e)}  name="dashboard">
+                        <Link to='/' extact name="students" id="dashboard">
                             <i className="material-icons">dashboard</i>
-                            <p>Dashboard</p>
+                            <p id="dashboard">Dashboard</p>
                         </Link>
                     </li>
-                    <li className="nav-item ">
-                        <Link to='/students'>
+                    <li className={active == 'students' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)} id="students">
+                        <Link to='/students' id="students">
                             <i className="material-icons">supervisor_account</i>
-                            <p>Students</p>
+                            <p id="students">Students</p>
                         </Link>
                     </li>
-                    <li className="nav-item ">
-                        <Link to='/books' className="active">
+                    <li className={active == 'books' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)}  id="books">
+                        <Link to='/books' className="active" id="books">
                             <i className="material-icons">library_books</i>
-                            <p>Books</p>
+                            <p id="books">Books</p>
                         </Link>
                     </li>
-                    <li className="nav-item ">
-                        <Link to='/report'>
+                    <li className={active == 'report' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)} id="report">
+                        <Link to='/report' id="report">
                             <i className="material-icons">trending_up</i>
-                            <p>Report</p>
+                            <p id="report">Report</p>
                         </Link>
                     </li>
-                    <li className="nav-item ">
-                        <Link to='/settings'>
+                    <li className={active == 'settings' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)} id="settings">
+                        <Link to='/settings' id="settings">
                             <i className="material-icons">settings</i>
-                            <p>Settings</p>
+                            <p id="settings">Settings</p>
                         </Link>
                     </li>
                 </ul>
