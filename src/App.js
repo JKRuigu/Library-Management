@@ -10,6 +10,7 @@ import Settings from './components/major/Settings';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import './css/App.css';
+import './css/index.css';
 import { fetch } from './actions/students';
 import { fetchBooks } from './actions/books';
 import { fetchTitles } from './actions/titles';

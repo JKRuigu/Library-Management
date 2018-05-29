@@ -9,12 +9,11 @@ import 'material-icons/iconfont/material-icons.scss';
 import 'material-icons/iconfont/material-icons.css';
 // import 'semantic-ui-css/semantic.min.css';
 import store from './store';
-import './css/index.css';
-import App from './App';
+import Main from './Main'
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
-      <App/>
+      <Main/>
   </Provider>,document.getElementById('root'));
 registerServiceWorker();
