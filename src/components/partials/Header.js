@@ -26,12 +26,11 @@ handleEvent(e){
     return(
     <div className="">
         <div className="sidebar" data-color="green" data-background-color="orange">
-            <div className="logo">
-                <p className="simple-text logo-normal">
-                    GHS
-                </p>
-            </div>
+        <div className="logo1">
+            <h1 className="text-center" style={{marginTop:"10px"}}>GHS</h1>
+        </div>
             <div className="sidebar-wrapper">
+            <hr/>
                 <ul className="nav">
                     <li className={active == 'dashboard' ? 'nav-item active' :'nav-item'} id="dashboard" onClick={e => this.handleEvent(e)}  name="dashboard">
                         <Link to='/' extact name="students" id="dashboard">
