@@ -42,14 +42,11 @@ handleHide() {
  this.setState({ show: false });
 }
 submit = data =>{
-    this.setState({ isLoading: true })
     this.props.register(data).then(() => {
-      this.setState({ isLoading: false })
+      alert('The student details were added successfully.');
+      this.setState({ show: false });
     }).catch( error => {
-      this.setState({
-         errors: error,
-         isLoading:false
-       })
+      alert('An error occurred during the process,Please try again(aviod Admission number duplication).')
     });
 }
 

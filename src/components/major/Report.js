@@ -219,8 +219,9 @@ handleSort = columnName => {
   }
 }
 function mapStateToProps(state){
+  const result = state.books.filter(book => book.isAvailable == false );
   return{
-      books: state.books,
+      books: result,
       overdue:state.overdue
   };
 }

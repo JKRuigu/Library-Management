@@ -25,7 +25,7 @@ render(){
               <div className="col-sm-4">
                   <div className="form-group">
                       <label data-toggle="tooltip">Admission Number</label>
-                      <input type="text"  autocomplete="off" name="adminNo"	onChange={this.handleChange} className="form-control"  required/>
+                      <input type="number"  autocomplete="off" name="adminNo"	onChange={this.handleChange} className="form-control"  required/>
                   </div>
               </div>
               <div className="col-sm-8">

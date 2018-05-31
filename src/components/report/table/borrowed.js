@@ -10,16 +10,15 @@ const row = (
 {
   return  (
     <tr key={`tr-${i}`} >
-      {titles.map((y, k) => (
+      {
+        titles.map((y, k) => (
         <td key={`trc-${k}`} className="text-center">
         {
           y.name == '#' ? i+1 :
           x[y.prop] || x.orderdetails[0].bookTitle
         }</td>
-      ))}
-        <td className="text-center">
-          <input type="checkbox"/>
-        </td>
+       ))
+     }
     </tr>
   );
   };
