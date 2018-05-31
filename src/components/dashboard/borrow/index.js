@@ -33,9 +33,9 @@ class Borrow extends React.Component {
           bookBorrowAva:false,
           bookBorrowed:[],
           borrow:true,
-          borrowPeriod:5
+          borrowPeriod:5,
+          maxBooks:1
       }
-      console.log(this.props.books)
     this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
     this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
   }
@@ -82,29 +82,30 @@ handleBookQueryChange(e) {
 
 issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
-   let studId = studBorrow[0]._id
-   let BookAcc = bookBorrowed[0].bookAccession
-   const startDate = Date.now() - 1000*60*60*24*6
-   const deadLine = startDate + 1000*360*24*2
-   let data = {studId,BookAcc,startDate,deadLine}
-   console.log(data);
-   this.setState({ isLoading: true })
-   if (!data=='') {
-     this.props.bookIssue(data).then( () => {
-       console.log('hey');
-       this.setState({
-          isLoading: false,
-          studBorrow: [],
-          studBorrowedBooks:[],
-          bookBorrow:[],
-          errors: [],
-          query: "",
-          bkQuery:""
-        })
-       console.log('dispatched');
-     }).catch( error => {
-       this.setState({ errors: error })
-     });
+   if (this.state.studBorrowedBooks.length >= this.state.maxBooks) {
+     alert('Sorry,the student have reached the maximum borrow limit.');     
+   }else {
+     let studId = studBorrow[0]._id
+     let BookAcc = bookBorrowed[0].bookAccession
+     const startDate = Date.now() - 1000*60*60*24*6
+     const deadLine = startDate + 1000*360*24*2
+     let data = {studId,BookAcc,startDate,deadLine}
+     if (!data=='') {
+       this.props.bookIssue(data).then( () => {
+         alert('Book issued successfully.');
+         this.setState({
+           isLoading: false,
+           studBorrow: [],
+           studBorrowedBooks:[],
+           bookBorrow:[],
+           errors: [],
+           query: "",
+           bkQuery:""
+         })
+       }).catch( error => {
+         alert('An error occured,please try again.');
+       });
+     }
    }
 };
 
@@ -151,7 +152,7 @@ render(){
                           onChange={this.handleBookQueryChange}
                           floatingLabelFixed
                        />
-                      <AccDataList books={this.state.bookBorrow}/>
+                      <AccDataList books={this.props.AvailbleBooks}/>
                   </div>
                   <div className="col-md-6" style={{paddingLeft:"100px",margin:"auto"}}>
                       <ButtonIssue
@@ -197,12 +198,13 @@ render(){
   )
  }
 }
-
 function mapStateToProps(state){
-    return{
-        books: state.books,
-        students:state.students
-    };
+  const result = state.books.filter(book => book.isAvailable == true );
+  return{
+    AvailbleBooks:result,
+    books: state.books,
+    students:state.students
+  };
 }
 
 export default connect(mapStateToProps,{bookIssue})(Borrow);

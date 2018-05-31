@@ -60,23 +60,19 @@ returnBooks = (e,i,x) => {
       bookAcc:x.bookAcc
     }
     this.props.chargeOverdue(data).then( res => {
-      console.log(res);
-      console.log('hey');
       let id = x.bookAcc
       let data ={
         id,
         studId:this.state.studBorrow[0]._id
       }
-      console.log(data);
       this.props.returnBook(data).then( res => {
-        console.log(res);
-        console.log('hey');
+        alert('The process was successfully.');
         this.setState({ isLoading: false })
       }).catch( error => {
-        this.setState({ errors: error })
+        alert('An error occured,please try again.');
       });
     }).catch( error => {
-      this.setState({ errors: error })
+      alert('An error occured,please try again.');
     });
   }else{
     let id = x.bookAcc
@@ -84,11 +80,10 @@ returnBooks = (e,i,x) => {
       id,
       studId:this.state.studBorrow[0]._id
     }
-    console.log(data);
     this.props.returnBook(data).then( () => {
-      this.setState({ isLoading: false })
+      alert('The process was successfully.');
     }).catch( error => {
-      this.setState({ errors: error })
+      alert('An error occured,please try again.');
     });
     }
 
