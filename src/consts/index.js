@@ -29,3 +29,5 @@ export const STUD_CHARGE = 'STUD_CHARGE';
 export const OVERDUE_FETCH = 'OVERDUE_FETCH';
 
 export const OVERDUE_ADD = 'OVERDUE_ADD';
+
+export const AUTH_LOGIN = 'AUTH_LOGIN';

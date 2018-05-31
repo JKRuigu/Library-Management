@@ -20,7 +20,7 @@ class bookForm extends React.Component {
         <div className="col-sm-12">
           <div className="form-group">
             <label data-toggle="tooltip">Book Title</label>
-            <input type="text" autocomplete="off"	onChange={this.handleChange} className="form-control" list="datalist1" name="bookTitle" />
+            <input type="text" autocomplete="off"	onChange={this.handleChange} className="form-control" list="datalist1" name="bookTitle" placeholder="Select the book title from the dropdown list" required />
           </div>
       </div>
       </div>
@@ -28,13 +28,13 @@ class bookForm extends React.Component {
             <div className="col-sm-6">
                 <div className="form-group">
                     <label data-toggle="tooltip">Book Acc</label>
-                    <input type="text"	onChange={this.handleChange} className="form-control" name="bookAccession"/>
+                    <input type="text"	onChange={this.handleChange} className="form-control" name="bookAccession" required/>
                 </div>
             </div>
           <div className="col-sm-6">
               <div className="form-group">
                   <label data-toggle="tooltip">Book ISBN</label>
-                  <input type="text" 	onChange={this.handleChange} className="form-control" name="bookIsbn" />
+                  <input type="text" autocomplete="off"	onChange={this.handleChange} className="form-control" name="bookIsbn" required/>
               </div>
           </div>
         </div>
@@ -42,11 +42,11 @@ class bookForm extends React.Component {
               <div className="col-sm-12">
                   <div className="form-group">
           	            <label data-toggle="tooltip">Book Condition</label>
-          	            <input type="text" 	onChange={this.handleChange} className="form-control" name="bookCondition"/>
+          	            <input type="text" autocomplete="off" 	onChange={this.handleChange} className="form-control" name="bookCondition" required/>
                   </div>
               </div>
           </div>
-            <input type="submit" className="btn btn-info btn-block"/>
+            <input type="submit" autocomplete="off" className="btn btn-info btn-block"/>
           </form>
       )
   }

@@ -1,26 +1,49 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './css/style.css'
+import LoginForm from  './form'
+import { login } from '../actions/auth.js';
 
-class LoginPage extends Component {
+class LoginPage extends React.Component {
+  constructor(props){
+    super(props);
+       this.state = {
+           isLoading: true,
+           errors: []
+      }
+}
+submit = data =>{
+  console.log(data);
+  this.props.login(data).then( res => {
+    console.log(res);
+    debugger
+    this.setState({ isLoading: false })
+  }).catch( error => {
+    alert('There was an error durring authentication!');
+    this.setState({ errors: error })
+  });
+}
   render() {
     return (
       <div className="container">
-            <section>
-                <div id="container_demo" >
-                    <div id="wrapper">
-                        <div id="login" className="animate form">
-                            
-                                <p className="change_link">
-              									Forgot password ?
-              									<span>Recover password</span>
-              								</p>
-                        </div>
+        <section>
+            <div id="container_demo" >
+                <div id="wrapper">
+                    <div id="login" className="animate form">
+                      <LoginForm  submit={this.submit}/>
+                      <p className="change_link text-center">
+      									reset password
+      								</p>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+      </div>
     );
   }
 }
 
-export default LoginPage;
+const mapStateToProps = state => ({
+
+});
+export default connect(mapStateToProps,{login})(LoginPage);
