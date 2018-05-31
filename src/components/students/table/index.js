@@ -1,5 +1,7 @@
 import React from "react";
 import InlineForm from "./inlineForm";
+import Moment from 'react-moment';
+
 const row = (
    x,
    i,
@@ -30,6 +32,8 @@ const row = (
           <td key={`trc-${k}`} className="text-center">
           {
             y.name == '#' ? i+1 :
+            y.prop == 'admissionDate' ?
+              <Moment date={x[y.prop]} />:
             x[y.prop]
           }
           </td>

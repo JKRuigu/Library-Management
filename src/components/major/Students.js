@@ -11,7 +11,6 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
 
-
 const invertDirection = {
   asc: "desc",
   desc: "asc"
@@ -80,9 +79,10 @@ handleSave = (i, x,edited) => {
     if (edited) {
       if (window.confirm("Are you sure you want to save this changes ?")) {
         this.props.edit(x).then(() => {
+          alert('Changes added successfully !');
         })
         .catch( error => {
-          this.setState({ errors: error })
+          alert('An error occurred ! Please try again.(Avoid Duplication)');
         })
       }else {
         this.stopEditing();
@@ -110,7 +110,7 @@ render(){
                 <div className="card-header">
                 <ButtonToolbar>
                   <Button bsStyle="primary" onClick={this.handleShow}>
-                    Add New Book
+                    Add Student
                   </Button>
                 </ButtonToolbar>
                 </div>

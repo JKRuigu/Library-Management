@@ -25,13 +25,13 @@ render(){
               <div className="col-sm-4">
                   <div className="form-group">
                       <label data-toggle="tooltip">Admission Number</label>
-                      <input type="text" name="adminNo"	onChange={this.handleChange} className="form-control" required="" id="searchPublisher" />
+                      <input type="text"  autocomplete="off" name="adminNo"	onChange={this.handleChange} className="form-control"  required/>
                   </div>
               </div>
               <div className="col-sm-8">
                   <div className="form-group">
                       <label data-toggle="tooltip">Student Name</label>
-                      <input type="text" name="studentName"	onChange={this.handleChange} className="form-control" required="" id="searchBookTitle" />
+                      <input type="text" required autocomplete="off" name="studentName"	onChange={this.handleChange} className="form-control"  required/>
                   </div>
               </div>
           </div>
@@ -39,7 +39,7 @@ render(){
                 <div className="col-sm-6">
                     <div className="form-group">
                         <label data-toggle="tooltip">Stream</label><br/>
-                        <select name="stream"	onChange={this.handleChange} className="selectOption">
+                        <select name="stream" required 	onChange={this.handleChange} className="selectOption">
                         <option selected  value="" style={{display:"none"}}></option>
                         {
                           this.props.streams.map((x,i) =>(
@@ -52,7 +52,7 @@ render(){
                 <div className="col-sm-6">
                     <div className="form-group">
                         <label data-toggle="tooltip">Class</label><br/>
-                        <select name="form"	onChange={this.handleChange} className="selectOption">
+                        <select name="form" required	onChange={this.handleChange} className="selectOption">
                         <option selected  value="" style={{display:"none"}}></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -66,7 +66,7 @@ render(){
                 <div className="col-sm-12">
                     <div className="form-group">
                         <label data-toggle="tooltip">Admission Date</label>
-                        <input type="date" name="admissionDate"	onChange={this.handleChange} className="form-control" required="" id="searchPublisher" />
+                        <input type="date" required autocomplete="off" name="admissionDate"	onChange={this.handleChange} className="form-control" required/>
                     </div>
                 </div>
             </div>
