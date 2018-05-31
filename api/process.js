@@ -7,9 +7,6 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const url ='mongodb://localhost:27017';
 
-router.get('/mongodb/test',(req,res)=>{
-  res.status(200).json({message:"Ok"})
-})
 
 router.get('/fetch/overdue',(req, res) =>{
   MongoClient.connect(url).then(client =>{
@@ -25,6 +22,7 @@ router.get('/fetch/overdue',(req, res) =>{
 
 router.post('/borrow/issue',(req,res) =>{
   const {BookAcc,studId,startDate,deadLine} = req.body.data
+  let issueOrder = {};
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
     db.collection('users')
@@ -38,17 +36,43 @@ router.post('/borrow/issue',(req,res) =>{
               "deadLine":deadLine
             }
         }})
-      .then(res =>{
+      .then(student =>{
         MongoClient.connect(url).then(client =>{
           let db = client.db('library-react');
           db.collection('books').update(
             {bookAccession:BookAcc},
             { $set:{
               isAvailable:false
-            }}
+            }}, { new: true }
           )
-          .then(()=>{
-            res.status(200).json({data:BookAcc})
+          .then(book=>{
+            MongoClient.connect(url).then(client =>{
+              let db = client.db('library-react');
+              db.collection('users').find({_id:ObjectId(studId)}).toArray((err,data)=>{
+                issueOrder.user = data;
+                client.close();
+              })
+              db.collection('books').aggregate([
+                { $lookup:
+                   {
+                     from: 'titles',
+                     localField: 'bookCategoryId',
+                     foreignField: 'bookId',
+                     as: 'orderdetails'
+                   }
+                 }, {
+                   $match: {
+                     bookAccession: BookAcc
+                   }
+                 }
+               ]).toArray((err, book)=> {
+                 issueOrder.book = book;
+                  client.close();
+                  res.status(200).json({issueOrder});
+              });
+            }).catch( error => {
+              res.status(404).json({message:'Server Error.'});
+            });
           }).catch(error => {
             res.status(404).json({message:error.message});
           });
@@ -63,6 +87,45 @@ router.post('/borrow/issue',(req,res) =>{
     res.status(404).json({message:error.message});
   });
 })
+//test function
+router.post('/borrow/issue',(req,res) =>{
+  const {BookAcc,studId,startDate,deadLine} = req.body.data
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("library-react");
+    var data = req.body.data;
+    dbo.collection('users')
+    .update(
+        {_id:ObjectId(studId)},
+        { $push :{
+          "myBooks":
+            {
+              "bookAcc":BookAcc,
+              "dateIssued":startDate,
+              "deadLine":deadLine
+            }
+        }},
+      function (err,result) {
+        if (err) throw err;
+
+        dbo.collection("books").update(
+          {bookAccession:id},
+          { $set:{
+            isAvailable:true
+          }},
+          function (err,res) {
+            if (err) throw err;
+            dbo.collection("users").find().toArray(function(err, data) {
+              err ? response.status(404) :
+              response.status(200).json({data})
+              db.close();
+
+            });
+          }
+        )
+    });
+  });
+});
 
 router.put('/return/book',(req, response) =>{
   const{studId,id} = req.body.data

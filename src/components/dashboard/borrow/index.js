@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
 import orderBy from "lodash/orderBy";
-import { bookIssue,fetchBooks} from '../../../actions/books.js';
+import { fetchBooks} from '../../../actions/books.js';
+import { bookIssue} from '../../../actions/students.js';
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
@@ -34,15 +35,15 @@ class Borrow extends React.Component {
           bookBorrowed:[],
           borrow:true,
           borrowPeriod:5,
-          maxBooks:1
+          maxBooks:5
       }
     this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
     this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
   }
 
 handleStudentQueryChange(e) {
-    let books = this.props.books.filter(x => x.isAvailable == true)
-    this.setState({bookBorrow:books})
+    // let books = this.props.books.filter(x => x.isAvailable == true)
+    // this.setState({bookBorrow:books})
      const {studBorrow,studBorrowAva,bookBorrow } = this.state
      this.setState({query:e.target.value})
      let result = this.props.students.filter(x => x.adminNo == e.target.value)
@@ -71,7 +72,7 @@ handleStudentQueryChange(e) {
 handleBookQueryChange(e) {
    this.setState({bkQuery:e.target.value})
    const {bookBorrowed,bookBorrowAva } = this.state
-   let results = this.state.bookBorrow.filter(x => x.bookAccession == e.target.value)
+   let results = this.props.AvailbleBooks.filter(x => x.bookAccession == e.target.value)
    results.length == 1 ?
     this.setState({
       bookBorrowed:results,
@@ -83,25 +84,32 @@ handleBookQueryChange(e) {
 issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
    if (this.state.studBorrowedBooks.length >= this.state.maxBooks) {
-     alert('Sorry,the student have reached the maximum borrow limit.');     
+     alert('Sorry,the student have reached the maximum borrow limit.');
    }else {
      let studId = studBorrow[0]._id
      let BookAcc = bookBorrowed[0].bookAccession
      const startDate = Date.now() - 1000*60*60*24*6
      const deadLine = startDate + 1000*360*24*2
      let data = {studId,BookAcc,startDate,deadLine}
+     console.log('lever 1');
      if (!data=='') {
        this.props.bookIssue(data).then( () => {
-         alert('Book issued successfully.');
-         this.setState({
-           isLoading: false,
-           studBorrow: [],
-           studBorrowedBooks:[],
-           bookBorrow:[],
-           errors: [],
-           query: "",
-           bkQuery:""
-         })
+         console.log('lever 1');
+         this.props.fetchBooks().then( () => {
+           console.log('lever 1');
+           alert('Book issued successfully.');
+           this.setState({
+             isLoading: false,
+             studBorrow: [],
+             studBorrowedBooks:[],
+             bookBorrow:[],
+             errors: [],
+             query: "",
+             bkQuery:""
+           })
+         }).catch( error => {
+           alert('An error occured,please try again.');
+         });
        }).catch( error => {
          alert('An error occured,please try again.');
        });
@@ -207,4 +215,4 @@ function mapStateToProps(state){
   };
 }
 
-export default connect(mapStateToProps,{bookIssue})(Borrow);
+export default connect(mapStateToProps,{bookIssue,fetchBooks})(Borrow);

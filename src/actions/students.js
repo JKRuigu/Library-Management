@@ -32,3 +32,16 @@ export const remove = id => dispatch => axios.delete(`/api/student/${id}/delete`
     id: response.data.data
   });
 });
+
+export const bookIssue = (data) => ( dispatch) => axios.post('/process/borrow/issue',{data}).then( response => {
+  let book = response.data.issueOrder.book[0];
+  let user = response.data.issueOrder.user[0];
+  dispatch({
+    type: types.BOOK_ISSUE,
+    payload: book
+  });
+  dispatch({
+    type: types.BOOK_ISSUE,
+    payload: user
+  });
+});

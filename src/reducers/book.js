@@ -26,14 +26,14 @@ const books = (state=[], action={}) =>{
           books.push(book);
       });
       return books;
-      case types.BOOK_ISSUE:
-        return [
-          ...state,
-        ];
       case types.BOOK_RETURN:
         return [
           ...payload,
         ];
+      case types.BOWWORED_BOOK:
+        let book =state.filter(x=> x._id !== payload._id)
+          book.push(payload)
+        return book;
     default: return state;
   }
 };

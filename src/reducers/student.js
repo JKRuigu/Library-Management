@@ -5,7 +5,7 @@ const students = (state=[], action={}) =>{
   switch (type) {
     case types.STUD_FETCH:
     case types.STUD_REGISTER:
-    case types.STUD_CHARGE:      
+    case types.STUD_CHARGE:
         return [
           ...state,
           ...payload
@@ -21,6 +21,10 @@ const students = (state=[], action={}) =>{
           students.push(student);
       });
       return students;
+    case types.BOOK_ISSUE:
+      let studs =state.filter(x=> x._id !== payload._id)
+      studs.push(payload)
+      return studs;
     default: return state;
   }
 };

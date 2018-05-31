@@ -9,6 +9,14 @@ export const fetchBooks = () => (dispatch) => axios.get('/api/fetch/borrowing/bo
       });
 });
 
+export const bookFetch = () => (dispatch) => axios.get('/api/fetch/borrowed/book')
+  .then( response => {
+      dispatch({
+       type: types.BOWWORED_BOOK,
+       payload: response.data.book
+      });
+});
+
 export const addBook = (data) => ( dispatch) => axios.post('/api/book/registration',{data}).then( response => {
   dispatch({
     type: types.BOOK_REGISTER,
@@ -16,12 +24,7 @@ export const addBook = (data) => ( dispatch) => axios.post('/api/book/registrati
   });
 });
 
-export const bookIssue = (data) => ( dispatch) => axios.post('/process/borrow/issue',{data}).then( response => {
-  dispatch({
-    type: types.BOOK_ISSUE,
-    payload: response.data.data
-  });
-});
+
 
 export const returnBook = (data) => ( dispatch) => axios.put('/process/return/book',{data}).then( response => {
   dispatch({

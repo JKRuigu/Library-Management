@@ -31,3 +31,5 @@ export const OVERDUE_FETCH = 'OVERDUE_FETCH';
 export const OVERDUE_ADD = 'OVERDUE_ADD';
 
 export const AUTH_LOGIN = 'AUTH_LOGIN';
+
+export const BOWWORED_BOOK = 'BOWWORED_BOOK';
