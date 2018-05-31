@@ -17,6 +17,7 @@ const books = (state=[], action={}) =>{
     case types.TITLE_REGISTER:
         return [
           ...state,
+          ...payload
         ];
     case types.BOOK_DELETED:
       let books = [];

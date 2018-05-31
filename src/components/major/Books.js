@@ -59,30 +59,26 @@ handleHideModal() {
 }
 
 submit = data =>{
-  console.log(data);
-  alert('Book Title added successfully !');
-  // this.props.addTitle(data).then( () => {
-  //   alert('Book Title added successfully !');
-  //   this.setState({ isLoading: false })
-  // }).catch( error => {
-  //   alert('There was an error durring the process!');
-  //   this.setState({ errors: error })
-  // });
+  this.props.addTitle(data).then(() => {
+    alert('Book Title added successfully !');
+    this.setState({ isLoading: false })
+  }).catch( error => {
+    alert('There was an error durring the process!');
+    this.setState({ errors: error })
+  });
 }
 
 booksubmit = data =>{
-  // console.log(data);
-  // alert('Book added successfully !');
-  // // this.props.addBook(data).then(() => {
-  //   alert('Book Title added successfully !');
-  //   this.setState({ isLoading: false })
-  // }).catch(error => {
-  //   alert('There was an error durring the process!');
-  //   this.setState({
-  //      errors: error,
-  //      isLoading:false
-  //    })
-  // });
+  this.props.addBook(data).then(() => {
+    alert('Book  added successfully !');
+    this.setState({ isLoading: false })
+  }).catch(error => {
+    alert('There was an error durring the process!');
+    this.setState({
+       errors: error,
+       isLoading:false
+     })
+  });
 }
 
 handleRemove = (e,i) => {

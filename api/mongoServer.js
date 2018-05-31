@@ -58,8 +58,28 @@ router.post('/book/registration',(req, res) =>{
               "Isbn":bookIsbn,
               "bookCategoryId":id
             }).save(function(err,books) {
-              err ? res.status(200).json({message:"Database Error"}) :
-              res.status(200).json({books});
+              if (err) {
+                res.status(200).json({message:"Database Error"})
+              }else {
+                MongoClient.connect(url, function(err, db) {
+                  if (err) throw err;
+                  var dbo = db.db("library-react");
+                  dbo.collection('books').aggregate([
+                    { $lookup:
+                       {
+                         from: 'titles',
+                         localField: 'bookCategoryId',
+                         foreignField: 'bookId',
+                         as: 'orderdetails'
+                       }
+                     }
+                   ]).toArray((err, books)=> {
+                    err ?   res.status(404).json({message:'Unable to fetch data'}):
+                      res.status(200).json({books});
+                      db.close();
+                  });
+                });
+              }
             });
           }
         }

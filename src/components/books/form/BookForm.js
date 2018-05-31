@@ -28,7 +28,7 @@ class bookForm extends React.Component {
             <div className="col-sm-6">
                 <div className="form-group">
                     <label data-toggle="tooltip">Book Acc</label>
-                    <input type="text"	onChange={this.handleChange} className="form-control" name="bookAccession" required/>
+                    <input type="text" autocomplete="off"	onChange={this.handleChange} className="form-control" name="bookAccession" required/>
                 </div>
             </div>
           <div className="col-sm-6">

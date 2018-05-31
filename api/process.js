@@ -65,7 +65,6 @@ router.post('/borrow/issue',(req,res) =>{
 })
 
 router.put('/return/book',(req, response) =>{
-  console.log(req.body.data);
   const{studId,id} = req.body.data
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
