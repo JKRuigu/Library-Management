@@ -35,3 +35,5 @@ export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const BOWWORED_BOOK = 'BOWWORED_BOOK';
 
 export const STUD_BORROW = 'STUD_BORROW';
+
+export const STUD_RETURN = 'STUD_RETURN';
