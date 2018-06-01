@@ -13,7 +13,7 @@ class Main extends React.Component {
 }
   render() {
     const {auth} = this.state;
-    if (this.props.auth.length == 0 ) {
+    if (!this.props.auth.length == 0 ) {
       return (
         <Login />
       );
