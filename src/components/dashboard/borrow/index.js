@@ -91,16 +91,18 @@ issueBook = () => {
      const startDate = Date.now() - 1000*60*60*24*6
      const deadLine = startDate + 1000*360*24*2
      let data = {studId,BookAcc,startDate,deadLine}
-     console.log('lever 1');
      if (!data=='') {
        this.props.bookIssue(data).then( () => {
-         console.log('lever 2');
-         this.props.fetchBooks().then( () => {
-           console.log('lever 3');
-           alert('Book issued successfully.');
-         }).catch( error => {
-           alert('An error occured,please try again.');
+         this.setState({
+           bookBorrowed:[],
+           studBorrowAva:false,
+           bookBorrowAva:false,
+           query: "",
+           bkQuery:"",
+           studBorrow:[],
+           studBorrowedBooks:[]
          });
+         alert('Book issued successfully.');
        }).catch( error => {
          alert('An error occured,please try again.');
        });

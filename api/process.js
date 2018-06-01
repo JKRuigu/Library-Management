@@ -11,7 +11,7 @@ const url ='mongodb://localhost:27017';
 router.get('/fetch/overdue',(req, res) =>{
   MongoClient.connect(url).then(client =>{
     let db = client.db('library-react');
-    db.collection('overdues').find().toArray((err,data)=>{      
+    db.collection('overdues').find().toArray((err,data)=>{
       res.status(200).json({data});
       client.close();
     })
@@ -110,7 +110,7 @@ router.post('/student/overdue/add', (req,res)=> {
               chargeResults.overdue= data;
               MongoClient.connect(url).then(client =>{
                 let db = client.db('library-react');
-                db.collection('book').update(
+                db.collection('books').update(
                   {bookAccession:id},
                   { $set:{
                     isAvailable:true

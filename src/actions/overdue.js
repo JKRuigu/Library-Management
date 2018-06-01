@@ -10,18 +10,22 @@ export const fetchOverdue = () => (dispatch) => axios.get('/process/fetch/overdu
 });
 
 export const chargeOverdue = (data) => ( dispatch) => axios.post('/process/student/overdue/add',{data}).then( response => {
+  let book = response.data.chargeResults.book[0];
+  let user = response.data.chargeResults.user[0];
+  let overdue = response.data.chargeResults.overdue;
+
   dispatch({
     type: types.OVERDUE_ADD,
-    payload: response.data.overdue
+    payload: overdue
   });
 
   dispatch({
     type: types.STUD_RETURN,
-    payload: response.data.user
+    payload:user
   });
 
   dispatch({
     type: types.BOOK_RETURN,
-    payload: response.data.book
+    payload: book
   });
 });

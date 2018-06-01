@@ -64,13 +64,13 @@ returnBooks = (e,i,x) => {
       studId:this.state.studBorrow[0]._id
     }
     this.props.chargeOverdue(data).then( res => {
-      alert('The process was successfully.');
-      let book =studBorrowedBooks.filter(x=> x._id !== studBorrowedBooks._id)
+      let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
       this.setState({
         studBorrowedBooks:book
       });
+      alert('The process was successfully.');
     }).catch( error => {
-      let book =studBorrowedBooks.filter(x=> x._id !== studBorrowedBooks._id)
+      let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
       this.setState({
         studBorrowedBooks:book
       });
