@@ -15,13 +15,13 @@ import { fetch } from './actions/students';
 import { fetchBooks } from './actions/books';
 import { fetchTitles } from './actions/titles';
 import { fetchStream } from './actions/config';
-// import { fetchOverdue } from './actions/overdue';
+import { fetchOverdue } from './actions/overdue';
 import Store from './store';
 Store.dispatch(fetch());
 Store.dispatch(fetchBooks());
 Store.dispatch(fetchTitles());
 Store.dispatch(fetchStream());
-// Store.dispatch(fetchOverdue());
+Store.dispatch(fetchOverdue());
 
 injectTapEventPlugin();
 class App extends Component {
