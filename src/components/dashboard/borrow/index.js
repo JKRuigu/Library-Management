@@ -94,19 +94,10 @@ issueBook = () => {
      console.log('lever 1');
      if (!data=='') {
        this.props.bookIssue(data).then( () => {
-         console.log('lever 1');
+         console.log('lever 2');
          this.props.fetchBooks().then( () => {
-           console.log('lever 1');
+           console.log('lever 3');
            alert('Book issued successfully.');
-           this.setState({
-             isLoading: false,
-             studBorrow: [],
-             studBorrowedBooks:[],
-             bookBorrow:[],
-             errors: [],
-             query: "",
-             bkQuery:""
-           })
          }).catch( error => {
            alert('An error occured,please try again.');
          });

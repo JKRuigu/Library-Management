@@ -72,10 +72,14 @@ router.post('/book/registration',(req, res) =>{
                          foreignField: 'bookId',
                          as: 'orderdetails'
                        }
+                     }, {
+                       $match: {
+                         bookAccession: bookAccession
+                       }
                      }
-                   ]).toArray((err, books)=> {
+                   ]).toArray((err, book)=> {
                     err ?   res.status(404).json({message:'Unable to fetch data'}):
-                      res.status(200).json({books});
+                      res.status(200).json({book});
                       db.close();
                   });
                 });

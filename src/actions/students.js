@@ -41,7 +41,7 @@ export const bookIssue = (data) => ( dispatch) => axios.post('/process/borrow/is
     payload: book
   });
   dispatch({
-    type: types.BOOK_ISSUE,
+    type: types.STUD_BORROW,
     payload: user
   });
 });

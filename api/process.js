@@ -87,45 +87,7 @@ router.post('/borrow/issue',(req,res) =>{
     res.status(404).json({message:error.message});
   });
 })
-//test function
-router.post('/borrow/issue',(req,res) =>{
-  const {BookAcc,studId,startDate,deadLine} = req.body.data
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("library-react");
-    var data = req.body.data;
-    dbo.collection('users')
-    .update(
-        {_id:ObjectId(studId)},
-        { $push :{
-          "myBooks":
-            {
-              "bookAcc":BookAcc,
-              "dateIssued":startDate,
-              "deadLine":deadLine
-            }
-        }},
-      function (err,result) {
-        if (err) throw err;
 
-        dbo.collection("books").update(
-          {bookAccession:id},
-          { $set:{
-            isAvailable:true
-          }},
-          function (err,res) {
-            if (err) throw err;
-            dbo.collection("users").find().toArray(function(err, data) {
-              err ? response.status(404) :
-              response.status(200).json({data})
-              db.close();
-
-            });
-          }
-        )
-    });
-  });
-});
 
 router.put('/return/book',(req, response) =>{
   const{studId,id} = req.body.data

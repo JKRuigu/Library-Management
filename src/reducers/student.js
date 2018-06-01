@@ -21,7 +21,7 @@ const students = (state=[], action={}) =>{
           students.push(student);
       });
       return students;
-    case types.BOOK_ISSUE:
+    case types.STUD_BORROW:
       let studs =state.filter(x=> x._id !== payload._id)
       studs.push(payload)
       return studs;

@@ -4,11 +4,14 @@ const books = (state=[], action={}) =>{
   const { type, payload,id} = action;
   switch (type) {
     case types.BOOK_FETCH:
+      return [
+        ...state,
+        ...payload
+      ];
     case types.BOOK_REGISTER:
-        return [
-          ...state,
-          ...payload
-        ];
+      let myBooks =state.filter(x=> x._id !== payload._id)
+      myBooks.push(payload)
+      return myBooks;
     case types.TITLE_REGISTER:
         return [
           ...state,
@@ -30,6 +33,10 @@ const books = (state=[], action={}) =>{
         return [
           ...payload,
         ];
+      case types.BOOK_ISSUE:
+        let theBooks =state.filter(x=> x._id !== payload._id)
+        theBooks.push(payload)
+        return theBooks;
       case types.BOWWORED_BOOK:
         let book =state.filter(x=> x._id !== payload._id)
           book.push(payload)

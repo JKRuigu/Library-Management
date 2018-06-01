@@ -20,7 +20,7 @@ export const bookFetch = () => (dispatch) => axios.get('/api/fetch/borrowed/book
 export const addBook = (data) => ( dispatch) => axios.post('/api/book/registration',{data}).then( response => {
   dispatch({
     type: types.BOOK_REGISTER,
-    payload: response.data.books
+    payload: response.data.book
   });
 });
 
