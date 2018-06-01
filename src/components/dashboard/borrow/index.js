@@ -35,7 +35,9 @@ class Borrow extends React.Component {
           bookBorrowed:[],
           borrow:true,
           borrowPeriod:5,
-          maxBooks:5
+          maxBooks:5,
+          datalistStudent:[],
+          datalistBooks:[]
       }
     this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
     this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
@@ -47,6 +49,12 @@ handleStudentQueryChange(e) {
      const {studBorrow,studBorrowAva,bookBorrow } = this.state
      this.setState({query:e.target.value})
      let result = this.props.students.filter(x => x.adminNo == e.target.value)
+     const result1 = this.props.students.filter(x => x.adminNo >= e.target.value );
+     let datalist = result1.slice(0, 6)
+     this.setState({
+       datalistStudent:datalist
+     })
+
       var myBooks = [];
       var i =0;
     if (result.length ===1 || result.length !==0) {
@@ -73,6 +81,11 @@ handleBookQueryChange(e) {
    this.setState({bkQuery:e.target.value})
    const {bookBorrowed,bookBorrowAva } = this.state
    let results = this.props.AvailbleBooks.filter(x => x.bookAccession == e.target.value)
+   const results1 = this.props.AvailbleBooks.filter(x => x.bookAccession >= e.target.value );
+   let datalist = results1.slice(0, 7)
+   this.setState({
+     datalistBooks:datalist
+   })
    results.length == 1 ?
     this.setState({
       bookBorrowed:results,
@@ -80,6 +93,7 @@ handleBookQueryChange(e) {
     })
     : this.setState({bookBorrowAva:false})
 }
+
 
 issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
@@ -130,7 +144,7 @@ render(){
                         onChange={this.handleStudentQueryChange}
                         floatingLabelFixed
                       />
-                    <AdmDataList students={this.props.students}/>
+                    <AdmDataList students={this.state.datalistStudent}/>
                 </div>
             </div>
             <div className="card-body">
@@ -155,7 +169,7 @@ render(){
                           onChange={this.handleBookQueryChange}
                           floatingLabelFixed
                        />
-                      <AccDataList books={this.props.AvailbleBooks}/>
+                      <AccDataList books={this.state.datalistBooks}/>
                   </div>
                   <div className="col-md-6" style={{paddingLeft:"100px",margin:"auto"}}>
                       {

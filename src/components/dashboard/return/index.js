@@ -16,7 +16,8 @@ class Borrow extends React.Component {
           studBorrowAva:false,
           bookBorrow:[],
           query:'',
-          studBorrowedBooks:[]
+          studBorrowedBooks:[],
+          datalistStudent:[]
       }
       this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
 }
@@ -25,6 +26,11 @@ handleStudentQueryChange(e) {
      const {studBorrow,studBorrowAva,bookBorrow } = this.state
      this.setState({query:e.target.value})
      let result = this.props.students.filter(x => x.adminNo == e.target.value)
+     const result1 = this.props.students.filter(x => x.adminNo >= e.target.value );
+     let datalist = result1.slice(0, 7)
+     this.setState({
+       datalistStudent:datalist
+     })
       var myBooks = [];
       var i =0;
     if (result.length ===1 || result.length !==0) {
@@ -57,7 +63,6 @@ returnBooks = (e,i,x) => {
     if (returnBook.length >0) {
       console.log(returnBook);
       if (returnBook[0].hasOwnProperty('bookCategoryId')) {
-        console.log('YES');
         let data ={
           bookTitleId:returnBook[0].bookCategoryId,
           studId:this.state.studBorrow[0].adminNo,
@@ -118,7 +123,7 @@ render(){
               onChange={this.handleStudentQueryChange}
               floatingLabelFixed
            />
-           <AdmDataList students={this.props.students}/>
+           <AdmDataList students={this.state.datalistStudent}/>
         </div>
       </div>
         <div className="row">
@@ -166,7 +171,10 @@ render(){
 }
 
 function mapStateToProps(state){
+  const borrowStud1 = state.students.filter(x=> x.myBooks !== undefined)
+  const borrowStud = borrowStud1.filter(x=> x.myBooks.length >0)
     return{
+        borrowStud:borrowStud,
         books: state.books,
         students:state.students
     };
