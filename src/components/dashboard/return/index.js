@@ -27,7 +27,7 @@ handleStudentQueryChange(e) {
      this.setState({query:e.target.value})
      let result = this.props.students.filter(x => x.adminNo == e.target.value)
      const result1 = this.props.students.filter(x => x.adminNo >= e.target.value );
-     let datalist = result1.slice(0, 7)
+     let datalist = result1.slice(0, 7);
      this.setState({
        datalistStudent:datalist
      })
@@ -96,13 +96,18 @@ returnBooks = (e,i,x) => {
       id,
       studId:this.state.studBorrow[0]._id
     }
+    this.setState({isLoading:true});
     this.props.returnBook(data).then( () => {
-      let book =studBorrowedBooks.filter(x=> x._id !== studBorrowedBooks._id)
+      let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
       this.setState({
-        studBorrowedBooks:book
+        studBorrowedBooks:book,
+        isLoading:false
       });
       alert('The process was successfully.');
     }).catch( error => {
+      this.setState({
+        isLoading:false
+      });
       alert('An error occured,please try again.');
     });
     }

@@ -27,9 +27,16 @@ export const addBook = (data) => ( dispatch) => axios.post('/api/book/registrati
 
 
 export const returnBook = (data) => ( dispatch) => axios.put('/process/return/book',{data}).then( response => {
+  let book = response.data.myResults.book[0];
+  let user = response.data.myResults.user[0];
+
   dispatch({
     type: types.BOOK_RETURN,
-    payload: response.data
+    payload: book
+  });
+  dispatch({
+    type: types.STUD_RETURN,
+    payload: user
   });
 });
 

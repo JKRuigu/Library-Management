@@ -94,7 +94,6 @@ handleBookQueryChange(e) {
     : this.setState({bookBorrowAva:false})
 }
 
-
 issueBook = () => {
    const {studBorrow,bookBorrowed} = this.state;
    if (this.state.studBorrowedBooks.length >= this.state.maxBooks) {
@@ -102,8 +101,8 @@ issueBook = () => {
    }else {
      let studId = studBorrow[0]._id
      let BookAcc = bookBorrowed[0].bookAccession
-     const startDate = Date.now() - 1000*60*60*24*6
-     const deadLine = startDate + 1000*360*24*2
+     const startDate = Date.now()
+     const deadLine = startDate + 1000*360*24*this.state.borrowPeriod
      let data = {studId,BookAcc,startDate,deadLine}
      if (!data=='') {
        this.setState({isLoading:true})

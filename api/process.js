@@ -159,8 +159,9 @@ router.post('/student/overdue/add', (req,res)=> {
   }
 });
 
-router.put('/return/book',(req, response) =>{
+router.put('/return/book5',(req, response) =>{
   const{studId,id} = req.body.data
+  let myResults={};
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("library-react");
@@ -183,8 +184,6 @@ router.put('/return/book',(req, response) =>{
           function (err,res) {
             if (err) throw err;
             dbo.collection("books").find().toArray(function(err, data) {
-              err ? response.status(404) :
-              response.status(200).json({data})
               db.close();
             });
           }
@@ -193,34 +192,49 @@ router.put('/return/book',(req, response) =>{
   });
 });
 
-router.put('/student/overdue/charge',(req,res) =>{
-  // const {bookAcc,days,studId} = req.body.data
-  // let day = days.toString()
-  // MongoClient.connect(url, function(err, db) {
-  //   if (err) throw err;
-  //   var dbo = db.db("library-react");
-  //   var data = req.body.data
-  //   dbo.collection("users").update(
-  //     {_id:ObjectId(studId)},
-  //     { $push :{
-  //       "overDue":
-  //         {
-  //           "bookAcc":bookAcc,
-  //           "days":day
-  //         }
-  //     }},
-  //     function (err,result) {
-  //       if (err) throw err;
-  //       dbo.collection("users").find().toArray(function(err, data) {
-  //       if (err) throw err;
-  //       console.log('charged');
-  //         res.status(200).json({data});
-  //         db.close();
-  //       });
-  //   });
-  // });
-
+router.put('/return/book',(req, res) =>{
+  const{studId,id} = req.body.data
+  let myResults={};
+  MongoClient.connect(url).then(client =>{
+    let db = client.db('library-react');
+    db.collection('books').update(
+      {bookAccession:id},
+      { $set:{
+        isAvailable:true
+      }}).then(()=>{
+        db.collection('books').aggregate([
+          { $lookup:
+             {
+               from: 'titles',
+               localField: 'bookCategoryId',
+               foreignField: 'bookId',
+               as: 'orderdetails'
+             }
+           }, {
+             $match: {
+               bookAccession: id
+             }
+           }
+         ]).toArray((err, book)=> {
+           console.log(book);
+           myResults.book= book;
+          db.collection('users').update(
+             {_id:ObjectId(studId)},
+             { $pull: { myBooks: { bookAcc: id} } },
+             { multi: true }).then(()=>{
+               db.collection('users').find({_id:ObjectId(studId)}).toArray((err,data)=>{
+                 console.log(data);
+                 myResults.user = data;
+                 res.status(200).json({myResults});
+                 client.close();
+               })
+             });
+        });
+      });
+  }).catch( error => {
+    console.log(error);
+    res.status(404).json({message:'Server Error.'});
+  });
 });
-
 
 module.exports = router;
