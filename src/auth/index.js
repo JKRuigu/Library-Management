@@ -28,7 +28,7 @@ submit = data =>{
       <div className="container">
         <section>
             <div id="container_demo" >
-                <div id="wrapper">
+                <div id="login-wrapper">
                     <div id="login" className="animate form">
                       <LoginForm  submit={this.submit}/>
                       <p className="change_link text-center">
