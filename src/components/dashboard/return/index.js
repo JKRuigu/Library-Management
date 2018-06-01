@@ -54,28 +54,37 @@ returnBooks = (e,i,x) => {
   let overDue =Math.floor((new Date() - x.deadLine)/(1000*60*60*24));
   if (overDue >= 1) {
     let id = x.bookAcc
-    let data ={
-      bookTitleId:returnBook[0].bookCategoryId,
-      studId:this.state.studBorrow[0].adminNo,
-      studName:this.state.studBorrow[0].studentName,
-      days:overDue,
-      bookAcc:x.bookAcc,
-      id,
-      studId:this.state.studBorrow[0]._id
+    if (returnBook.length >0) {
+      console.log(returnBook);
+      if (returnBook[0].hasOwnProperty('bookCategoryId')) {
+        console.log('YES');
+        let data ={
+          bookTitleId:returnBook[0].bookCategoryId,
+          studId:this.state.studBorrow[0].adminNo,
+          studName:this.state.studBorrow[0].studentName,
+          days:overDue,
+          bookAcc:x.bookAcc,
+          id,
+          studId:this.state.studBorrow[0]._id
+        }
+        this.setState({isLoading:true});
+        this.props.chargeOverdue(data).then( res => {
+          let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
+          this.setState({
+            isLoading:false,
+            studBorrowedBooks:book
+          });
+          alert('The process was successfully.');
+        }).catch( error => {
+          let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
+          this.setState({
+            isLoading:false,
+            studBorrowedBooks:book
+          });
+          alert('An error occured,please try again');
+        });
+      }
     }
-    this.props.chargeOverdue(data).then( res => {
-      let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
-      this.setState({
-        studBorrowedBooks:book
-      });
-      alert('The process was successfully.');
-    }).catch( error => {
-      let book =studBorrowedBooks.filter(h=> h.bookAcc !== x.bookAcc )
-      this.setState({
-        studBorrowedBooks:book
-      });
-      alert('An error occured,please try again');
-    });
   }else{
     let id = x.bookAcc
     let data ={
@@ -127,6 +136,7 @@ render(){
               books={this.state.studBorrowedBooks}
               returnBooks={this.returnBooks}
               studBorrowAva={this.state.studBorrowAva}
+              isLoading={this.state.isLoading}
               titles={[
                 {
                   name: "Book Accession No:",

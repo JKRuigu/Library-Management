@@ -6,7 +6,7 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
 import orderBy from "lodash/orderBy";
-
+import './student.css';
 const invertDirection = {
   asc: "desc",
   desc: "asc"

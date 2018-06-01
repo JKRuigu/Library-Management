@@ -12,6 +12,7 @@ import BookTitleform from '../books/form/BookTitleForm';
 import BookForm from '../books/form/BookForm';
 import Table from '../books/tables';
 import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
+import './student.css';
 
 const invertDirection = {
   asc: "desc",

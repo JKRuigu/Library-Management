@@ -29,12 +29,8 @@ const books = (state=[], action={}) =>{
           books.push(book);
       });
       return books;
-      case types.BOOK_RETURN:
-        return [
-          ...payload,
-        ];
       case types.BOOK_ISSUE:
-      case types.BOOK_RETURN:        
+      case types.BOOK_RETURN:
       case types.BOWWORED_BOOK:
         let book =state.filter(x=> x._id !== payload._id)
           book.push(payload)

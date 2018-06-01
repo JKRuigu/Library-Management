@@ -6,5 +6,9 @@
        background-position: center;
 }
 .tbl{
-  display: none;  
+  display: none;
+
+}
+.loading{
+  cursor: progress;
 }

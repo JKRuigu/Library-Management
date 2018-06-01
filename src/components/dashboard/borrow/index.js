@@ -92,8 +92,10 @@ issueBook = () => {
      const deadLine = startDate + 1000*360*24*2
      let data = {studId,BookAcc,startDate,deadLine}
      if (!data=='') {
+       this.setState({isLoading:true})
        this.props.bookIssue(data).then( () => {
          this.setState({
+           isLoading:false,
            bookBorrowed:[],
            studBorrowAva:false,
            bookBorrowAva:false,
@@ -115,7 +117,7 @@ render(){
     const {isLoading, students,studentDash,query,studBorrow,studBorrowAva,bookBorrowAva,borrow} = this.state;
     return(
 <div>
-      <div className="row">
+      <div className={isLoading ? 'loading' :"row"}>
         <div className="col-lg-6">
             <div className="card-head" style={{ display:"flex"}}>
                 <div className="row" style={{ display:"flex", margin: "auto" }}>
@@ -156,11 +158,16 @@ render(){
                       <AccDataList books={this.props.AvailbleBooks}/>
                   </div>
                   <div className="col-md-6" style={{paddingLeft:"100px",margin:"auto"}}>
-                      <ButtonIssue
-                          book={this.state.studBorrowAva}
-                          student={this.state.bookBorrowAva}
-                          issueBook={this.issueBook}
-                       />
+                      {
+                        isLoading?
+                        <button type="button" className="btn btn-success loading " style={{height:"50px",width:"100px"}} >loading...</button>
+                         :
+                        <ButtonIssue
+                            book={this.state.studBorrowAva}
+                            student={this.state.bookBorrowAva}
+                            issueBook={this.issueBook}
+                         />
+                      }
                   </div>
               </div>
           </div>

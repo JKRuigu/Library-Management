@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
-
+import './student.css';
 class Dashboard extends React.Component {
   constructor(props){
        super(props);

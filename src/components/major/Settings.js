@@ -3,7 +3,7 @@ import ClassForm from '../settings/class';
 import StreamTable from '../settings/table';
 import axios from 'axios';
 import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
-
+import './student.css';
 
 class Settings extends React.Component {
   constructor(props){
