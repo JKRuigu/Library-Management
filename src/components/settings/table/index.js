@@ -48,7 +48,6 @@ export default ({
    editIdx,
    handleChange,
    stopEditing,
-   handleSort,
    sortDirection,
    columnToSort
   }) =>(
@@ -56,22 +55,9 @@ export default ({
     <thead className="">
     {titles.map((x, i) =>(
       <th key={`thc-${i}`}>
-      <div
-          style={{
-            display: "flex",
-            alignItems: "center"
-          }}
-          onClick={() => handleSort(x.prop)}
-        >
-          <span>{x.name}</span>
-          {columnToSort === x.prop ? (
-            sortDirection === "asc" ? (
-              <i className="material-icons">arrow_drop_up</i>
-            ) : (
-              <i className="material-icons">arrow_drop_down</i>
-            )
-          ) : null}
-        </div>
+      <div>
+        <span>{x.name}</span>
+      </div>
       </th>
     )
     )}
