@@ -41,6 +41,7 @@ handleShow() {
 handleHide() {
  this.setState({ show: false });
 }
+
 submit = data =>{
     this.props.register(data).then(() => {
       alert('The student details were added successfully.');
@@ -75,10 +76,13 @@ stopEditing = () => {
 handleSave = (i, x,edited) => {
     if (edited) {
       if (window.confirm("Are you sure you want to save this changes ?")) {
+        this.setState({isLoading:true});
         this.props.edit(x).then(() => {
+          this.setState({isLoading:false});
           alert('Changes added successfully !');
         })
         .catch( error => {
+          this.setState({isLoading:false});
           alert('An error occurred ! Please try again.(Avoid Duplication)');
         })
       }else {
@@ -135,7 +139,7 @@ render(){
                  <MenuItem value="admissionDate" primaryText="Admission Date" />
                </SelectField>
                 </div>
-                <div className={isLoading ? "loader" : "card-body"}>
+                <div className="card-body">
                 <Table
                   handleSort={this.handleSort}
                   isLoading={this.state.isLoading}
