@@ -175,6 +175,28 @@ router.put('/student/edit',(req, res) =>{
   }
 });
 
+router.put('/title/edit',(req, res) =>{
+  if(!req.body == '') {
+    const {bookTitle, bookAuthor, bookSection, bookCategory, bookPublisher,numberOfCopies,_id} = req.body.data;
+    MongoClient.connect(url).then(client =>{
+      let db = client.db('library-react');
+      db.collection('titles').update(
+        {_id:ObjectId(_id)},
+        { $set:{bookTitle, bookAuthor, bookSection, bookCategory, bookPublisher,numberOfCopies}})
+        .then(()=>{
+          res.status(200).json({data:req.body.data});
+      })
+      .catch( error => {
+        console.log(error);
+        res.status(404).json({message:'The book accession number is already in use.'});
+      });
+    })
+  }
+  else {
+      res.status(404).json({message:"Send a valid body"});
+  }
+});
+
 router.put('/book/edit',(req, res) =>{
   if (!req.body == '') {
    MongoClient.connect(url).then(client =>{
@@ -276,6 +298,21 @@ router.delete('/book/:bookId/delete',  (req, res) =>{
     res.status(404).json({message:error.message});
   });
 });
+
+// router.delete('/title/:titleId/delete',  (req, res) =>{
+//   MongoClient.connect(url).then(client =>{
+//     let db = client.db('library-react');
+//     db.collection('titles').deleteOne({_id:ObjectId(req.params.titleId)})
+//     .then(()=>{
+//       res.status(200).json({data:req.params.titleId})
+//     }).catch(error => {
+//       res.status(404).json({message:error.message});
+//     });
+//     client.close();
+//   }).catch( error => {
+//     res.status(404).json({message:error.message});
+//   });
+// });
 
 router.delete('/stream/:streamId/delete',  (req, res) =>{
   MongoClient.connect(url).then(client =>{

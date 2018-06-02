@@ -1,7 +1,8 @@
 import React from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { connect } from 'react-redux';
-import { addBook,addTitle,remove,edit,removeTitle} from '../../actions/books.js';
+import { addBook,addTitle,remove,edit} from '../../actions/books.js';
+import { editTitle} from '../../actions/titles.js';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
@@ -25,7 +26,7 @@ class Books extends React.Component {
   constructor(props){
     super(props);
        this.state = {
-           isLoading: true,
+           isLoading: false,
            errors: [],
            editIdx: -1,
            columnToSort: "",
@@ -88,14 +89,7 @@ handleRemove = (e,i) => {
   const {id} = e.target;
   if (id) {
     if (window.confirm("Are you sure you want to delete this record ?")) {
-      showTable == 'books' ?
     this.props.remove(id).then(() => {
-      alert('Item deleted')
-    })
-    .catch( error => {
-      this.setState({ errors: error })
-    }) :
-    this.props.removeTitle(id).then(() => {
       alert('Item deleted')
     })
     .catch( error => {
@@ -131,6 +125,24 @@ handleSave = (i, x,edited,currentBook) => {
     // this.stopEditing();
 };
 
+handleSaveTitle = (i, x,edited) => {
+    if (edited) {
+      if (window.confirm("Are you sure you want to save this changes ?")) {
+        this.setState({isLoading:true});
+        this.props.editTitle(x).then(() => {
+          this.setState({isLoading:false});
+          alert('Changes added successfully !');
+        })
+        .catch( error => {
+          this.setState({isLoading:false});
+          alert('An error occurred ! Please try again.(Avoid Duplication)');
+        })
+      }else {
+        this.stopEditing();
+      }
+    }
+    this.stopEditing();
+};
 handleSort = columnName => {
   this.setState(state => ({
     columnToSort: columnName,
@@ -323,11 +335,10 @@ render(){
                  handleSort={this.handleSort}
                  isLoading={this.state.isLoading}
                  edited={this.state.edited}
-                 handleRemove={this.handleRemove}
                  startEditing={this.startEditing}
                  editIdx={this.state.editIdx}
                  stopEditing={this.stopEditing}
-                 handleSave={this.handleSave}
+                 handleSave={this.handleSaveTitle}
                  columnToSort={this.state.columnToSort}
                  sortDirection={this.state.sortDirection}
                  books={orderBy(
@@ -395,4 +406,4 @@ const mapStateToProps = state => ({
   bookTitles:state.titles
 });
 
-export default connect(mapStateToProps,{addBook,addTitle,remove,edit,removeTitle})(Books);
+export default connect(mapStateToProps,{addBook,addTitle,remove,edit,editTitle})(Books);

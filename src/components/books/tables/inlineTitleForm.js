@@ -11,18 +11,20 @@ export default class Form extends React.Component {
       },
       currentBook:props.currentBook,
       errors: {
-        bookAccession: ""
+        bookTitle: ""
       },
       edited:false
     };
   }
 
   change = e => {
+    console.log(this.state.edited);
     const { name, value } = e.target;
-    console.log(value);
-    console.log(this.state.values);
-    console.log(name);
     this.setState(state => ({
+      values: {
+        ...state.values,
+        [name]: value
+      },
       edited:true
     }));
   };
@@ -30,7 +32,7 @@ export default class Form extends React.Component {
   validate = () => {
     let isError = false;
     const errors = {
-      bookAccession: ""
+      bookTitle: ""
     };
 
     this.setState({
@@ -53,15 +55,13 @@ export default class Form extends React.Component {
     return [
       titles.map((y, k) => (
         <td key={`trc-${k}`}>
-          <input
-            autocomplete="off"
-            list={y.prop == 'bookTitle' ? "datalist1" : ''}
-            type={y.type}
-            name={y.prop}
-            onChange={this.change}
-            value={ y.prop == 'bookTitle' ? this.state.values.orderdetails[0].bookTitle : this.state.values[y.prop] }
-            errorText={this.state.errors[y.prop]}
-          />
+        <input
+          type={y.type}
+          name={y.prop}
+          onChange={this.change}
+          value={this.state.values[y.prop]}
+          errorText={this.state.errors[y.prop]}
+        />
         </td>
       )),
       <td><CheckIcon onClick={this.onSubmit} style={{cursor: "pointer"}}/></td>,
