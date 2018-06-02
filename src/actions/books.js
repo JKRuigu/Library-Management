@@ -54,6 +54,13 @@ export const remove = id => dispatch => axios.delete(`/api/book/${id}/delete`).t
   });
 });
 
+export const removeTitle = id => dispatch => axios.delete(`/api/title/${id}/delete`).then( response => {
+  dispatch({
+    type: types.BOOK_DELETED,
+    id: response.data.data
+  });
+});
+
 export const edit = (data) => ( dispatch) => axios.put('/api/book/edit',{data}).then( response => {
   dispatch({
     type: types.BOOK_EDIT,

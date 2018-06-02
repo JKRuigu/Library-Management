@@ -39,6 +39,7 @@ handleRemove = (e,i) => {
   }
  }
 };
+
 handleSort = columnName => {
   this.setState(state => ({
     columnToSort: columnName,
