@@ -39,16 +39,23 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
   },
+  "homepage": "./",
+  "main": "src/electron-starter.js",
   "scripts": {
-    "server": "nodemon server.js",
-    "start": "set PORT=3011 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "nodemon server"
+    "electron": "electron .",
+    "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 && electron . && server",
+    "dev" : "nf start",
+    "dev-server":"nodemon server"
   },
   "devDependencies": {
     "css-loader": "^0.28.11",
+    "electron": "^2.0.2",
+    "electron-builder": "^20.15.1",
+    "foreman": "^3.0.0",
     "nodemon": "^1.17.4",
     "redux-devtools-extension": "^2.13.2",
     "style-loader": "^0.21.0"

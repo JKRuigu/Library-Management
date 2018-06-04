@@ -7,7 +7,7 @@ class Login extends Component {
   render() {
     return (
         <Router>
-          <Route exact path="/" component={LoginPage}/>
+          <Route exact path="/login" component={LoginPage}/>
         </Router>
     );
   }
