@@ -32,11 +32,11 @@ class App extends Component {
             <div className="">
             <div className="wrapper">
             <Header />
-                <Route exact path="/" component={Dashboard}/>
-                <Route path='/students' component={Students}/>
-                <Route path='/books' component={Books}/>
-                <Route path='/report' component={Report}/>
-                <Route path='/settings' component={Settings}/>
+                <Route exact="true" path="/" component={Dashboard}/>
+                <Route exact="true" path='/students' component={Students}/>
+                <Route exact="true" path='/books' component={Books}/>
+                <Route exact="true" path='/report' component={Report}/>
+                <Route exact="true" path='/settings' component={Settings}/>
             </div>
             </div>
         </Router>
