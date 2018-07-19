@@ -14,7 +14,7 @@ const row = (
         titles.map((y, k) => (
         <td key={`trc-${k}`} className="text-center">
         {
-          y.name == '#' ? i+1 :
+          y.name === '#' ? i+1 :
           x[y.prop] || x.orderdetails[0].bookTitle
         }</td>
        ))
@@ -61,7 +61,7 @@ export default ({
     </thead>
     <tbody>
     {
-      books.length == 0 ? '' :
+      books.length === 0 ? '' :
       books.map((x, i) => row(
        x,
        i,

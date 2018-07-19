@@ -33,7 +33,7 @@ handleEvent(e){
             <hr/>
                 <ul className="nav">
                     <li className={active == 'dashboard' ? 'nav-item active' :'nav-item'} id="dashboard" onClick={e => this.handleEvent(e)}  name="dashboard">
-                        <Link to='/' extact name="students" id="dashboard">
+                        <Link to='/' extact="true" name="students" id="dashboard">
                             <i className="material-icons">dashboard</i>
                             <p id="dashboard">Dashboard</p>
                         </Link>

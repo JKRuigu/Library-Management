@@ -13,9 +13,9 @@ const row = (
         titles.map((y, k) => (
         <td key={`trc-${k}`}>
         {
-          y.prop == 'dateIssued' ?
+          y.prop === 'dateIssued' ?
             <Moment date={x[y.prop]} />:
-            y.prop == 'deadLine' ?
+            y.prop === 'deadLine' ?
               <Moment date={x[y.prop]} />:
             y.prop == 'bookAcc' ?
                x[y.prop]:
@@ -56,7 +56,7 @@ export default ({
     </thead>
     <tbody>
     {
-      books.length == 0 ? '':
+      books.length === 0 ? '':
       books.map((x, i) => row(
        x,
        i,

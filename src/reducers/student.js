@@ -16,10 +16,10 @@ const students = (state=[], action={}) =>{
       return stud;
     case types.STUD_DELETED:
       let students = [];
-      state.map( student => {
-        if( student._id !== id)
-          students.push(student);
-      });
+        state.map( student => {
+          if( student._id !== id)
+            students.push(student);
+        });
       return students;
     case types.STUD_BORROW:
     case types.STUD_RETURN:

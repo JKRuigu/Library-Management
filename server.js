@@ -61,19 +61,22 @@ server.use(bodyParser.json());
 const port = 8080 || process.env.PORT ;
 
 // Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-  // Set static folder
-  app.use(express.static('build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname,'build', 'index.html'));
-  });
-}
-
+// if (process.env.NODE_ENV === 'production') {
+//   // Set static folder
+//   app.use(express.static('build'));
+//
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname,'build', 'index.html'));
+//   });
+// }
+// app.use(express.static(path.join(__dirname, 'public')));
 
 server.use('/api',loginAuth);
 server.use('/api',mongoServer);
 server.use('/settings',Config);
 server.use('/process',serverProcess);
+
+//Serve the react app files
+server.use(express.static(`${__dirname}/build`));
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
