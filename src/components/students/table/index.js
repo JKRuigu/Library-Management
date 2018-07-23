@@ -1,5 +1,6 @@
 import React from "react";
 import InlineForm from "./inlineForm";
+import PrintModal from "../modal/print"
 import Moment from 'react-moment';
 
 const row = (
@@ -12,7 +13,8 @@ const row = (
    handleSave,
    stopEditing,
    edited,
-   isLoading
+   isLoading,
+   handlePrint
 ) =>
 {
   const currentlyEditing = editIdx === i;
@@ -30,7 +32,7 @@ const row = (
     <tr key={`tr-${i}`} >
       {
         titles.map((y, k) => (
-          <td key={`trc-${k}`} className="text-center">
+          <td key={`trc-${k}`} className="text-center" id={`trc-${k}`}>
           {
             y.name == '#' ? i+1 :
             y.prop == 'admissionDate' ?
@@ -50,6 +52,11 @@ const row = (
         <td className="text-center"><i className="material-icons">more_horiz</i></td> :
         <td className="text-center"><i className="material-icons" style={{color:"red"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
       }
+      {
+        isLoading ?
+        <td className="text-center"><i className="material-icons">more_horiz</i></td> :
+        <td className="text-center"><PrintModal/></td>
+      }
     </tr>
   );
   };
@@ -66,7 +73,8 @@ export default ({
    handleSort,
    sortDirection,
    columnToSort,
-   isLoading
+   isLoading,
+   handlePrint
   }) =>(
   <table className="table table-striped table-bordered table-hover">
     <thead>
@@ -108,7 +116,8 @@ export default ({
        handleSave,
        stopEditing,
        edited,
-       isLoading
+       isLoading,
+       handlePrint
       ))}
     </tbody>
   </table>

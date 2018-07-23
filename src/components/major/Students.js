@@ -102,6 +102,17 @@ handleSort = columnName => {
     }));
 }
 
+handlePrint = (e,x)=>{
+  // const {id} = e.target
+  console.log(x);
+  console.log(e);
+  // let id = e.target
+  // var printcontent = document.getElementById(id).innerHTML;
+  // document.body.innerHTML = printcontent;
+  // window.print();
+  // document.body.innerHTML = restorepage;
+}
+
 render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {isLoading, students,edited} = this.state;
@@ -150,6 +161,7 @@ render(){
                   handleSave={this.handleSave}
                   columnToSort={this.state.columnToSort}
                   sortDirection={this.state.sortDirection}
+                  handlePrint={this.handlePrint}
                   students={orderBy(
                     this.state.query
                       ? this.props.students.filter(x =>
