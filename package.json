@@ -59,15 +59,6 @@
   },
   "description": "React and Electron Awesome App",
   "homepage": "./",
-  "main": "electron/main.js",
-  "build": {
-    "productName": "React Electron App",
-    "appId": "com.reactbits.reactelectron",
-    "electronVersion": "2.0.2",
-    "files": [
-      "build/**/*",
-      "electron/*"
-    ]
-  },
+  "main": "electron/main.js",  
   "proxy": "http://localhost:8080"
 }
