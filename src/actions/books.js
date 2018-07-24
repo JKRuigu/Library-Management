@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as types from '../consts';
+const port = 8080
 
-export const fetchBooks = () => (dispatch) => axios.get('/api/fetch/borrowing/books')
+export const fetchBooks = () => (dispatch) => axios.get(`http://localhost:${port}/api/fetch/borrowing/books`)
   .then( response => {
       dispatch({
        type: types.BOOK_FETCH,
@@ -9,7 +10,7 @@ export const fetchBooks = () => (dispatch) => axios.get('/api/fetch/borrowing/bo
       });
 });
 
-export const bookFetch = () => (dispatch) => axios.get('/api/fetch/borrowed/book')
+export const bookFetch = () => (dispatch) => axios.get(`http://localhost:${port}/api/fetch/borrowed/book`)
   .then( response => {
       dispatch({
        type: types.BOWWORED_BOOK,
@@ -17,7 +18,7 @@ export const bookFetch = () => (dispatch) => axios.get('/api/fetch/borrowed/book
       });
 });
 
-export const addBook = (data) => ( dispatch) => axios.post('/api/book/registration',{data}).then( response => {
+export const addBook = (data) => ( dispatch) => axios.post(`http://localhost:${port}/api/book/registration`,{data}).then( response => {
   dispatch({
     type: types.BOOK_REGISTER,
     payload: response.data.book
@@ -26,7 +27,7 @@ export const addBook = (data) => ( dispatch) => axios.post('/api/book/registrati
 
 
 
-export const returnBook = (data) => ( dispatch) => axios.put('/process/return/book',{data}).then( response => {
+export const returnBook = (data) => ( dispatch) => axios.put(`http://localhost:${port}/process/return/book`,{data}).then( response => {
   let book = response.data.myResults.book[0];
   let user = response.data.myResults.user[0];
 
@@ -40,14 +41,14 @@ export const returnBook = (data) => ( dispatch) => axios.put('/process/return/bo
   });
 });
 
-export const addTitle = (data) => ( dispatch) => axios.post('/api/book/registration/titles',{data}).then( response => {
+export const addTitle = (data) => ( dispatch) => axios.post(`http://localhost:${port}/api/book/registration/titles`,{data}).then( response => {
   dispatch({
     type: types.TITLE_REGISTER,
     payload: response.data.title
   });
 });
 
-export const remove = id => dispatch => axios.delete(`/api/book/${id}/delete`).then( response => {
+export const remove = id => dispatch => axios.delete(`http://localhost:${port}/api/book/${id}/delete`).then( response => {
   dispatch({
     type: types.BOOK_DELETED,
     id: response.data.data
@@ -55,7 +56,7 @@ export const remove = id => dispatch => axios.delete(`/api/book/${id}/delete`).t
 });
 
 
-export const edit = (data) => ( dispatch) => axios.put('/api/book/edit',{data}).then( response => {
+export const edit = (data) => ( dispatch) => axios.put(`http://localhost:${port}/api/book/edit`,{data}).then( response => {
   dispatch({
     type: types.BOOK_EDIT,
     payload: response.data.data

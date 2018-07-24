@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 // const passport = require('passport');
@@ -17,6 +18,7 @@ mongoose.connect('mongodb://localhost/library-react',()=>{
   console.log('connected to mongodb');
 });
 var db = mongoose.connection;
+server.use(cors())
 //bodyParser
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({extended: false}));
@@ -70,6 +72,7 @@ const port = 8080 || process.env.PORT ;
 //   });
 // }
 // app.use(express.static(path.join(__dirname, 'public')));
+// server.use(cors({ origin: 'http://localhost:8080' , credentials :  true}));
 
 server.use('/api',loginAuth);
 server.use('/api',mongoServer);
