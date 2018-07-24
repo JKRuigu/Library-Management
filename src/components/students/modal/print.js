@@ -7,10 +7,12 @@ class printModal extends React.Component {
        super(props);
        this.state = {
            isLoading: false,
-           show: false
+           show: false,
+           print:false
        }
    this.handleShow = this.handleShow.bind(this);
    this.handleHide = this.handleHide.bind(this);
+   this.handlePrint = this.handlePrint.bind(this);
 }
 
 handleShow() {
@@ -18,9 +20,21 @@ handleShow() {
 }
 
 handleHide() {
-  this.setState({ show: false });
+  this.setState({
+    show: false,
+    print:true
+   });
 }
-
+handlePrint(){
+  this.setState({print:true})
+  var content = document.getElementById('printarea');
+  var pri = document.getElementById('ifmcontentstoprint').contentWindow;
+  pri.document.open();
+  pri.document.write(content.innerHTML);
+  pri.document.close();
+  pri.focus();
+  pri.print();
+}
 render(){
   const {value} = this.state
     return(
@@ -30,34 +44,43 @@ render(){
           {...this.props}
           show={this.state.show}
           onHide={this.handleHide}
-          dialogclassNameName="custom-modal"
+          dialogclassName="custom-modal-student"
         >
+          <div >
           <Modal.Header closeButton >
             <Modal.Title id="contained-modal-title-lg">
-              <b><h2>Library Student Information</h2></b>
-              <hr/>
+  <hr/>
             </Modal.Title>
             <hr/>
           </Modal.Header>
+          <iframe id="ifmcontentstoprint" style={{
+                       height: '0px',
+                       width: '0px',
+                       position: 'absolute'
+                   }}></iframe>
           <Modal.Body>
+          <div id="printarea">
+          <b><h2 className="text-center">Library Student Report</h2></b>
+          <hr/>
             <h4>
-            <span>Name:</span>   <span>Student Adm:</span> <span>Class:</span>
+            <span id="nameSpan">Name: <b>John kamau Ruigu</b></span>   <span id="studentSpan">Student Adm: <b>5539</b></span> <span id="classSpan">Class: <b>4 East</b></span>
             </h4>
+            <br/>
             <div className="row">
              <div className="col-md-12">
+             <h3 className="panel-title text-center" ><strong>Borrowed books</strong></h3>
                <div className="panel panel-default">
-                 <div className="panel-heading">
-                   <h3 className="panel-title"><strong>Borrowed books</strong></h3>
+                 <div className="">
                  </div>
                  <div className="panel-body">
-                   <div className="table-responsive">
-                     <table className="table table-condensed">
+                   <div className="">
+                     <table className="table table-striped table-hover">
                        <thead>
                              <tr>
-                                 <td><strong>Item</strong></td>
-                                 <td className="text-center"><strong>Price</strong></td>
-                                 <td className="text-center"><strong>Quantity</strong></td>
-                                 <td className="text-right"><strong>Totals</strong></td>
+                                 <td><strong>Book Id</strong></td>
+                                 <td className="text-center"><strong>Date Borrowed</strong></td>
+                                 <td className="text-center"><strong>Deadline</strong></td>
+                                 <td className="text-center"><strong>Overdue</strong></td>
                               </tr>
                        </thead>
                        <tbody>
@@ -87,10 +110,11 @@ render(){
              </div>
            </div>
             <hr/>
+          </div>
           </Modal.Body>
+          </div>
           <Modal.Footer style={{textAlign: 'center'}}>
-            <button classNameName="btn btn-danger">Yes</button>
-            <button classNameName="btn btn-info" onClick={this.handleHide}>No</button>
+            <button className={ !this.state.print === 'false' ? 'btn btn-info' : 'btn btn-info printBtn' } onClick={e => this.handlePrint(e)}>Print</button>
           </Modal.Footer>
         </Modal>
       </ButtonToolbar>

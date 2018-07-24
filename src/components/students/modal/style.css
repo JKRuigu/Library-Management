@@ -1,5 +1,17 @@
-.custom-modal{
-  margin-top: 150px !important;
-  width: 60vw !important;   /* Occupy the 90% of the screen width */
+.custom-modal-student{
+  margin-top: 250px !important;
+  width: 70vw !important;/*  Occupy the 90% of the screen width */
   max-width: 90vw !important;
+}
+#nameSpan{
+  margin-right: 80px !important;
+  margin-left: 2px
+}
+#studentSpan{
+  margin-right: 45px !important;
+  margin-left: 0px
+}
+
+.printBtn{
+  /* display: none; */
 }

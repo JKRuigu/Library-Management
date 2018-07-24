@@ -221,7 +221,7 @@ render(){
                 </div>
               </Modal.Body>
             </Modal>
-          </ButtonToolbar>
+          </ButtonToolbar>          
       </div>
     );
   }
