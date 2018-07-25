@@ -1,3 +1,3 @@
-server:npm run dev-server
+server:yarn dev-server
 react: npm start
 electron: node electron-wait-react.js
