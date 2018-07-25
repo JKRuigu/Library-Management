@@ -41,3 +41,5 @@ export const STUD_RETURN = 'STUD_RETURN';
 export const TITLE_DELETED = 'TITLE_DELETED';
 
 export const TITLE_EDIT = 'TITLE_EDIT';
+
+export const OVERDUE_DELETE = 'OVERDUE_DELETE';

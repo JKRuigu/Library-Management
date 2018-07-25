@@ -30,3 +30,10 @@ export const chargeOverdue = (data) => ( dispatch) => axios.post(`http://localho
     payload: book
   });
 });
+
+export const remove = id => dispatch => axios.delete(`http://localhost:${port}/api/process/book/overdue/${id}/delete`).then( response => {
+  dispatch({
+    type: types.OVERDUE_DELETE,
+    id: response.data.data
+  });
+});

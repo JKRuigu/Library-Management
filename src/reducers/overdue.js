@@ -9,6 +9,13 @@ const overdue = (state=[], action={}) =>{
           ...state,
           ...payload
         ];
+    case types.OVERDUE_DELETE:
+      let overdue = [];
+        state.map( item => {
+          if( item._id !== id)
+            overdue.push(item);
+        });
+      return overdue;
     default: return state;
   }
 };

@@ -4,7 +4,8 @@ import Moment from 'react-moment';
 const row = (
    x,
    i,
-   titles
+   titles,
+   handleRemove
 ) =>
 {
   return (
@@ -26,6 +27,8 @@ const row = (
             display: "flex",
             alignItems: "center"
           }}
+          id={x._id}
+          onClick={e => handleRemove(e,i)}
           >
           clear
         </button>
@@ -80,7 +83,8 @@ export default ({
       overdue.map((x, i) => row(
        x,
        i,
-       titles
+       titles,
+       handleRemove
       ))
     }
     </tbody>

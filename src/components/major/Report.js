@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {remove } from '../../actions/students.js';
 import Table from '../report/table/overdue';
 import TableB from '../report/table/borrowed';
 import MenuItem from "material-ui/MenuItem";
@@ -227,4 +228,4 @@ function mapStateToProps(state){
   };
 }
 
-export default connect(mapStateToProps,)(Report);
+export default connect(mapStateToProps,{remove})(Report);
