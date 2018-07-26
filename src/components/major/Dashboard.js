@@ -46,7 +46,7 @@ render(){
           </div>
           <div className="card" id="main-card">
             {
-              value === 0 ? <Borrow /> : <Return />
+              value == 0 ? <Borrow /> : <Return />
             }
           </div>
       </div>

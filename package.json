@@ -43,7 +43,6 @@
     "build": "react-scripts build",
     "dev-server": "node server.js",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
     "electron": "electron .",
     "ebuild": "npm run build && node ./node_modules/.bin/build",
     "package-win": "electron-packager . Library-Management-System --overwrite --asar=true --platform=win32 --arch=ia32  --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"library Management System\"",
