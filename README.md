@@ -1,5 +1,5 @@
-# GHS
-GHS Library Management System
+#  School Library Management System
+
 
 
 ## Documentation
