@@ -37,7 +37,8 @@ class Borrow extends React.Component {
           borrowPeriod:5,
           maxBooks:5,
           datalistStudent:[],
-          datalistBooks:[]
+          datalistBooks:[],
+          displayReport:'Student\'s borrowed books will display here'
       }
     this.handleStudentQueryChange = this.handleStudentQueryChange.bind(this);
     this.handleBookQueryChange = this.handleBookQueryChange.bind(this);
@@ -127,7 +128,7 @@ issueBook = () => {
 
 render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
-    const {isLoading, students,studentDash,query,studBorrow,studBorrowAva,bookBorrowAva,borrow} = this.state;
+    const {isLoading,displayReport, students,studentDash,query,studBorrow,studBorrowAva,bookBorrowAva,borrow} = this.state;
     return(
 <div>
       <div className={isLoading ? 'loading' :"row"}>
@@ -197,6 +198,7 @@ render(){
     <Table
       books={this.state.studBorrowedBooks}
       studBorrowAva={this.state.studBorrowAva}
+      displayReport={this.state.displayReport}
       titles={[
         {
           name: "Book Accession No:",

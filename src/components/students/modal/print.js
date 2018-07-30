@@ -14,7 +14,8 @@ class printModal extends React.Component {
              ...props.x
            },
            studBorrowedBooks:[],
-           studBorrowAva:false
+           studBorrowAva:false,
+           displayReport:'No books borrowed.'
        }
    this.handleShow = this.handleShow.bind(this);
    this.handleHide = this.handleHide.bind(this);
@@ -92,6 +93,7 @@ render(){
                      <Table
                      books={this.state.studBorrowedBooks}
                      studBorrowAva={this.state.studBorrowAva}
+                     displayReport={this.state.displayReport}
                      titles={[
                        {
                          name: "Book Accession No:",
