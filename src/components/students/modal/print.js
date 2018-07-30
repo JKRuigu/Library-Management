@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Table from '../../dashboard/borrow/table';
 import { Modal,ButtonToolbar,Button} from 'react-bootstrap';
 import './style.css'
 
@@ -8,7 +9,12 @@ class printModal extends React.Component {
        this.state = {
            isLoading: false,
            show: false,
-           print:false
+           print:false,
+           values: {
+             ...props.x
+           },
+           studBorrowedBooks:[],
+           studBorrowAva:false
        }
    this.handleShow = this.handleShow.bind(this);
    this.handleHide = this.handleHide.bind(this);
@@ -16,6 +22,15 @@ class printModal extends React.Component {
 }
 
 handleShow() {
+  const {values} =this.state
+  console.log(values);
+    if (values.hasOwnProperty("myBooks") ) {
+      let borrowedBooks = values.myBooks;
+       this.setState({studBorrowedBooks:borrowedBooks})
+    }else{
+      this.setState({studBorrowedBooks:[]})
+    }
+
   this.setState({ show: true });
 }
 
@@ -36,7 +51,7 @@ handlePrint(){
   pri.print();
 }
 render(){
-  const {value} = this.state
+  const {values} = this.state
     return(
       <ButtonToolbar>
       <i className="material-icons" onClick={this.handleShow}>print</i>
@@ -74,36 +89,27 @@ render(){
                  </div>
                  <div className="panel-body">
                    <div className="">
-                     <table className="table table-striped table-hover">
-                       <thead>
-                             <tr>
-                                 <td><strong>Book Id</strong></td>
-                                 <td className="text-center"><strong>Date Borrowed</strong></td>
-                                 <td className="text-center"><strong>Deadline</strong></td>
-                                 <td className="text-center"><strong>Overdue</strong></td>
-                              </tr>
-                       </thead>
-                       <tbody>
-                         <tr>
-                           <td>BS-200</td>
-                           <td className="text-center">$10.99</td>
-                           <td className="text-center">1</td>
-                           <td className="text-right">$10.99</td>
-                         </tr>
-                            <tr>
-                             <td>BS-400</td>
-                           <td className="text-center">$20.00</td>
-                           <td className="text-center">3</td>
-                           <td className="text-right">$60.00</td>
-                         </tr>
-                          <tr>
-                           <td>BS-1000</td>
-                           <td className="text-center">$600.00</td>
-                           <td className="text-center">1</td>
-                           <td className="text-right">$600.00</td>
-                         </tr>
-                        </tbody>
-                     </table>
+                     <Table
+                     books={this.state.studBorrowedBooks}
+                     studBorrowAva={this.state.studBorrowAva}
+                     titles={[
+                       {
+                         name: "Book Accession No:",
+                         prop: "bookAcc"
+                       },
+                       {
+                         name: "Date Borrowed",
+                         prop: "dateIssued"
+                       },
+                       {
+                         name: "Deadline",
+                         prop: "deadLine"
+                       },
+                       {
+                         name: "Over Due(Days)"
+                       }
+                     ]}
+                     />
                    </div>
                  </div>
                </div>
