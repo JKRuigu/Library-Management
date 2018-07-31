@@ -18,11 +18,12 @@ export default class Form extends React.Component {
   }
 
   change = e => {
-    const { name, value } = e.target;
-    console.log(value);
-    console.log(this.state.values);
-    console.log(name);
+    const { name, value } = e.target;    
     this.setState(state => ({
+      values: {
+        ...state.values,
+        [name]: value
+      },
       edited:true
     }));
   };

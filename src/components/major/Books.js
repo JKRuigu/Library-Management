@@ -108,21 +108,23 @@ stopEditing = () => {
 };
 
 handleSave = (i, x,edited,currentBook) => {
-  console.log(x);
-  console.log(currentBook);
-  if (window.confirm("Are you sure you want to save this changes ?")) {
-    this.setState({ editIdx: -1 });
+  if (edited) {
+    if (window.confirm("Are you sure you want to save this changes ?")) {
+      this.setState({isLoading:true});
+      this.props.edit(x).then(() => {
+        this.setState({isLoading:false});
+        alert('Changes added successfully !');
+      })
+      .catch( error => {
+        console.log(error);
+        this.setState({isLoading:false});
+        alert('An error occurred ! Please try again.(Avoid Duplication)');
+      })
+    }else {
+      this.stopEditing();
+    }
   }
-    // if (edited) {
-    //   this.props.edit(x).then(() => {
-    //     console.log('hello')
-    //   })
-    //   .catch( error => {
-    //     this.setState({ errors: error })
-    //   })
-    //   this.stopEditing();
-    // }
-    // this.stopEditing();
+  this.stopEditing();
 };
 
 handleSaveTitle = (i, x,edited) => {

@@ -59,6 +59,6 @@ export const remove = id => dispatch => axios.delete(`http://localhost:${port}/a
 export const edit = (data) => ( dispatch) => axios.put(`http://localhost:${port}/api/book/edit`,{data}).then( response => {
   dispatch({
     type: types.BOOK_EDIT,
-    payload: response.data.data
+    payload: response.data.books
   });
 });

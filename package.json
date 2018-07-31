@@ -42,6 +42,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "dev-server": "node server.js",
+    "dev-node":"nodemon server.js",
     "test": "react-scripts test --env=jsdom",
     "electron": "electron .",
     "ebuild": "npm run build && node ./node_modules/.bin/build",
