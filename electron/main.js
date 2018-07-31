@@ -47,6 +47,7 @@ const mainMenuTemplate =  [
       {
         role: 'reload'
       },
+      {type: 'separator'},
       {
         label: 'Quit',
         accelerator:process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
@@ -55,7 +56,42 @@ const mainMenuTemplate =  [
         }
       }
     ]
-  }
+  },
+  {
+     label: 'Edit',
+     submenu: [
+       {role: 'cut'},
+       {role: 'copy'},
+       {role: 'paste'}
+     ]
+   },
+    {
+      label: 'View',
+      submenu: [
+        {role: 'resetzoom'},
+        {role: 'zoomin'},
+        {role: 'zoomout'},
+        {type: 'separator'},
+        {role: 'togglefullscreen'}
+      ]
+    },
+    {
+      role: 'window',
+      submenu: [
+        {role: 'minimize'},
+        {type: 'separator'},
+        {role: 'close'}
+      ]
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click () { require('electron').shell.openExternal('https://github.com/JKRuigu/Library-Management') }
+        }
+      ]
+    }
 ];
 
 // If OSX, add empty object to menu
