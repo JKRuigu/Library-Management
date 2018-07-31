@@ -36,7 +36,8 @@ class App extends Component {
                 <Route exact="true" path='/books' component={Books}/>
                 <Route exact="true" path='/report' component={Report}/>
                 <Route exact="true" path='/settings' component={Settings}/>
-            </div>
+                <Route  path='*' component={Dashboard}/>                
+             </div>
             </div>
         </Router>
       </MuiThemeProvider>
