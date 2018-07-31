@@ -69,6 +69,7 @@ export default class Form extends React.Component {
       titles.map((y, k) => (
         <td key={`trc-${k}`}>
           <input
+            disabled={y.name == '#' ? 'false' : '' }
             type={y.type}
             name={y.prop}
             onChange={this.change}
