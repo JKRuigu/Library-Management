@@ -54,6 +54,7 @@ export default class Form extends React.Component {
       titles.map((y, k) => (
         <td key={`trc-${k}`}>
           <input
+            disabled={y.name == '#' || y.prop == 'bookTitle' ? 'false' : '' }
             autocomplete="off"
             list={y.prop == 'bookTitle' ? "datalist1" : ''}
             type={y.type}

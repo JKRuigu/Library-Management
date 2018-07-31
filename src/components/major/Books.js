@@ -143,6 +143,7 @@ handleSaveTitle = (i, x,edited) => {
     }
     this.stopEditing();
 };
+
 handleSort = columnName => {
   this.setState(state => ({
     columnToSort: columnName,
