@@ -12,5 +12,5 @@
 
 ## Support  
 - **Buy Me a cup of coffee** [link](https://buymeacoff.ee/UOoP6At7H) 
-- **Bonate ** [link](https://buymeacoff.ee/UOoP6At7H)
+- **Donate ** [link](https://buymeacoff.ee/UOoP6At7H)
 
