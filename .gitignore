@@ -24,3 +24,7 @@ yarn-error.log*
 
 index
 text
+
+#Test Pages
+test.js
+test.html
