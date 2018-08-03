@@ -5,7 +5,8 @@ const row = (
    x,
    i,
    titles,
-   handleRemove
+   handleRemove,
+   indexpageNumber
 ) =>
 {
   return (
@@ -14,7 +15,7 @@ const row = (
         titles.map((y, k) => (
         <td key={`trc-${k}`}>
         {
-          y.name == '#' ? i+1 :
+          y.name == '#' ? i+1+indexpageNumber :
           x[y.prop]
         }
           </td>
@@ -39,6 +40,7 @@ const row = (
 
 
 export default ({
+  indexpageNumber,
       edited,
       isLoading,
       handleRemove,
@@ -84,7 +86,8 @@ export default ({
        x,
        i,
        titles,
-       handleRemove
+       handleRemove,
+       indexpageNumber
       ))
     }
     </tbody>

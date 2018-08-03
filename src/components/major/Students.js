@@ -36,7 +36,7 @@ class Students extends React.Component {
        this.handleShow = this.handleShow.bind(this);
        this.handleHide = this.handleHide.bind(this);
        this.handleClick = this.handleClick.bind(this);
-   }
+}
 handleShow() {
  this.setState({ show: true });
 }
@@ -129,43 +129,34 @@ render(){
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = this.props.students.slice(indexOfFirstItem, indexOfLastItem);
-    var pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(this.props.students.length / itemsPerPage); i++) {
-      pageNumbers.push(i);
-    }
-    var totalPages = pageNumbers.length;
-    console.log('tp'+totalPages);
-
+    var totalPages = Math.ceil(this.props.students.length / itemsPerPage)
     var startPage, endPage;
-        if (totalPages <= 10) {
-            // less than 10 total pages so show all
-            startPage = 1;
-            endPage = totalPages;
-        } else {
-            // more than 10 total pages so calculate start and end pages
-            if (currentPage <= 6) {
-                startPage = 1;
-                endPage = 10;
-            } else if (currentPage + 4 >= totalPages) {
-                startPage = totalPages - 9;
-                endPage = totalPages;
-            } else {
-                startPage = currentPage - 5;
-                endPage = currentPage + 4;
-            }
-        }
-        console.log(startPage);
-        console.log(endPage);
+    if (totalPages <= 10) {
+         // less than 10 total pages so show all
+         startPage = 1;
+         endPage = totalPages;
+     } else {
+         // more than 10 total pages so calculate start and end pages
+         if (currentPage <= 6) {
+             startPage = 1;
+             endPage = 10;
+         } else if (currentPage + 4 >= totalPages) {
+             startPage = totalPages - 9;
+             endPage = totalPages;
+         } else {
+             startPage = currentPage - 5;
+             endPage = currentPage + 4;
+         }
+     }
+
         var totalItems = this.props.students.length
         // calculate start and end item indexes
         var startIndex = (currentPage - 1) * itemsPerPage;
-        console.log(startIndex);
         var endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems - 1);
-        console.log(endIndex);
         // create an array of pages to ng-repeat in the pager control
         var pages = [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i);
         // console.log(pages);
-    const renderPageNumbers = pageNumbers.map(number => {
+    const renderPageNumbers = pages.map(number => {
       return (
         <li
           className="page-item"
@@ -217,13 +208,16 @@ render(){
                      this.setState({ itemsPerPage: value })
                    }
                  >
-                 <MenuItem value="3" primaryText="3" />
                  <MenuItem value="10" primaryText="10" />
                  <MenuItem value="50" primaryText="50" />
                  <MenuItem value="100" primaryText="100" />
                  <MenuItem value="250" primaryText="250" />
                  <MenuItem value="500" primaryText="500" />
                </SelectField>
+               </div>
+               </div>
+               <div className="row" style={{ display: "flex"}}>
+                <div style={{display:"flex", margin: "auto" }}>
                <nav aria-label="Page navigation example">
                  <ul className="pagination">
                    <li className="page-item"><a className="page-link" href="#">Previous</a></li>
