@@ -14,7 +14,8 @@ const row = (
    stopEditing,
    edited,
    isLoading,
-   handlePrint
+   handlePrint,
+   indexpageNumber
 ) =>
 {
   const currentlyEditing = editIdx === i;
@@ -34,7 +35,7 @@ const row = (
         titles.map((y, k) => (
           <td key={`trc-${k}`} className="text-center" id={`trc-${k}`}>
           {
-            y.name == '#' ? i+1 :
+            y.name == '#' ? indexpageNumber+1+i :
             y.prop == 'admissionDate' ?
               <Moment date={x[y.prop]} />:
             x[y.prop]
@@ -67,6 +68,7 @@ const row = (
   };
 
 export default ({
+  indexpageNumber,
    edited,
    students,
    titles,
@@ -122,7 +124,8 @@ export default ({
        stopEditing,
        edited,
        isLoading,
-       handlePrint
+       handlePrint,
+       indexpageNumber
       ))}
     </tbody>
   </table>

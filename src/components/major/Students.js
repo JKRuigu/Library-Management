@@ -29,10 +29,13 @@ class Students extends React.Component {
            query: "",
            columnToQuery: "admissionDate",
            editStudId:'',
-           show: false
+           show: false,
+           currentPage: 1,
+           itemsPerPage: 3
        }
        this.handleShow = this.handleShow.bind(this);
        this.handleHide = this.handleHide.bind(this);
+       this.handleClick = this.handleClick.bind(this);
    }
 handleShow() {
  this.setState({ show: true });
@@ -40,6 +43,12 @@ handleShow() {
 
 handleHide() {
  this.setState({ show: false });
+}
+
+handleClick(event) {
+  this.setState({
+    currentPage: Number(event.target.id)
+  });
 }
 
 submit = data =>{
@@ -115,7 +124,27 @@ handlePrint = (e,x)=>{
 
 render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
-    const {isLoading, students,edited} = this.state;
+    const {isLoading, students,edited,currentPage, itemsPerPage } = this.state;
+    // Logic for displaying todos
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = this.props.students.slice(indexOfFirstItem, indexOfLastItem);
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(this.props.students.length / itemsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    console.log(pageNumbers);
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <li
+          className="page-item"
+          key={number}
+
+        >
+          <a className="page-link" href="#" key={number} id={number} onClick={this.handleClick}>{number}</a>
+        </li>
+      );
+    });
     return(
       <div className="content">
             <div className="card" id="main-card">
@@ -149,6 +178,28 @@ render(){
                  <MenuItem value="stream" primaryText="Stream" />
                  <MenuItem value="admissionDate" primaryText="Admission Date" />
                </SelectField>
+                 <SelectField
+                   style={{ marginLeft: "1em" }}
+                   floatingLabelText="Select Number of Items to Display"
+                   value={this.state.itemsPerPage}
+                   onChange={(event, index, value) =>
+                     this.setState({ itemsPerPage: value })
+                   }
+                 >
+                 <MenuItem value="3" primaryText="3" />
+                 <MenuItem value="10" primaryText="10" />
+                 <MenuItem value="50" primaryText="50" />
+                 <MenuItem value="100" primaryText="100" />
+                 <MenuItem value="250" primaryText="250" />
+                 <MenuItem value="500" primaryText="500" />
+               </SelectField>
+               <nav aria-label="Page navigation example">
+                 <ul className="pagination">
+                   <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                   {renderPageNumbers}
+                   <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                 </ul>
+               </nav>
                 </div>
                 <div className="card-body">
                 <Table
@@ -162,6 +213,7 @@ render(){
                   columnToSort={this.state.columnToSort}
                   sortDirection={this.state.sortDirection}
                   handlePrint={this.handlePrint}
+                  indexpageNumber={indexOfFirstItem}
                   students={orderBy(
                     this.state.query
                       ? this.props.students.filter(x =>
@@ -169,7 +221,7 @@ render(){
                             .toLowerCase()
                             .includes(lowerCaseQuery)
                         )
-                      : this.props.students,
+                      : currentItems,
                     this.state.columnToSort,
                     this.state.sortDirection
                   )}
@@ -221,7 +273,7 @@ render(){
                 </div>
               </Modal.Body>
             </Modal>
-          </ButtonToolbar>          
+          </ButtonToolbar>
       </div>
     );
   }
