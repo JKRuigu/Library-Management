@@ -208,23 +208,24 @@ render(){
                      this.setState({ itemsPerPage: value })
                    }
                  >
+                 <MenuItem value="3" primaryText="3" />
                  <MenuItem value="10" primaryText="10" />
                  <MenuItem value="50" primaryText="50" />
                  <MenuItem value="100" primaryText="100" />
                  <MenuItem value="250" primaryText="250" />
                  <MenuItem value="500" primaryText="500" />
                </SelectField>
-               </div>
-               </div>
-               <div className="row" style={{ display: "flex"}}>
-                <div style={{display:"flex", margin: "auto" }}>
-               <nav aria-label="Page navigation example">
-                 <ul className="pagination">
-                   <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                   {renderPageNumbers}
-                   <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                 </ul>
-               </nav>
+                </div>
+                <div className="row" style={{ display: "flex"}}>
+                 <div style={{display:"flex", margin: "auto" }}>
+                 <nav aria-label="Page navigation example">
+                   <ul className="pagination">
+                     <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                     {renderPageNumbers}
+                     <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                   </ul>
+                 </nav>
+                </div>
                 </div>
                 <div className="card-body">
                 <Table
