@@ -72,7 +72,8 @@ render() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = this.props.overdue.slice(indexOfFirstItem, indexOfLastItem);
-    var totalPages = Math.ceil(this.props.overdue / itemsPerPage)
+    var totalPages = Math.ceil(this.props.overdue.length/ itemsPerPage)
+    console.log(totalPages);
     var startPage, endPage;
         if (totalPages <= 10) {
             // less than 10 total pages so show all
