@@ -31,7 +31,7 @@ class Students extends React.Component {
            editStudId:'',
            show: false,
            currentPage: 1,
-           itemsPerPage: 3
+           itemsPerPage: 10
        }
        this.handleShow = this.handleShow.bind(this);
        this.handleHide = this.handleHide.bind(this);
@@ -129,11 +129,42 @@ render(){
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = this.props.students.slice(indexOfFirstItem, indexOfLastItem);
-    const pageNumbers = [];
+    var pageNumbers = [];
     for (let i = 1; i <= Math.ceil(this.props.students.length / itemsPerPage); i++) {
       pageNumbers.push(i);
     }
-    console.log(pageNumbers);
+    var totalPages = pageNumbers.length;
+    console.log('tp'+totalPages);
+
+    var startPage, endPage;
+        if (totalPages <= 10) {
+            // less than 10 total pages so show all
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            // more than 10 total pages so calculate start and end pages
+            if (currentPage <= 6) {
+                startPage = 1;
+                endPage = 10;
+            } else if (currentPage + 4 >= totalPages) {
+                startPage = totalPages - 9;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - 5;
+                endPage = currentPage + 4;
+            }
+        }
+        console.log(startPage);
+        console.log(endPage);
+        var totalItems = this.props.students.length
+        // calculate start and end item indexes
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        console.log(startIndex);
+        var endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems - 1);
+        console.log(endIndex);
+        // create an array of pages to ng-repeat in the pager control
+        var pages = [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i);
+        // console.log(pages);
     const renderPageNumbers = pageNumbers.map(number => {
       return (
         <li
