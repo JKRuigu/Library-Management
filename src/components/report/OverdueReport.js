@@ -104,7 +104,7 @@ render() {
           key={number}
 
         >
-          <a className="page-link" href="#" key={number} id={number} onClick={this.handleClick}>{number}</a>
+          <span className="page-link" key={number} id={number} onClick={this.handleClick} style={{"cursor":"pointer"}}>{number}</span>
         </li>
       );
     });
