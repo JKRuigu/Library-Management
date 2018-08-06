@@ -27,7 +27,9 @@ class Titles extends React.Component {
            columnToQuery: "bookAccession",
            editStudId:'',
            edited:false,
-           showTable:'books'
+           showTable:'books',
+           currentPage: 1,
+           itemsPerPage: 10
       }
 }
 
@@ -70,8 +72,51 @@ handleSort = columnName => {
 
 render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
-    const {isLoading} = this.state;
-    return(
+    const {isLoading,currentPage, itemsPerPage} = this.state;
+
+    // Logic for displaying todos
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = this.props.bookTitles.slice(indexOfFirstItem, indexOfLastItem);
+    var totalPages = Math.ceil(this.props.bookTitles.length/ itemsPerPage)
+    console.log(totalPages);
+    var startPage, endPage;
+        if (totalPages <= 10) {
+            // less than 10 total pages so show all
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            // more than 10 total pages so calculate start and end pages
+            if (currentPage <= 6) {
+                startPage = 1;
+                endPage = 10;
+            } else if (currentPage + 4 >= totalPages) {
+                startPage = totalPages - 9;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - 5;
+                endPage = currentPage + 4;
+            }
+        }
+        var totalItems = this.props.bookTitles.length
+        // calculate start and end item indexes
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        var endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems - 1);
+        // create an array of pages to ng-repeat in the pager control
+        var pages = [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i);
+    const renderPageNumbers = pages.map(number => {
+      return (
+        <li
+          className="page-item"
+          key={number}
+
+        >
+          <span className="page-link" key={number} id={number} onClick={this.handleClick} style={{"cursor":"pointer"}}>{number}</span>
+        </li>
+      );
+    });
+
+return(
       <div className="card">
        <div className="card-body">
          <div className=" col-lg-12">
@@ -102,6 +147,17 @@ render(){
            </div>
          </div>
          <div className="card-body" >
+         <div className="row" style={{ display: "flex"}}>
+          <div style={{display:"flex", margin: "auto" }}>
+             <nav aria-label="Page navigation example">
+               <ul className="pagination">
+                 <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                 {renderPageNumbers}
+                 <li className="page-item"><a className="page-link" href="#">Next</a></li>
+               </ul>
+             </nav>
+          </div>
+          </div>
            <BookTitleTable
              handleSort={this.handleSort}
              isLoading={this.state.isLoading}
