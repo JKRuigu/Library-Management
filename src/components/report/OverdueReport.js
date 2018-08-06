@@ -59,9 +59,6 @@ handleSort = columnName => {
   }));
 };
 
-handlePagination = () =>{
-
-}
 
 render() {
     const lowerCaseQuery = this.state.query.toLowerCase();
