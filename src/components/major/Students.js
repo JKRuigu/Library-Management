@@ -171,11 +171,18 @@ render(){
       <div className="content">
             <div className="card" id="main-card">
                 <div className="card-header">
-                <ButtonToolbar>
-                  <Button bsStyle="primary" onClick={this.handleShow}>
-                    Add Student
-                  </Button>
-                </ButtonToolbar>
+                <div style={{ display: "flex" }}>
+                  <div className="row"  style={{ display: "flex", margin: "auto" }}>
+                    <ButtonToolbar>
+                      <Button bsStyle="primary" onClick={this.handleShow}>
+                        Add Student
+                      </Button>
+                    </ButtonToolbar>
+                    <span style={{"marginRight":"10"}}>
+                      <Button className="btn btn-info">Import</Button>
+                    </span>
+                    </div>
+                  </div>
                 </div>
                 <div className="card" style={{ display: "flex" }}>
                 <div className="row"  style={{ display: "flex", margin: "auto" }}>
