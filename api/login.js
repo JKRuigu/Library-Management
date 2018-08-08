@@ -95,31 +95,35 @@ passport.use(new LocalStrategy(
 }));
 
 //Staff Login
-router.post('/staff/login2', passport.authenticate('local', {
-		successRedirect: '/',
-		failureRedirect: '/login',
-		failureFlash: true
-}));
+// router.post('/staff/login2', passport.authenticate('local', {
+// 		successRedirect: '/',
+// 		failureRedirect: '/login',
+// 		failureFlash: true
+// }));
 
 router.post('/staff/login',(req,res) =>{
-  const {username,password} = req.body;
-  Staff.find({username: username}, (err, users) => {
-    if (err) {
-      console.log('err 2:', err);
-      res.status(404).json({data:'false'});
-    }
-    if (users.length != 1) {
-      res.status(404).json({data:'false'});
-    }
-    const user = users[0];
-    if (!user.validPassword(password)) {
-      res.status(404).json({data:'false'});
-    }else {
-      console.log(user);
-      res.status(200).json({data:'true'})
-    }
+  const {username,password} = req.body.data;
+  console.log(req.body.data);
+  if (!username || !password) {
+    res.status(404).json({data:'false'});
+  }else {
+    Staff.find({username: username}, (err, users) => {
+      if (err) {
+        res.status(404).json({data:'false'});
+      }
+      if (users.length != 1) {
+        res.status(404).json({data:'false'});
+      }
+      const user = users[0];
+      if (!user.validPassword(password)) {
+        res.status(404).json({data:'false'});
+      }else {
+        console.log(user);
+        res.status(200).json({data:'true'})
+      }
 
-  });
+    });
+  }
 });
 
 module.exports = router;

@@ -8,7 +8,7 @@
   background: linear-gradient(-45deg, #00d7d4, #28e9b9);
 }
 
-.form-control {
+.form-control-login {
   background: #f7f7f7 none repeat scroll 0 0;
   border: 1px solid #d4d4d4;
   border-radius: 4px;
@@ -28,7 +28,7 @@
   max-width: 38%;
   padding: 50px 70px 70px 71px;
 }
-.btn.btn-primary {
+.login-btn {
   background: #f0ad4e none repeat scroll 0 0;
   border-color: #f0ad4e;
   color: #ffffff;
@@ -37,4 +37,8 @@
   height: 50px;
   line-height: 50px;
   padding: 0;
+}
+.load-info{
+  font-size: 12px;
+  text-align: center;
 }
