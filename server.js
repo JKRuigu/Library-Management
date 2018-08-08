@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const passport = require('passport');
+const passport = require('passport');
 const mongoServer = require('./api/mongoServer');
 const serverProcess = require('./api/process');
 const Config = require('./config/settings');
@@ -48,8 +48,8 @@ server.use(bodyParser.json());
 // }));
 
 
-// server.use(passport.initialize());
-// server.use(passport.session()); // persistent login sessions
+server.use(passport.initialize());
+server.use(passport.session()); // persistent login sessions
 // server.use(flash()); // use connect-flash for flash messages stored in session
 
 // // Global Vars
@@ -74,7 +74,7 @@ const port = 8080 || process.env.PORT ;
 // app.use(express.static(path.join(__dirname, 'public')));
 // server.use(cors({ origin: 'http://localhost:8080' , credentials :  true}));
 
-server.use('/api',loginAuth);
+server.use('/login',loginAuth);
 server.use('/api',mongoServer);
 server.use('/settings',Config);
 server.use('/process',serverProcess);

@@ -102,8 +102,7 @@ router.post('/staff/login2', passport.authenticate('local', {
 }));
 
 router.post('/staff/login',(req,res) =>{
-  console.log(req.body);
-  const {username,password} = req.body.data;
+  const {username,password} = req.body;
   Staff.find({username: username}, (err, users) => {
     if (err) {
       console.log('err 2:', err);
@@ -116,6 +115,7 @@ router.post('/staff/login',(req,res) =>{
     if (!user.validPassword(password)) {
       res.status(404).json({data:'false'});
     }else {
+      console.log(user);
       res.status(200).json({data:'true'})
     }
 

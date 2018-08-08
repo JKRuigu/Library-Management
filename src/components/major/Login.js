@@ -4,33 +4,22 @@ import '../../css/login.css';
 class Login extends React.Component {
   render(){
     return(
-      <section>
-                <div id="container_demo" >
-                    <div id="wrapper">
-                        <div id="login" className="animate form">
-                            <form>
-                                <h1>Staff log in</h1>
-                                <p>
-                                    <label for="username" >Username </label>
-                                    <input name="username" type="text" placeholder="Enter your username"/>
-                                </p>
-                                <p>
-                                    <label for="password" >Password </label>
-                                    <input id="password"  name="password"  type="password" placeholder="Enter your password" />
-                                </p>
-                                <p className="text-center">
-                                  <button type="submit" className="btn btn-info ">LOG IN</button>
+      <div id="Login-Page">
+        <div className="login-form">
+          <div className="main-div">
+            <form id="Login">
+              <div className="form-group">
+                <input type="email" className="form-control" id="inputEmail" placeholder="Username" />
+              </div>
+              <div className="form-group">
+                <input type="password" className="form-control" id="inputPassword" placeholder="Password" />
+              </div>
+              <button type="submit" className="btn btn-primary">Login</button>
+            </form>
+          </div>
+          </div>
+      </div>
 
-                                </p>
-                              </form>
-                                <p className="change_link">
-              									Forgot password ?
-              									<a href="#toregister" className="to_register">Recover password</a>
-              								</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
     )
   }
 }
