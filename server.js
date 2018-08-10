@@ -48,6 +48,19 @@ server.use(bodyParser.json());
 // }));
 
 
+server.on('ready', function() {
+  express();
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    autoHideMenuBar: true,
+    useContentSize: true,
+    resizable: false,
+  });
+  mainWindow.loadURL('http://localhost:5000/');
+  mainWindow.focus();
+
+});
 server.use(passport.initialize());
 server.use(passport.session()); // persistent login sessions
 // server.use(flash()); // use connect-flash for flash messages stored in session
@@ -80,6 +93,6 @@ server.use('/settings',Config);
 server.use('/process',serverProcess);
 
 //Serve the react app files
-server.use(express.static(`${__dirname}/build`));
+server.use(express.static(__dirname + '/build'));
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

@@ -4,6 +4,7 @@ import StreamTable from '../settings/table';
 import axios from 'axios';
 import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
 import './student.css';
+import Nav from '../partials/Nav';
 
 class Settings extends React.Component {
   constructor(props){
@@ -127,6 +128,7 @@ render(){
      console.log(this.state.streams);
     return(
       <div className="content">
+      <Nav />
         <div className="card" id="main-card">
           <div className="card-head"></div>
           <div className="card-body">

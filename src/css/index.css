@@ -16105,6 +16105,7 @@ a[data-toggle=collapse][aria-expanded=true] .caret {
     border-color: hsla(0, 0%, 100%, .2)
 }
 .content{
+  margin-top: 0px !important;
   margin-left: 280px !important;
 }
 .card{
@@ -16127,6 +16128,7 @@ button, select {
     font-size: 13px !important;
 }
 #main-card{
+  margin-top:-10px !important;
   min-height: 90vh !important;
   min-width: 500px !important;
 }

@@ -5,6 +5,7 @@ import SelectField from "material-ui/SelectField";
 import './student.css';
 import OverdueReport from '../report/OverdueReport'
 import BorrowedBooksReport from '../report/BorrowedBooksReport'
+import Nav from '../partials/Nav';
 
 class Report extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ render() {
     const {show} = this.state
     return (
       <div className="content">
+      <Nav />
         <div className="card" id="main-card">
           <div className="row">
               <SelectField

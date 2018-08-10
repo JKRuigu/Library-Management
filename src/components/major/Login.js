@@ -23,7 +23,7 @@ class Login extends React.Component {
       this.setState({isSuccess: true});
       setTimeout(
           function() {
-            this.setState({isSuccess: false,isLogin:true,isLoading:false});
+            this.setState({isSuccess: false,isLogin:this.props.auth,isLoading:false});
           }
           .bind(this),
           3500
@@ -39,17 +39,16 @@ class Login extends React.Component {
 
 render(){
   const {isLogin,isLoading,isSuccess} = this.state;
-  console.log(isLogin);
     return(
       <div>
       {
-        isLogin ? <App /> :
+        isLogin === 'true' ? <App /> :
         <div id="Login-Page">
           <div className="login-form">
             <div className="main-div">
               <form onSubmit={this.submit}>
                 <div className="form-group">
-                  <input type="text" onChange={this.handleChange} className="form-control form-control-login" name="username" placeholder="Username" />
+                  <input type="text" onChange={this.handleChange}  className="form-control form-control-login" name="username" placeholder="Username" />
                 </div>
                 <div className="form-group">
                   <input type="password" className="form-control form-control-login" name="password" placeholder="Password" onChange={this.handleChange}/>

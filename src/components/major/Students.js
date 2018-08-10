@@ -10,6 +10,7 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
+import Nav from '../partials/Nav';
 
 const invertDirection = {
   asc: "desc",
@@ -169,23 +170,15 @@ render(){
     });
     return(
       <div className="content">
-            <div className="card" id="main-card">
-                <div className="card-header">
-                <div style={{ display: "flex" }}>
-                  <div className="row"  style={{ display: "flex", margin: "auto" }}>
-                    <ButtonToolbar>
-                      <Button bsStyle="primary" onClick={this.handleShow}>
-                        Add Student
-                      </Button>
-                    </ButtonToolbar>
-                    <span style={{"marginRight":"10"}}>
-                      <Button className="btn btn-info">Import</Button>
-                    </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="card" style={{ display: "flex" }}>
-                <div className="row"  style={{ display: "flex", margin: "auto" }}>
+      <Nav />
+            <div >
+              <div className="card" style={{ display: "flex" }}>
+                <div className="row" style={{ display: "flex-imline" }}>
+                <ButtonToolbar style={{margin:"30px 20px 10px 10px"}}>
+                  <Button bsStyle="primary" onClick={this.handleShow}>
+                    Add Student
+                  </Button>
+                </ButtonToolbar>
                 <TextField
                    hintText="Search.."
                    floatingLabelText="Search"

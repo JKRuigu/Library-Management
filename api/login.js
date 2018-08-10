@@ -14,6 +14,10 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+router.get('/test',(req,res)=>{
+  res.status(200)
+});
+
 //Staff registration
 // router.post('/staff/registration',(req,res)=>{
 //     var username = req.body.username;

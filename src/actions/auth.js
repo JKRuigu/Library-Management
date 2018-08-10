@@ -7,3 +7,13 @@ export const login = (data) => ( dispatch) => axios.post(`http://localhost:${por
     payload: response.data.data
   });
 });
+
+export const logOut = () => (dispatch) => axios.get(`http://localhost:${port}/login/test`)
+  .then( response => {
+    let n = 'false';
+    console.log(n); 
+    dispatch({
+      type: types.AUTH_LOGOUT,
+      payload:n
+    });
+});

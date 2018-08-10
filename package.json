@@ -47,7 +47,7 @@
     "test": "react-scripts test --env=jsdom",
     "electron": "electron .",
     "ebuild": "npm run build && node ./node_modules/.bin/build",
-    "package-win": "electron-packager . Library-Management-System --overwrite --asar=true --platform=win32 --arch=ia32  --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"library Management System\"",
+    "package-win": "electron-packager . Library-Management-System --overwrite  --platform=win32 --arch=ia32  --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"library Management System\"",
     "package-linux": "electron-packager . Library-Management-System --overwrite --asar=true --platform=linux --arch=x64  --prune=true --out=release-builds"
   },
   "devDependencies": {

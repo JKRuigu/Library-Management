@@ -8,6 +8,7 @@ import BookTitleform from '../books/form/BookTitleForm';
 import BookForm from '../books/form/BookForm';
 import MinorBook from '../books/MinorBook';
 import Title from '../books/Title';
+import Nav from '../partials/Nav';
 
 import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
 import './student.css';
@@ -73,6 +74,7 @@ render(){
     return(
       <MuiThemeProvider>
       <div className="content">
+      <Nav />
         <div className="card" id="main-card">
         <div className="row">
             <div className="col-md-6">
