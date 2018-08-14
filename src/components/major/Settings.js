@@ -128,7 +128,6 @@ render(){
      console.log(this.state.streams);
     return(
       <div className="content">
-      <Nav />
         <div className="card" id="main-card">
           <div className="card-head"></div>
           <div className="card-body">

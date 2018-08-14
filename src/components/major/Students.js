@@ -170,7 +170,6 @@ render(){
     });
     return(
       <div className="content">
-      <Nav />
             <div >
               <div className="card" style={{ display: "flex" }}>
                 <div className="row" style={{ display: "flex-imline" }}>

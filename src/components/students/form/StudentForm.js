@@ -10,7 +10,8 @@ class StudentForm extends React.Component {
        }
    }
 
-  submit = ()=> {
+  submit = (e)=> {
+    e.preventDefault();
     this.props.submit(this.state.data);
   };
 

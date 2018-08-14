@@ -74,7 +74,6 @@ render(){
     return(
       <MuiThemeProvider>
       <div className="content">
-      <Nav />
         <div className="card" id="main-card">
         <div className="row">
             <div className="col-md-6">

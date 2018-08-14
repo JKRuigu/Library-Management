@@ -36,13 +36,12 @@ class Login extends React.Component {
   handleChange  = (e)=> {
     this.setState({ data : { ...this.state.data, [e.target.name]: e.target.value } });
   };
-
 render(){
   const {isLogin,isLoading,isSuccess} = this.state;
     return(
       <div>
       {
-        isLogin === 'true' ? <App /> :
+        isLogin === 'true'  ? <App /> :
         <div id="Login-Page">
           <div className="login-form">
             <div className="main-div">

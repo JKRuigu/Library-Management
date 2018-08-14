@@ -27,7 +27,6 @@ render(){
   const {value} = this.state
     return(
       <div className="content" style={{marginTop:"15px"}}>
-      <Nav />
           <div className="card" id="main-card">
           <div className="row">
             <div className="col-md-6">
@@ -48,7 +47,8 @@ render(){
               </Tabs>
               </div>
           </div>
-          <hr/>
+          <br/>
+          <br/>
             {
               value == 0 ? <Borrow /> : <Return />
             }

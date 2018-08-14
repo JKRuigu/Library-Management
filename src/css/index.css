@@ -16128,8 +16128,8 @@ button, select {
     font-size: 13px !important;
 }
 #main-card{
-  margin-top:-10px !important;
-  min-height: 90vh !important;
+  margin-top:3px !important;
+  min-height: 98vh !important;
   min-width: 500px !important;
 }
 .material-icons{

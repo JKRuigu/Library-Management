@@ -22,7 +22,6 @@ render() {
     const {show} = this.state
     return (
       <div className="content">
-      <Nav />
         <div className="card" id="main-card">
           <div className="row">
               <SelectField
