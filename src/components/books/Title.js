@@ -216,8 +216,6 @@ return(
          </div>
          </div>
        </div>
-       <div className="card-footer">
-       </div>
      </div>
     )
 }

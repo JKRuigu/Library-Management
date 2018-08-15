@@ -121,11 +121,12 @@ section {
 body {
     margin: 0;
     font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    font-size: 8px !important;
+    /* font-weight: 400; */
+    /* line-height: 1.5; */
     color: #212529;
     text-align: left;
+    overflow-x: hidden;
     background-color: #fafafa;
 }
 
@@ -1857,63 +1858,6 @@ select.form-control:focus::-ms-value {
     border-width: 1px 0
 }
 
-.form-control-plaintext.form-control-lg,
-.form-control-plaintext.form-control-sm,
-.input-group-lg>.form-control-plaintext.form-control,
-.input-group-lg>.input-group-append>.form-control-plaintext.btn,
-.input-group-lg>.input-group-append>.form-control-plaintext.input-group-text,
-.input-group-lg>.input-group-prepend>.form-control-plaintext.btn,
-.input-group-lg>.input-group-prepend>.form-control-plaintext.input-group-text,
-.input-group-sm>.form-control-plaintext.form-control,
-.input-group-sm>.input-group-append>.form-control-plaintext.btn,
-.input-group-sm>.input-group-append>.form-control-plaintext.input-group-text,
-.input-group-sm>.input-group-prepend>.form-control-plaintext.btn,
-.input-group-sm>.input-group-prepend>.form-control-plaintext.input-group-text {
-    padding-right: 0;
-    padding-left: 0
-}
-
-.form-control-sm,
-.input-group-sm>.form-control,
-.input-group-sm>.input-group-append>.btn,
-.input-group-sm>.input-group-append>.input-group-text,
-.input-group-sm>.input-group-prepend>.btn,
-.input-group-sm>.input-group-prepend>.input-group-text {
-    padding: .25rem 0;
-    font-size: .875rem;
-    line-height: 1.5;
-    border-radius: .2rem
-}
-
-.input-group-sm>.input-group-append>select.btn:not([size]):not([multiple]),
-.input-group-sm>.input-group-append>select.input-group-text:not([size]):not([multiple]),
-.input-group-sm>.input-group-prepend>select.btn:not([size]):not([multiple]),
-.input-group-sm>.input-group-prepend>select.input-group-text:not([size]):not([multiple]),
-.input-group-sm>select.form-control:not([size]):not([multiple]),
-select.form-control-sm:not([size]):not([multiple]) {
-    height: calc(2.125rem + 2px)
-}
-
-.form-control-lg,
-.input-group-lg>.form-control,
-.input-group-lg>.input-group-append>.btn,
-.input-group-lg>.input-group-append>.input-group-text,
-.input-group-lg>.input-group-prepend>.btn,
-.input-group-lg>.input-group-prepend>.input-group-text {
-    padding: .5625rem 0;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    border-radius: .3rem
-}
-
-.input-group-lg>.input-group-append>select.btn:not([size]):not([multiple]),
-.input-group-lg>.input-group-append>select.input-group-text:not([size]):not([multiple]),
-.input-group-lg>.input-group-prepend>select.btn:not([size]):not([multiple]),
-.input-group-lg>.input-group-prepend>select.input-group-text:not([size]):not([multiple]),
-.input-group-lg>select.form-control:not([size]):not([multiple]),
-select.form-control-lg:not([size]):not([multiple]) {
-    height: calc(4.125rem + 2px)
-}
 
 .form-group {
     margin-bottom: 1rem
@@ -16123,7 +16067,9 @@ a[data-toggle=collapse][aria-expanded=true] .caret {
 }
 .content{
   margin-top: 0px !important;
-  margin-left: 280px !important;
+  margin-left: 275px !important;
+  width: 87%;
+  padding-right:50px !important;
 }
 .card{
   padding:25px !important;

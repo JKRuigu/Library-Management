@@ -2,7 +2,7 @@ import React from "react";
 import ClassForm from '../settings/class';
 import StreamTable from '../settings/table';
 import axios from 'axios';
-import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
+import Modal from '@material-ui/core/Modal';
 import './student.css';
 import Nav from '../partials/Nav';
 
@@ -135,11 +135,7 @@ render(){
               <div className="card">
                 <div className="card-body">
                   <div className="col-lg-6">
-                  <ButtonToolbar>
-                    <Button bsStyle="primary" onClick={this.handleShow}>
-                      Add New Stream
-                    </Button>
-                  </ButtonToolbar>
+                  <button className="btn btn-success" onClick={this.handleShow} style={{marginRight:"50px"}}>Add Student</button>
                   </div>
                   <div className="col-lg-6"></div>
                 </div>
@@ -147,32 +143,35 @@ render(){
           </div>
           <div className="card-footer"></div>
         </div>
-        <ButtonToolbar>
         <Modal
-          {...this.props}
-          show={this.state.show}
-          onHide={this.handleHide}
-          dialogClassName="custom-modal"
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.show}
+          onClose={this.handleHide}
         >
-          <Modal.Body>
-          <ClassForm/>
-          <StreamTable
-            handleRemove={this.handleRemove}
-            startEditing={this.startEditing}
-            editIdx={this.state.editIdx}
-            stopEditing={this.stopEditing}
-            handleChange={this.handleChange}
-            stream={this.state.streams}
-            titles={[
-              {
-                name: "Stream",
-                prop: "stream"
-              }
-            ]}
-          />
-          </Modal.Body>
+          <div className="card-modal">
+            <div className="card card-modal-form">
+            <u><h3 className="text-center">Stream settings</h3></u>
+              <div className="card">
+              <ClassForm/>
+              <StreamTable
+                handleRemove={this.handleRemove}
+                startEditing={this.startEditing}
+                editIdx={this.state.editIdx}
+                stopEditing={this.stopEditing}
+                handleChange={this.handleChange}
+                stream={this.state.streams}
+                titles={[
+                  {
+                    name: "Stream",
+                    prop: "stream"
+                  }
+                ]}
+              />
+              </div>
+            </div>
+          </div>
         </Modal>
-      </ButtonToolbar>
       </div>
     )
   }

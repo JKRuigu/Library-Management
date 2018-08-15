@@ -170,11 +170,11 @@ render(){
       );
     });
     return(
-      <div className="content">
-            <div >
+      <div className="content" style={{marginTop:"15px"}}>
+          <div className="card" id="main-card">
               <div className="card" style={{ display: "flex" }}>
                 <div className="row" style={{ display: "flex-imline" }}>
-                <Button onClick={this.handleShow}>Open Modal</Button>
+                <button className="btn btn-success" onClick={this.handleShow} style={{marginRight:"50px"}}>Add Student</button>
                 <TextField
                    hintText="Search.."
                    floatingLabelText="Search"
@@ -204,7 +204,6 @@ render(){
                      this.setState({ itemsPerPage: value })
                    }
                  >
-                 <MenuItem value="3" primaryText="3" />
                  <MenuItem value="10" primaryText="10" />
                  <MenuItem value="50" primaryText="50" />
                  <MenuItem value="100" primaryText="100" />
