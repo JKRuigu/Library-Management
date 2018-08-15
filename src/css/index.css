@@ -2,6 +2,23 @@
     font-size: .875rem
 }
 
+
+/* Modal style */
+.card-modal{
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width:50%;
+  height:60%;
+  position: relative !important;
+
+}
+
+.card-modal-form{
+  position: relative !important;
+  width: 70% !important;
+}
+
+/* End of modal style */
 @media print {
     *,
     :after,

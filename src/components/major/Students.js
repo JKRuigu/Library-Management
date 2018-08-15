@@ -9,7 +9,8 @@ import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
-import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
 import Nav from '../partials/Nav';
 
 const invertDirection = {
@@ -173,11 +174,7 @@ render(){
             <div >
               <div className="card" style={{ display: "flex" }}>
                 <div className="row" style={{ display: "flex-imline" }}>
-                <ButtonToolbar style={{margin:"30px 20px 10px 10px"}}>
-                  <Button bsStyle="primary" onClick={this.handleShow}>
-                    Add Student
-                  </Button>
-                </ButtonToolbar>
+                <Button onClick={this.handleShow}>Open Modal</Button>
                 <TextField
                    hintText="Search.."
                    floatingLabelText="Search"
@@ -285,20 +282,21 @@ render(){
                 </div>
                 </div>
             </div>
-            <ButtonToolbar>
             <Modal
-              {...this.props}
-              show={this.state.show}
-              onHide={this.handleHide}
-              dialogClassName="custom-modal"
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={this.state.show}
+              onClose={this.handleHide}
             >
-              <Modal.Body>
-                <div className="">
-                <Form submit={this.submit}/>
+              <div className="card-modal">
+                <div className="card card-modal-form">
+                <u><h3 className="text-center">Student registration form</h3></u>
+                  <div className="card">
+                    <Form submit={this.submit}/>
+                  </div>
                 </div>
-              </Modal.Body>
+              </div>
             </Modal>
-          </ButtonToolbar>
       </div>
     );
   }
