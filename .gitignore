@@ -9,6 +9,7 @@
 
 # production
 /build
+/release-builds
 
 # misc
 .DS_Store
@@ -23,3 +24,7 @@ yarn-error.log*
 
 index
 text
+
+#Test Pages
+test.js
+test.html
