@@ -20,7 +20,7 @@ class BorrowedBooksReport extends React.Component {
       columnToSort: "",
       sortDirection: "desc",
       query: "",
-      columnToQuery: "studId",
+      columnToQuery: "bookAccession",
       errors:[],
       isLoading:false
     };

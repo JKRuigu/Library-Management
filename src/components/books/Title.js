@@ -24,7 +24,7 @@ class Titles extends React.Component {
            columnToSort: "",
            sortDirection: "desc",
            query: "",
-           columnToQuery: "bookAccession",
+           columnToQuery: "bookTitle",
            editStudId:'',
            edited:false,
            showTable:'books',
