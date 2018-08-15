@@ -55,18 +55,7 @@ submit = data =>{
   });
 }
 
-booksubmit = data =>{
-  this.props.addBook(data).then(() => {
-    alert('Book  added successfully !');
-    this.setState({ isLoading: false })
-  }).catch(error => {
-    alert('There was an error durring the process!');
-    this.setState({
-       errors: error,
-       isLoading:false
-     })
-  });
-}
+
 
 
 render(){

@@ -8,6 +8,8 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import Table from '../books/tables';
 import BookTitleTable from '../books/tables/titles'
+import Modal from '@material-ui/core/Modal';
+import Form from './form/Book';
 
 const invertDirection = {
   asc: "desc",
@@ -34,6 +36,28 @@ class MinorBooks extends React.Component {
            currentPage: 1,
            itemsPerPage: 10
       }
+}
+
+
+handleShow = ()=> {
+ this.setState({ show: true });
+}
+
+handleHide = ()=> {
+ this.setState({ show: false });
+}
+
+booksubmit = data =>{
+  this.props.addBook(data).then(() => {
+    alert('Book  added successfully !');
+    this.setState({ isLoading: false })
+  }).catch(error => {
+    alert('There was an error durring the process!');
+    this.setState({
+       errors: error,
+       isLoading:false
+     })
+  });
 }
 
 handleRemove = (e,i) => {
@@ -139,6 +163,7 @@ render(){
          <div className=" col-lg-12">
          <div className="row" style={{ display: "flex"}}>
            <div style={{display:"flex", margin: "auto" }}>
+           <button className="btn btn-success" onClick={this.handleShow} style={{marginRight:"50px"}}>Add Book</button>
            <TextField
               hintText="Search.."
               floatingLabelText="Search"
@@ -215,10 +240,25 @@ render(){
                  </ul>
                </nav>
             </div>
-            </div>
+          </div>
          </div>
          </div>
        </div>
+       <Modal
+         aria-labelledby="simple-modal-title"
+         aria-describedby="simple-modal-description"
+         open={this.state.show}
+         onClose={this.handleHide}
+       >
+         <div className="card-modal">
+           <div className="card card-modal-form">
+           <u><h3 className="text-center">Book registration form</h3></u>
+             <div className="card">
+               <Form submit={this.submit}/>
+             </div>
+           </div>
+         </div>
+       </Modal>
      </div>
     )
 }
