@@ -107,7 +107,8 @@ render() {
       );
     });
     return (
-      <div className="card">
+      <div className="content">
+        <div className="card" id="main-card">
         <h2 className="text-center">Overdue students report</h2>
         <div className="row" style={{ display: "flex"}}>
          <div style={{display:"flex", margin: "auto" }}>
@@ -203,6 +204,7 @@ render() {
           }
         ]}
        />
+       </div>
        </div>
     );
   }

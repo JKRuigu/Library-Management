@@ -117,8 +117,8 @@ render(){
     });
 
 return(
-      <div className="card">
-       <div className="card-body">
+    <div className="content">
+      <div className="card" id="main-card">
          <div className=" col-lg-12">
          <div className="row" style={{ display: "flex"}}>
            <div style={{display:"flex", margin: "auto" }}>

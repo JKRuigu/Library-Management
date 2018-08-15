@@ -1,7 +1,18 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import DashboardIcon from "material-ui/svg-icons/action/dashboard";
+import PersonIcon from "material-ui/svg-icons/social/people";
+import BookMarksIcon from "material-ui/svg-icons/action/bookmark";
+import SettingsIcon from "material-ui/svg-icons/action/settings";
+import ReportIcon from "material-ui/svg-icons/action/trending-up";
+import UpArrow from "material-ui/svg-icons/navigation/arrow-drop-up";
+import DownArrow from "material-ui/svg-icons/navigation/arrow-drop-down";
 
 class Header extends React.Component {
   constructor(props) {
@@ -9,62 +20,119 @@ class Header extends React.Component {
     this.state = {
       errors:[],
       isLoading:false,
-      active:'dashboard'
+      active:'dashboard',
+      open:false,
+      openReport:false
     };
 }
 
 handleEvent(e){
-  console.log(this.props);
    const {id} = e.target
    this.setState({
      active:id
    })
 }
+handleClick = () => {
+  this.setState(state => ({
+     openReport: false,
+     open: !state.open
+   }));
+};
+handleReportClick = () => {
+  this.setState(state => ({
+    open: false,
+    openReport: !state.openReport
+  }));
+};
+
+handleClose = () => {
+  this.setState(state => ({
+    open: false,
+    openReport:false
+  }));
+};
+
 
   render(){
     const {active} = this.state
     return(
-    <div className="">
-        <div className="sidebar" data-color="green" data-background-color="orange">
-        <div className="logo1">
-            <h1 className="text-center" style={{marginTop:"10px"}}>GHS</h1>
-        </div>
-            <div className="sidebar-wrapper">
-            <hr/>
-                <ul className="nav">
-                    <li className={active == 'dashboard' ? 'nav-item active' :'nav-item'} id="dashboard" onClick={e => this.handleEvent(e)}  name="dashboard">
-                        <Link to='/' extact="true" name="students" id="dashboard">
-                            <i className="material-icons">dashboard</i>
-                            <p id="dashboard">Dashboard</p>
+      <div className="">
+          <div className="sidebar" data-color="green" data-background-color="orange">
+          <div className="logo1">
+              <h2 className="text-center">GHS</h2>
+          </div>
+          <hr/>
+              <div className="sidebar-wrapper">
+                <List>
+                  <Link to='/' extact="true" >
+                    <ListItem button onClick={this.handleClose}>
+                     <Avatar>
+                       <DashboardIcon />
+                     </Avatar>
+                     <ListItemText primary="Dashboard"/>
+                   </ListItem>
+                   </Link>
+                  <Link to='/students' extact="true" >
+                    <ListItem button onClick={this.handleClose}>
+                     <Avatar>
+                       <PersonIcon />
+                     </Avatar>
+                     <ListItemText primary="Students"/>
+                   </ListItem>
+                  </Link>
+                  <ListItem button onClick={this.handleClick}>
+                    <Avatar>
+                      <BookMarksIcon />
+                    </Avatar>
+                    <ListItemText inset primary="Books" />
+                    {this.state.open ? <UpArrow /> : <DownArrow />}
+                  </ListItem>
+                  <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                     <List component="div" disablePadding>
+                        <Link to='/titles' extact="true" >
+                         <ListItem button>
+                           <ListItemText inset primary="Book Titles" />
+                         </ListItem>
                         </Link>
-                    </li>
-                    <li className={active == 'students' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)} id="students">
-                        <Link to='/students' id="students">
-                            <i className="material-icons">supervisor_account</i>
-                            <p id="students">Students</p>
+                        <Link to='/books' extact="true" >
+                          <ListItem button>
+                            <ListItemText inset primary="Books" />
+                          </ListItem>
                         </Link>
-                    </li>
-                    <li className={active == 'books' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)}  id="books">
-                        <Link to='/books' className="active" id="books">
-                            <i className="material-icons">library_books</i>
-                            <p id="books">Books</p>
-                        </Link>
-                    </li>
-                    <li className={active == 'report' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)} id="report">
-                        <Link to='/report' id="report">
-                            <i className="material-icons">trending_up</i>
-                            <p id="report">Report</p>
-                        </Link>
-                    </li>
-                    <li className={active == 'settings' ? 'nav-item active' :'nav-item'} onClick={e => this.handleEvent(e)} id="settings">
-                        <Link to='/settings' id="settings">
-                            <i className="material-icons">settings</i>
-                            <p id="settings">Settings</p>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                     </List>
+                   </Collapse>
+                  <ListItem button onClick={this.handleReportClick}>
+                    <Avatar>
+                      <ReportIcon />
+                    </Avatar>
+                    <ListItemText inset primary="Report" />
+                    {this.state.openReport ? <UpArrow /> : <DownArrow />}
+                  </ListItem>
+                  <Collapse in={this.state.openReport} timeout="auto" unmountOnExit>
+                     <List component="div" disablePadding>
+                      <Link to='/borrowed/books' extact="true" >
+                         <ListItem button>
+                           <ListItemText inset primary="Borrowed books" />
+                         </ListItem>
+                      </Link>
+                      <Link to='/overdue' extact="true" >
+                         <ListItem button>
+                           <ListItemText inset primary="Overdue" />
+                         </ListItem>
+                      </Link>
+                     </List>
+                   </Collapse>
+                </List>
+                <Link to='/settings' extact="true" >
+                  <ListItem button onClick={this.handleClose}>
+                   <Avatar>
+                     <SettingsIcon />
+                   </Avatar>
+                   <ListItemText primary="Settings"/>
+                 </ListItem>
+                 </Link>
+              </div>
+          </div>
     </div>
     )
   }

@@ -57,7 +57,8 @@ handlePagination = () =>{
     const lowerCaseQuery = this.state.query.toLowerCase();
     const {show} = this.state
     return (
-      <div className="card">
+      <div className="content">
+        <div className="card" id="main-card">
         <h2 className="text-center">Borrowed Books</h2>
         <div className="row" style={{ display: "flex"}}>
          <div style={{display:"flex", margin: "auto" }}>
@@ -126,6 +127,7 @@ handlePagination = () =>{
              }
            ]}
          />
+       </div>
        </div>
     );
   }
