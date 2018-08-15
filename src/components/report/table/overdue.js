@@ -54,7 +54,7 @@ export default ({
     <thead>
     {
       overdue== undefined ? '':
-      overdue.length == 0  ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No overdue data available</h2></th>:
+      overdue.length == 0  ? isLoading ===true ? '' :<th rowspan="7"><h4 className="text-center">No overdue data available</h4></th>:
       titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div

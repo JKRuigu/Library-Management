@@ -109,7 +109,7 @@ render() {
     return (
       <div className="content">
         <div className="card" id="main-card">
-        <h2 className="text-center">Overdue students report</h2>
+        <u><h3 className="text-center">Overdue students report</h3></u>
         <div className="row" style={{ display: "flex"}}>
          <div style={{display:"flex", margin: "auto" }}>
          <TextField
@@ -147,17 +147,6 @@ render() {
            <MenuItem value="250" primaryText="250" />
            <MenuItem value="500" primaryText="500" />
          </SelectField>
-         </div>
-         </div>
-        <div className="row" style={{ display: "flex"}}>
-         <div style={{display:"flex", margin: "auto" }}>
-            <nav aria-label="Page navigation example">
-              <ul className="pagination">
-                <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                {renderPageNumbers}
-                <li className="page-item"><a className="page-link" href="#">Next</a></li>
-              </ul>
-            </nav>
          </div>
          </div>
        <Table
@@ -204,6 +193,17 @@ render() {
           }
         ]}
        />
+       <div className="row" style={{ display: "flex"}}>
+        <div style={{display:"flex", margin: "auto" }}>
+           <nav aria-label="Page navigation example">
+             <ul className="pagination">
+               <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+               {renderPageNumbers}
+               <li className="page-item"><a className="page-link" href="#">Next</a></li>
+             </ul>
+           </nav>
+        </div>
+        </div>
        </div>
        </div>
     );

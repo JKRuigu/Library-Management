@@ -59,7 +59,7 @@ handlePagination = () =>{
     return (
       <div className="content">
         <div className="card" id="main-card">
-        <h2 className="text-center">Borrowed Books</h2>
+        <u><h3 className="text-center">Borrowed Books Report</h3></u>
         <div className="row" style={{ display: "flex"}}>
          <div style={{display:"flex", margin: "auto" }}>
            <TextField

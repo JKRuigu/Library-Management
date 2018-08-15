@@ -131,7 +131,7 @@ render(){
         <div className="card" id="main-card">
           <div className="card-head"></div>
           <div className="card-body">
-            <h1>Settings </h1>
+            <h3>Settings </h3>
               <div className="card">
                 <div className="card-body">
                   <div className="col-lg-6">

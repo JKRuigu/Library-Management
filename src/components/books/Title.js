@@ -147,17 +147,6 @@ return(
            </div>
          </div>
          <div className="card-body" >
-         <div className="row" style={{ display: "flex"}}>
-          <div style={{display:"flex", margin: "auto" }}>
-             <nav aria-label="Page navigation example">
-               <ul className="pagination">
-                 <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                 {renderPageNumbers}
-                 <li className="page-item"><a className="page-link" href="#">Next</a></li>
-               </ul>
-             </nav>
-          </div>
-          </div>
            <BookTitleTable
              handleSort={this.handleSort}
              isLoading={this.state.isLoading}
@@ -213,6 +202,17 @@ return(
                }
              ]}
            />
+           <div className="row" style={{ display: "flex"}}>
+            <div style={{display:"flex", margin: "auto" }}>
+               <nav aria-label="Page navigation example">
+                 <ul className="pagination">
+                   <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                   {renderPageNumbers}
+                   <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                 </ul>
+               </nav>
+            </div>
+            </div>
          </div>
          </div>
        </div>

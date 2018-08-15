@@ -215,6 +215,62 @@ render(){
                  <MenuItem value="500" primaryText="500" />
                </SelectField>
                 </div>
+                <div className="card-body">
+                  <Table
+                    handleSort={this.handleSort}
+                    isLoading={this.state.isLoading}
+                    handleRemove={this.handleRemove}
+                    startEditing={this.startEditing}
+                    editIdx={this.state.editIdx}
+                    stopEditing={this.stopEditing}
+                    handleSave={this.handleSave}
+                    columnToSort={this.state.columnToSort}
+                    sortDirection={this.state.sortDirection}
+                    handlePrint={this.handlePrint}
+                    indexpageNumber={indexOfFirstItem}
+                    students={orderBy(
+                      this.state.query
+                        ? this.props.students.filter(x =>
+                            x[this.state.columnToQuery]
+                              .toLowerCase()
+                              .includes(lowerCaseQuery)
+                          )
+                        : currentItems,
+                      this.state.columnToSort,
+                      this.state.sortDirection
+                    )}
+                    titles={[
+                      {
+                        name: "#",
+                        type:"number"
+                      },
+                      {
+                        name: "Admission Number",
+                        prop: "adminNo",
+                        type:"number"
+                      },
+                      {
+                        name: "Name",
+                        prop: "studentName",
+                        type:"text"
+                      },
+                      {
+                        name: "Form",
+                        prop: "form",
+                        type:"number"
+                      },
+                      {
+                        name: "Stream",
+                        prop: "stream",
+                        type:"text"
+                      },
+                      {
+                        name: "Admission Date",
+                        prop: "admissionDate",
+                        type:"date"
+                      }
+                    ]}
+                  />
                 <div className="row" style={{ display: "flex"}}>
                  <div style={{display:"flex", margin: "auto" }}>
                  <nav aria-label="Page navigation example">
@@ -226,62 +282,6 @@ render(){
                  </nav>
                 </div>
                 </div>
-                <div className="card-body">
-                <Table
-                  handleSort={this.handleSort}
-                  isLoading={this.state.isLoading}
-                  handleRemove={this.handleRemove}
-                  startEditing={this.startEditing}
-                  editIdx={this.state.editIdx}
-                  stopEditing={this.stopEditing}
-                  handleSave={this.handleSave}
-                  columnToSort={this.state.columnToSort}
-                  sortDirection={this.state.sortDirection}
-                  handlePrint={this.handlePrint}
-                  indexpageNumber={indexOfFirstItem}
-                  students={orderBy(
-                    this.state.query
-                      ? this.props.students.filter(x =>
-                          x[this.state.columnToQuery]
-                            .toLowerCase()
-                            .includes(lowerCaseQuery)
-                        )
-                      : currentItems,
-                    this.state.columnToSort,
-                    this.state.sortDirection
-                  )}
-                  titles={[
-                    {
-                      name: "#",
-                      type:"number"
-                    },
-                    {
-                      name: "Admission Number",
-                      prop: "adminNo",
-                      type:"number"
-                    },
-                    {
-                      name: "Name",
-                      prop: "studentName",
-                      type:"text"
-                    },
-                    {
-                      name: "Form",
-                      prop: "form",
-                      type:"number"
-                    },
-                    {
-                      name: "Stream",
-                      prop: "stream",
-                      type:"text"
-                    },
-                    {
-                      name: "Admission Date",
-                      prop: "admissionDate",
-                      type:"date"
-                    }
-                  ]}
-                />
                 </div>
                 </div>
             </div>

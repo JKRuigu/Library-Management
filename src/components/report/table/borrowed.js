@@ -36,7 +36,7 @@ export default ({
   <table className="table table-striped table-bordered table-hover">
     <thead className="">
     {
-      books.length === 0  ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No books data available</h2></th>:
+      books.length === 0  ? isLoading ===true ? '' :<th rowspan="7"><h4 className="text-center">No books data available</h4></th>:
       titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
