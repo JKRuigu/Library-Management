@@ -39,7 +39,7 @@ export default ({
   <table className="table table-striped table-bordered table-hover">
     <thead>
       {
-        books.length === 0 ? <th rowspan="7" style={{fontSize:"20px"}}><h2 className="text-center">{displayReport}</h2></th>:
+        books.length === 0 ? <th rowspan="7" style={{fontSize:"20px"}}><h4 className="text-center">{displayReport}</h4></th>:
         titles.map((x, i) =>(
         <th key={`thc-${i}`}>
         <div

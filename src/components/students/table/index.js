@@ -86,7 +86,7 @@ export default ({
   <table className="table table-striped table-bordered table-hover">
     <thead>
     {
-      students.length === 0 ? <th rowspan="7"><h2 className="text-center">No students data available</h2></th>:
+      students.length === 0 ? <th rowspan="7"><h4 className="text-center">No students data available</h4></th>:
       titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
