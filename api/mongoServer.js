@@ -198,41 +198,38 @@ router.put('/title/edit',(req, res) =>{
 });
 
 router.put('/book/edit',(req, res) =>{
-  if (!req.body == '') {
-   MongoClient.connect(url).then(client =>{
-     let db = client.db('library-react');
-     db.collection('titles').find({bookTitle:bookTitle})
-     .toArray((err,data)=>{
-       if (err) {
-         res.status(404).json({message:'Database Error(final)'})
-       }else{
-         let n = data[0]._id
-         let bookCategoryId = n.toString()
-         const {bookAccession,bookCondition,Isbn} = req.body.data;
-         MongoClient.connect(url).then(client =>{
-             let db = client.db('library-react');
-             db.collection('books').update(
-               {_id:ObjectId(bookId)},
-               { $set:{bookAccession, bookCategoryId, bookCondition, Isbn,bookCategoryId}})
-             .then(()=>{
-               res.status(200).json({message:'Ok'});
-                 })
-               .catch( error => {
-                res.status(404).json({message:'Database Error(final)'});
-               });
-               client.close();
-             })
-             .catch(error => {
-               res.status(404).json({message:'Database Error'});
-             });
-             client.close();}
-           })
-     })
-     .catch( error => {
-      res.status(404).json({message:error.message});
-     });
-  }else {
-   res.status(404).json({message:"Fill in all the spaces"});
+  if(!req.body == '') {
+    // console.log(req.body);
+    const {bookAccession, bookCondition, Isbn,_id} = req.body.data;
+    MongoClient.connect(url).then(client =>{
+      let db = client.db('library-react');
+      db.collection('books').update(
+        {_id:ObjectId(_id)},
+        { $set:{bookAccession, bookCondition, Isbn}})
+        .then(()=>{
+          MongoClient.connect(url).then(client =>{
+            let db = client.db('library-react');
+            db.collection('books').aggregate([
+              { $lookup:
+                 {
+                   from: 'titles',
+                   localField: 'bookCategoryId',
+                   foreignField: 'bookId',
+                   as: 'orderdetails'
+                 }
+               },
+               { $match : {_id:ObjectId(_id)}}
+             ]).toArray((err, books)=> {
+              err ?   res.status(404).json({message:'Unable to fetch data'}):
+              console.log(books);
+                res.status(200).json({books});
+            });
+          })
+      })
+      .catch( error => {
+        res.status(404).json({message:'The book accession number is already in use.'});
+      });
+    })
   }
 });
 

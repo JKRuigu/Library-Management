@@ -10,7 +10,8 @@ const row = (
    editIdx,
    handleSave,
    stopEditing,
-   edited
+   edited,
+   isLoading
 ) =>
 {
   const currentlyEditing = editIdx === i;
@@ -34,8 +35,17 @@ const row = (
           x[y.prop] || x.orderdetails[0].bookTitle
         }</td>
       ))}
+      {
+        isLoading ?
+        <td className="text-center"><i className="material-icons">more_horiz</i></td> :
         <td className="text-center"><i className="material-icons" style={{color:"blue"}} onClick={() => startEditing(i)}>edit</i></td>
+      }
+      {
+        isLoading ?
+        <td className="text-center"><i className="material-icons">more_horiz</i></td> :
         <td className="text-center"><i className="material-icons" style={{color:"red"}} id={x._id} onClick={e => handleRemove(e,i)}>delete</i></td>
+      }
+
     </tr>
   );
   };
@@ -57,7 +67,7 @@ export default ({
   <table className="table table-striped table-bordered table-hover">
     <thead className="">
     {
-      books.length === 0  ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No books data available</h2></th>:
+      books.length === 0  ? isLoading ===true ? '' :<th rowspan="7"><h4 className="text-center">No books data available</h4></th>:
       titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
@@ -92,7 +102,8 @@ export default ({
        editIdx,
        handleSave,
        stopEditing,
-       edited
+       edited,
+       isLoading
       ))}
     </tbody>
   </table>

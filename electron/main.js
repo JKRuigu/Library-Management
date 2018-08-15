@@ -1,4 +1,4 @@
-const {app, BrowserWindow } = require('electron')
+const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -29,9 +29,75 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+  // Build menu from template
+const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+
+// Insert menu
+Menu.setApplicationMenu(mainMenu);
 }
 
 app.on('ready', createWindow)
+
+// Create menu template
+const mainMenuTemplate =  [
+  // Each object is a dropdown
+  {
+    label: 'Settings',
+    submenu:[
+      {
+        role: 'reload'
+      },
+      {type: 'separator'},
+      {
+        label: 'Quit',
+        accelerator:process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+        click(){
+          app.quit();
+        }
+      }
+    ]
+  },
+  {
+     label: 'Edit',
+     submenu: [
+       {role: 'cut'},
+       {role: 'copy'},
+       {role: 'paste'}
+     ]
+   },
+    {
+      label: 'View',
+      submenu: [
+        {role: 'resetzoom'},
+        {role: 'zoomin'},
+        {role: 'zoomout'},
+        {type: 'separator'},
+        {role: 'togglefullscreen'}
+      ]
+    },
+    {
+      role: 'window',
+      submenu: [
+        {role: 'minimize'},
+        {type: 'separator'},
+        {role: 'close'}
+      ]
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click () { require('electron').shell.openExternal('https://github.com/JKRuigu/Library-Management') }
+        }
+      ]
+    }
+];
+
+// If OSX, add empty object to menu
+if(process.platform == 'darwin'){
+  mainMenuTemplate.unshift({});
+}
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

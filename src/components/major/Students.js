@@ -9,7 +9,9 @@ import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
-import { Modal, Button ,ButtonToolbar} from 'react-bootstrap';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import Nav from '../partials/Nav';
 
 const invertDirection = {
   asc: "desc",
@@ -29,17 +31,26 @@ class Students extends React.Component {
            query: "",
            columnToQuery: "admissionDate",
            editStudId:'',
-           show: false
+           show: false,
+           currentPage: 1,
+           itemsPerPage: 10
        }
        this.handleShow = this.handleShow.bind(this);
        this.handleHide = this.handleHide.bind(this);
-   }
+       this.handleClick = this.handleClick.bind(this);
+}
 handleShow() {
  this.setState({ show: true });
 }
 
 handleHide() {
  this.setState({ show: false });
+}
+
+handleClick(event) {
+  this.setState({
+    currentPage: Number(event.target.id)
+  });
 }
 
 submit = data =>{
@@ -102,21 +113,68 @@ handleSort = columnName => {
     }));
 }
 
+handlePrint = (e,x)=>{
+  // const {id} = e.target
+  console.log(x);
+  console.log(e);
+  // let id = e.target
+  // var printcontent = document.getElementById(id).innerHTML;
+  // document.body.innerHTML = printcontent;
+  // window.print();
+  // document.body.innerHTML = restorepage;
+}
+
 render(){
     const lowerCaseQuery = this.state.query.toLowerCase();
-    const {isLoading, students,edited} = this.state;
+    const {isLoading, students,edited,currentPage, itemsPerPage } = this.state;
+    // Logic for displaying todos
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = this.props.students.slice(indexOfFirstItem, indexOfLastItem);
+    var totalPages = Math.ceil(this.props.students.length / itemsPerPage)
+    var startPage, endPage;
+    if (totalPages <= 10) {
+         // less than 10 total pages so show all
+         startPage = 1;
+         endPage = totalPages;
+     } else {
+         // more than 10 total pages so calculate start and end pages
+         if (currentPage <= 6) {
+             startPage = 1;
+             endPage = 10;
+         } else if (currentPage + 4 >= totalPages) {
+             startPage = totalPages - 9;
+             endPage = totalPages;
+         } else {
+             startPage = currentPage - 5;
+             endPage = currentPage + 4;
+         }
+     }
+
+        var totalItems = this.props.students.length
+        // calculate start and end item indexes
+        var startIndex = (currentPage - 1) * itemsPerPage;
+        var endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems - 1);
+        // create an array of pages to ng-repeat in the pager control
+        var pages = [...Array((endPage + 1) - startPage).keys()].map(i => startPage + i);
+        // console.log(pages);
+    const renderPageNumbers = pages.map(number => {
+      return (
+        <li
+          className="page-item"
+          key={number}
+
+        >
+          <span className="page-link" key={number} id={number} onClick={this.handleClick} style={{"cursor":"pointer"}}>{number}</span>
+        </li>
+      );
+    });
     return(
-      <div className="content">
-            <div className="card" id="main-card">
-                <div className="card-header">
-                <ButtonToolbar>
-                  <Button bsStyle="primary" onClick={this.handleShow}>
-                    Add Student
-                  </Button>
-                </ButtonToolbar>
-                </div>
-                <div className="card" style={{ display: "flex" }}>
-                <div className="row"  style={{ display: "flex", margin: "auto" }}>
+      <div className="content" style={{marginTop:"15px"}}>
+          <div className="card" id="main-card">
+              <div className="card" style={{ display: "flex" }}>
+                <div className="row" style={{ display: "flex-imline" }}>
+                <button className="btn btn-success" onClick={this.handleShow} style={{marginRight:"50px"}}>Add Student</button>
                 <TextField
                    hintText="Search.."
                    floatingLabelText="Search"
@@ -138,78 +196,106 @@ render(){
                  <MenuItem value="stream" primaryText="Stream" />
                  <MenuItem value="admissionDate" primaryText="Admission Date" />
                </SelectField>
+                 <SelectField
+                   style={{ marginLeft: "1em" }}
+                   floatingLabelText="Select Number of Items to Display"
+                   value={this.state.itemsPerPage}
+                   onChange={(event, index, value) =>
+                     this.setState({ itemsPerPage: value })
+                   }
+                 >
+                 <MenuItem value="10" primaryText="10" />
+                 <MenuItem value="50" primaryText="50" />
+                 <MenuItem value="100" primaryText="100" />
+                 <MenuItem value="250" primaryText="250" />
+                 <MenuItem value="500" primaryText="500" />
+               </SelectField>
                 </div>
                 <div className="card-body">
-                <Table
-                  handleSort={this.handleSort}
-                  isLoading={this.state.isLoading}
-                  handleRemove={this.handleRemove}
-                  startEditing={this.startEditing}
-                  editIdx={this.state.editIdx}
-                  stopEditing={this.stopEditing}
-                  handleSave={this.handleSave}
-                  columnToSort={this.state.columnToSort}
-                  sortDirection={this.state.sortDirection}
-                  students={orderBy(
-                    this.state.query
-                      ? this.props.students.filter(x =>
-                          x[this.state.columnToQuery]
-                            .toLowerCase()
-                            .includes(lowerCaseQuery)
-                        )
-                      : this.props.students,
-                    this.state.columnToSort,
-                    this.state.sortDirection
-                  )}
-                  titles={[
-                    {
-                      name: "#",
-                      type:"number"
-                    },
-                    {
-                      name: "Admission Number",
-                      prop: "adminNo",
-                      type:"number"
-                    },
-                    {
-                      name: "Name",
-                      prop: "studentName",
-                      type:"text"
-                    },
-                    {
-                      name: "Form",
-                      prop: "form",
-                      type:"number"
-                    },
-                    {
-                      name: "Stream",
-                      prop: "stream",
-                      type:"text"
-                    },
-                    {
-                      name: "Admission Date",
-                      prop: "admissionDate",
-                      type:"date"
-                    }
-                  ]}
-                />
+                  <Table
+                    handleSort={this.handleSort}
+                    isLoading={this.state.isLoading}
+                    handleRemove={this.handleRemove}
+                    startEditing={this.startEditing}
+                    editIdx={this.state.editIdx}
+                    stopEditing={this.stopEditing}
+                    handleSave={this.handleSave}
+                    columnToSort={this.state.columnToSort}
+                    sortDirection={this.state.sortDirection}
+                    handlePrint={this.handlePrint}
+                    indexpageNumber={indexOfFirstItem}
+                    students={orderBy(
+                      this.state.query
+                        ? this.props.students.filter(x =>
+                            x[this.state.columnToQuery]
+                              .toLowerCase()
+                              .includes(lowerCaseQuery)
+                          )
+                        : currentItems,
+                      this.state.columnToSort,
+                      this.state.sortDirection
+                    )}
+                    titles={[
+                      {
+                        name: "#",
+                        type:"number"
+                      },
+                      {
+                        name: "Admission Number",
+                        prop: "adminNo",
+                        type:"number"
+                      },
+                      {
+                        name: "Name",
+                        prop: "studentName",
+                        type:"text"
+                      },
+                      {
+                        name: "Form",
+                        prop: "form",
+                        type:"number"
+                      },
+                      {
+                        name: "Stream",
+                        prop: "stream",
+                        type:"text"
+                      },
+                      {
+                        name: "Admission Date",
+                        prop: "admissionDate",
+                        type:"date"
+                      }
+                    ]}
+                  />
+                <div className="row" style={{ display: "flex"}}>
+                 <div style={{display:"flex", margin: "auto" }}>
+                 <nav aria-label="Page navigation example">
+                   <ul className="pagination">
+                     <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                     {renderPageNumbers}
+                     <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                   </ul>
+                 </nav>
+                </div>
+                </div>
                 </div>
                 </div>
             </div>
-            <ButtonToolbar>
             <Modal
-              {...this.props}
-              show={this.state.show}
-              onHide={this.handleHide}
-              dialogClassName="custom-modal"
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={this.state.show}
+              onClose={this.handleHide}
             >
-              <Modal.Body>
-                <div className="">
-                <Form submit={this.submit}/>
+              <div className="card-modal">
+                <div className="card card-modal-form">
+                <u><h3 className="text-center">Student registration form</h3></u>
+                  <div className="card">
+                    <Form submit={this.submit}/>
+                  </div>
                 </div>
-              </Modal.Body>
+              </div>
             </Modal>
-          </ButtonToolbar>
       </div>
     );
   }

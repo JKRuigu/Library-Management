@@ -1,38 +1,86 @@
 import React from "react";
+import { connect } from 'react-redux';
+import App from '../../App';
 import '../../css/login.css';
+import { login } from '../../actions/auth.js';
 
 class Login extends React.Component {
-  render(){
-    return(
-      <section>
-                <div id="container_demo" >
-                    <div id="wrapper">
-                        <div id="login" className="animate form">
-                            <form>
-                                <h1>Staff log in</h1>
-                                <p>
-                                    <label for="username" >Username </label>
-                                    <input name="username" type="text" placeholder="Enter your username"/>
-                                </p>
-                                <p>
-                                    <label for="password" >Password </label>
-                                    <input id="password"  name="password"  type="password" placeholder="Enter your password" />
-                                </p>
-                                <p className="text-center">
-                                  <button type="submit" className="btn btn-info ">LOG IN</button>
+  constructor(props){
+       super(props);
+       this.state = {
+           isLoading: false,
+           isLogin:false,
+           data:{},
+           isSuccess:false
+       }
+  }
 
-                                </p>
-                              </form>
-                                <p className="change_link">
-              									Forgot password ?
-              									<a href="#toregister" className="to_register">Recover password</a>
-              								</p>
-                        </div>
-                    </div>
+  submit = (e)=> {
+    e.preventDefault()
+    const {data} = this.state;
+    this.setState({isLoading: true});
+    this.props.login(data).then(() => {
+      this.setState({isSuccess: true});
+      setTimeout(
+          function() {
+            this.setState({isSuccess: false,isLogin:this.props.auth,isLoading:false});
+          }
+          .bind(this),
+          3500
+      );
+    }).catch( error => {
+    this.setState({isLogin:false,isLoading:false})
+    });
+  };
+
+  handleChange  = (e)=> {
+    this.setState({ data : { ...this.state.data, [e.target.name]: e.target.value } });
+  };
+render(){
+  const {isLogin,isLoading,isSuccess} = this.state;
+    return(
+      <div>
+      {
+        isLogin === 'true'  ? <App /> :
+        <div id="Login-Page">
+          <div className="login-form">
+            <div className="main-div">
+              <form onSubmit={this.submit}>
+                <div className="form-group">
+                  <input type="text" onChange={this.handleChange}  className="form-control form-control-login" name="username" placeholder="Username" />
                 </div>
-            </section>
+                <div className="form-group">
+                  <input type="password" className="form-control form-control-login" name="password" placeholder="Password" onChange={this.handleChange}/>
+                </div>
+                {
+                  isLoading ? <button type="submit"  className="login-btn btn-success" disabled>Loading</button>:
+                  <button type="submit"  className="login-btn" >{!isLoading ? 'Login':'Loading...'}</button>
+                }
+              </form>
+              {
+                !isSuccess ? '':
+                <div>
+                <div className="progress">
+                  <div className="progress-bar progress-bar-striped active" role="progressbar"
+                  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style={{"width":"100%"}}>
+                  </div>
+                </div>
+                <div>
+                <p className="load-info">Loading system data...</p>
+                </div>
+                </div>
+              }
+            </div>
+            </div>
+        </div>
+      }
+      </div>
     )
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    auth:state.auth
+});
+
+export default connect(mapStateToProps,{login})(Login);

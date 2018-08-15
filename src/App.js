@@ -4,11 +4,12 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Header from './components/partials/Header';
 import Dashboard from './components/major/Dashboard';
 import Students from './components/major/Students';
-import Books from './components/major/Books';
-import Report from './components/major/Report';
+import Books from './components/books/Books';
+import Title from './components/books/Title';
+import BorrowedBooks from './components/report/BorrowedBooks';
+import Overdue from './components/report/Overdue';
 import Settings from './components/major/Settings';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Route from 'react-router-dom/Route';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './css/App.css';
 import './css/index.css';
 import { fetch } from './actions/students';
@@ -28,18 +29,21 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <Router>
-            <div className="">
-            <div className="wrapper">
-            <Header />
-                <Route exact="true" path="/" component={Dashboard}/>
-                <Route exact="true" path='/students' component={Students}/>
-                <Route exact="true" path='/books' component={Books}/>
-                <Route exact="true" path='/report' component={Report}/>
-                <Route exact="true" path='/settings' component={Settings}/>
-            </div>
-            </div>
-        </Router>
+        <BrowserRouter>
+       <div>
+         <Header />
+         <Switch>
+           <Route exact="true" path="/" component={Dashboard}/>
+           <Route exact="true" path='/students' component={Students}/>
+           <Route exact="true" path='/books' component={Books}/>
+           <Route exact="true" path='/titles' component={Title}/>
+           <Route exact="true" path='/borrowed/books' component={BorrowedBooks}/>
+           <Route exact="true" path='/overdue' component={Overdue}/>
+           <Route exact="true" path='/settings' component={Settings}/>
+           <Route  component={Dashboard}/>
+         </Switch>
+       </div>
+     </BrowserRouter>
       </MuiThemeProvider>
     );
   }

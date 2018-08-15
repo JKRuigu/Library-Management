@@ -1,7 +1,8 @@
 const express = require('express');
+const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const passport = require('passport');
+const passport = require('passport');
 const mongoServer = require('./api/mongoServer');
 const serverProcess = require('./api/process');
 const Config = require('./config/settings');
@@ -17,6 +18,7 @@ mongoose.connect('mongodb://localhost/library-react',()=>{
   console.log('connected to mongodb');
 });
 var db = mongoose.connection;
+server.use(cors())
 //bodyParser
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({extended: false}));
@@ -46,8 +48,21 @@ server.use(bodyParser.json());
 // }));
 
 
-// server.use(passport.initialize());
-// server.use(passport.session()); // persistent login sessions
+server.on('ready', function() {
+  express();
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    autoHideMenuBar: true,
+    useContentSize: true,
+    resizable: false,
+  });
+  mainWindow.loadURL('http://localhost:5000/');
+  mainWindow.focus();
+
+});
+server.use(passport.initialize());
+server.use(passport.session()); // persistent login sessions
 // server.use(flash()); // use connect-flash for flash messages stored in session
 
 // // Global Vars
@@ -70,13 +85,14 @@ const port = 8080 || process.env.PORT ;
 //   });
 // }
 // app.use(express.static(path.join(__dirname, 'public')));
+// server.use(cors({ origin: 'http://localhost:8080' , credentials :  true}));
 
-server.use('/api',loginAuth);
+server.use('/login',loginAuth);
 server.use('/api',mongoServer);
 server.use('/settings',Config);
 server.use('/process',serverProcess);
 
 //Serve the react app files
-server.use(express.static(`${__dirname}/build`));
+server.use(express.static(__dirname + '/build'));
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

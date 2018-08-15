@@ -5,7 +5,8 @@ class bookTitleForm extends React.Component {
     data:{}
   };
 
-  submit = ()=> {
+  submit = (e)=> {
+    e.preventDefault();
     this.props.submit(this.state.data);
   };
 

@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^1.5.0",
+    "@material-ui/icons": "^2.0.2",
     "ajv": "^6.5.2",
     "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
-    "bootstrap": "^3.3.7",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "fast-csv": "^2.4.1",
     "jquery": "^3.3.1",
     "jquery-ui-bootstrap": "^1.0.0",
+    "jsonwebtoken": "^8.3.0",
     "logger": "0.0.1",
     "material-icons": "^0.2.1",
     "material-ui": "^0.20.1",
@@ -23,7 +27,6 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.3.2",
-    "react-bootstrap": "^0.32.1",
     "react-bootstrap-modal": "^4.0.0",
     "react-dom": "^16.3.2",
     "react-moment": "^0.7.0",
@@ -34,18 +37,19 @@
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "url-parse": "^1.4.3"
   },
   "scripts": {
     "dev": "nf start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "dev-server": "node server.js",
+    "dev-node": "nodemon server.js",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
     "electron": "electron .",
     "ebuild": "npm run build && node ./node_modules/.bin/build",
-    "package-win": "electron-packager . Library-Management-System --overwrite --asar=true --platform=win32 --arch=ia32  --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"library Management System\"",
+    "package-win": "electron-packager . Library-Management-System --overwrite  --platform=win32 --arch=ia32  --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"library Management System\"",
     "package-linux": "electron-packager . Library-Management-System --overwrite --asar=true --platform=linux --arch=x64  --prune=true --out=release-builds"
   },
   "devDependencies": {
@@ -59,14 +63,5 @@
   "description": "React and Electron Awesome App",
   "homepage": "./",
   "main": "electron/main.js",
-  "build": {
-    "productName": "React Electron App",
-    "appId": "com.reactbits.reactelectron",
-    "electronVersion": "2.0.2",
-    "files": [
-      "build/**/*",
-      "electron/*"
-    ]
-  },
   "proxy": "http://localhost:8080"
 }

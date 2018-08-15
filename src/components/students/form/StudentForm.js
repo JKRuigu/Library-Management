@@ -10,13 +10,14 @@ class StudentForm extends React.Component {
        }
    }
 
-    submit = ()=> {
-      this.props.submit(this.state.data);
-    };
+  submit = (e)=> {
+    e.preventDefault();
+    this.props.submit(this.state.data);
+  };
 
-    handleChange  = (e)=> {
-      this.setState({ data : { ...this.state.data, [e.target.name]: e.target.value } });
-    };
+  handleChange  = (e)=> {
+    this.setState({ data : { ...this.state.data, [e.target.name]: e.target.value } });
+  };
 
 render(){
     return(

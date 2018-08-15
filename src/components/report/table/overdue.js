@@ -4,7 +4,9 @@ import Moment from 'react-moment';
 const row = (
    x,
    i,
-   titles
+   titles,
+   handleRemove,
+   indexpageNumber
 ) =>
 {
   return (
@@ -13,7 +15,7 @@ const row = (
         titles.map((y, k) => (
         <td key={`trc-${k}`}>
         {
-          y.name == '#' ? i+1 :
+          y.name == '#' ? i+1+indexpageNumber :
           x[y.prop]
         }
           </td>
@@ -26,6 +28,8 @@ const row = (
             display: "flex",
             alignItems: "center"
           }}
+          id={x._id}
+          onClick={e => handleRemove(e,i)}
           >
           clear
         </button>
@@ -36,6 +40,7 @@ const row = (
 
 
 export default ({
+  indexpageNumber,
       edited,
       isLoading,
       handleRemove,
@@ -49,7 +54,7 @@ export default ({
     <thead>
     {
       overdue== undefined ? '':
-      overdue.length == 0  ? isLoading ===true ? '' :<th rowspan="7"><h2 className="text-center">No overdue data available</h2></th>:
+      overdue.length == 0  ? isLoading ===true ? '' :<th rowspan="7"><h4 className="text-center">No overdue data available</h4></th>:
       titles.map((x, i) =>(
       <th key={`thc-${i}`}>
       <div
@@ -80,7 +85,9 @@ export default ({
       overdue.map((x, i) => row(
        x,
        i,
-       titles
+       titles,
+       handleRemove,
+       indexpageNumber
       ))
     }
     </tbody>

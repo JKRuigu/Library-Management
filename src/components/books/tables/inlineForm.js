@@ -18,11 +18,12 @@ export default class Form extends React.Component {
   }
 
   change = e => {
-    const { name, value } = e.target;
-    console.log(value);
-    console.log(this.state.values);
-    console.log(name);
+    const { name, value } = e.target;    
     this.setState(state => ({
+      values: {
+        ...state.values,
+        [name]: value
+      },
       edited:true
     }));
   };
@@ -54,6 +55,7 @@ export default class Form extends React.Component {
       titles.map((y, k) => (
         <td key={`trc-${k}`}>
           <input
+            disabled={y.name == '#' || y.prop == 'bookTitle' ? 'false' : '' }
             autocomplete="off"
             list={y.prop == 'bookTitle' ? "datalist1" : ''}
             type={y.type}

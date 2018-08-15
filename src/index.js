@@ -9,11 +9,11 @@ import 'material-icons/iconfont/material-icons.scss';
 import 'material-icons/iconfont/material-icons.css';
 // import 'semantic-ui-css/semantic.min.css';
 import store from './store';
-import App from './App'
+import AuthPage from './components/major/Login';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
-      <App/>
+      <AuthPage />
   </Provider>,document.getElementById('root'));
 registerServiceWorker();

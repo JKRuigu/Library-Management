@@ -1,0 +1,22 @@
+.navbar{
+  float: none;
+  display: flex;
+}
+.navbar-ul{
+  float:right;
+  text-decoration: none;
+}
+.navbar-li{
+  cursor: pointer;
+  font-size: 12px;
+  display: inline-flex;
+  margin: 8px;
+}
+.navbar-li i {
+  margin-right: 8px;
+  font-size: 25px;
+}
+
+.navbar-li p{
+  margin: auto;
+}

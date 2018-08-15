@@ -18,7 +18,6 @@ export default class Form extends React.Component {
   }
 
   change = e => {
-    console.log(this.state.edited);
     const { name, value } = e.target;
     this.setState(state => ({
       values: {
@@ -69,6 +68,7 @@ export default class Form extends React.Component {
       titles.map((y, k) => (
         <td key={`trc-${k}`}>
           <input
+            disabled={y.name == '#' ? 'false' : '' }
             type={y.type}
             name={y.prop}
             onChange={this.change}

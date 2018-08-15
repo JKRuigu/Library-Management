@@ -6,6 +6,8 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
 import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import './student.css';
+import Nav from '../partials/Nav';
+
 class Dashboard extends React.Component {
   constructor(props){
        super(props);
@@ -25,6 +27,7 @@ render(){
   const {value} = this.state
     return(
       <div className="content" style={{marginTop:"15px"}}>
+          <div className="card" id="main-card">
           <div className="row">
             <div className="col-md-6">
             <Tabs
@@ -44,9 +47,10 @@ render(){
               </Tabs>
               </div>
           </div>
-          <div className="card" id="main-card">
+          <br/>
+          <br/>
             {
-              value === 0 ? <Borrow /> : <Return />
+              value == 0 ? <Borrow /> : <Return />
             }
           </div>
       </div>

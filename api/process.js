@@ -237,4 +237,19 @@ router.put('/return/book',(req, res) =>{
   });
 });
 
+router.delete('/book/overdue/:Id/delete',  (req, res) =>{
+  MongoClient.connect(url).then(client =>{
+    let db = client.db('library-react');
+    db.collection('overdue').deleteOne({_id:ObjectId(req.params.Id)})
+    .then(()=>{
+      res.status(200).json({data:req.params.Id})
+    }).catch(error => {
+      res.status(404).json({message:error.message});
+    });
+    client.close();
+  }).catch( error => {
+    res.status(404).json({message:error.message});
+  });
+});
+
 module.exports = router;
