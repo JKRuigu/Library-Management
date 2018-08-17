@@ -56,8 +56,7 @@ const row = (
         isLoading ?
         <td className="text-center"><i className="material-icons">more_horiz</i></td> :
         <td className="text-center">
-          'print'
-          />
+          print
         </td>
       }
     </tr>
