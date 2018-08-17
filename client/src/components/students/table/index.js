@@ -1,6 +1,5 @@
 import React from "react";
 import InlineForm from "./inlineForm";
-import PrintModal from "../modal/print"
 import Moment from 'react-moment';
 
 const row = (
@@ -57,9 +56,7 @@ const row = (
         isLoading ?
         <td className="text-center"><i className="material-icons">more_horiz</i></td> :
         <td className="text-center">
-          <PrintModal
-            x={x}
-            i={i}
+          'print'
           />
         </td>
       }

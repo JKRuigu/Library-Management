@@ -107,7 +107,6 @@ passport.use(new LocalStrategy(
 
 router.post('/staff/login',(req,res) =>{
   const {username,password} = req.body.data;
-  console.log(req.body.data);
   if (!username || !password) {
     res.status(404).json({data:'false'});
   }else {
@@ -122,7 +121,6 @@ router.post('/staff/login',(req,res) =>{
       if (!user.validPassword(password)) {
         res.status(404).json({data:'false'});
       }else {
-        console.log(user);
         res.status(200).json({data:'true'})
       }
 
