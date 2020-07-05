@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/JKRuigu/Library-Management#readme",
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcryptjs": "*",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",

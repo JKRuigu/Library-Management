@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 import Header from './components/partials/Header';
 import Dashboard from './components/major/Dashboard';
 import Students from './components/major/Students';
@@ -24,7 +24,7 @@ Store.dispatch(fetchTitles());
 Store.dispatch(fetchStream());
 Store.dispatch(fetchOverdue());
 
-injectTapEventPlugin();
+// injectTapEventPlugin();
 class App extends Component {
   render() {
     return (

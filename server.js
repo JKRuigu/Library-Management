@@ -14,7 +14,10 @@ const session = require('express-session');
 
 const server = express();
 
-mongoose.connect('mongodb://localhost/library-react',()=>{
+mongoose.connect('mongodb://localhost/library-react',{
+         useNewUrlParser: true,
+         useCreateIndex: true
+       },()=>{
   console.log('connected to mongodb');
 });
 var db = mongoose.connection;
@@ -73,7 +76,7 @@ server.use(passport.session()); // persistent login sessions
 //   res.locals.user = req.user || null;
 //   next();
 // });
-const port = 8080 || process.env.PORT ;
+const port = 8000// || process.env.PORT ;
 
 // Serve static assets if in production
 // if (process.env.NODE_ENV === 'production') {
@@ -86,6 +89,10 @@ const port = 8080 || process.env.PORT ;
 // }
 // app.use(express.static(path.join(__dirname, 'public')));
 // server.use(cors({ origin: 'http://localhost:8080' , credentials :  true}));
+
+server.get('/test',(req,res)=>{
+  res.status(200)
+});
 
 server.use('/login',loginAuth);
 server.use('/api',mongoServer);

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { editTitle} from '../../actions/titles.js';
-import injectTapEventPlugin from "react-tap-event-plugin";
+// import injectTapEventPlugin from "react-tap-event-plugin";
 import orderBy from "lodash/orderBy";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";

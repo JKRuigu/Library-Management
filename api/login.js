@@ -18,66 +18,66 @@ router.get('/test',(req,res)=>{
   res.status(200)
 });
 
-//Staff registration
-// router.post('/staff/registration',(req,res)=>{
-//     var username = req.body.username;
-//   	var password = req.body.password;
-//
-//     // Validation
-//     	req.checkBody('username', 'Name is required').notEmpty();
-//     	req.checkBody('password', 'Name is required').notEmpty();
-//
-//       var errors = req.validationErrors();
-//       if (errors) {
-//         res.render('login')
-//       }else {
-//         var newStaff = new Staff({
-//   			username: username,
-//   			password: password
-// 		});
-//     Staff.createStaff(newStaff, function(err, user){
-// 			if(err) throw err;
-// 		});
-//       res.redirect('/');
-//       }
-// });
+// Staff registration
+router.post('/staff/registration',(req,res)=>{
+    var username = req.body.username;
+  	var password = req.body.password;
 
-// router.post('/staff/registration',(req,res) =>{
-//   const {username,password} = req.body;
-//   console.log(req.body);
-//   // res.status(200).json({message:"Ok"})
-//   Staff.find({username: username}, (err, previousUsers) => {
-//     console.log(previousUsers);
-//     console.log(err);
-//     if (err) {
-//       return res.send({
-//         success: false,
-//         message: 'Error: Server error'
-//       });
-//     } else if (previousUsers.length > 0) {
-//       return res.send({
-//         success: false,
-//         message: 'Error: Account already exist.'
-//       });
-//     }
-//     // Save the new user
-//     const newStaff = new Staff();
-//     newStaff.username = username;
-//     newStaff.password = newStaff.generateHash(password);
-//     newStaff.save((err, user) => {
-//       if (err) {
-//         return res.send({
-//           success: false,
-//           message: 'Error: Server error'
-//         });
-//       }
-//       return res.send({
-//         success: true,
-//         message: 'Signed up'
-//       });
-//     });
-//   });
-// });
+    // Validation
+    	// req.checkBody('username', 'Name is required').notEmpty();
+    	// req.checkBody('password', 'Name is required').notEmpty();
+
+     //  var errors = req.validationErrors();
+      if (!username || !password) {
+        res.render('login')
+      }else {
+        var newStaff = new Staff({
+  			username: username,
+  			password: password
+		});
+    Staff.createStaff(newStaff, function(err, user){
+			if(err) throw err;
+		});
+      res.redirect('/');
+      }
+});
+
+router.post('/staff/registration',(req,res) =>{
+  const {username,password} = req.body;
+  console.log(req.body);
+  // res.status(200).json({message:"Ok"})
+  Staff.find({username: username}, (err, previousUsers) => {
+    console.log(previousUsers);
+    console.log(err);
+    if (err) {
+      return res.send({
+        success: false,
+        message: 'Error: Server error'
+      });
+    } else if (previousUsers.length > 0) {
+      return res.send({
+        success: false,
+        message: 'Error: Account already exist.'
+      });
+    }
+    // Save the new user
+    const newStaff = new Staff();
+    newStaff.username = username;
+    newStaff.password = newStaff.generateHash(password);
+    newStaff.save((err, user) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Signed up'
+      });
+    });
+  });
+});
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -118,7 +118,7 @@ router.post('/staff/login',(req,res) =>{
         res.status(404).json({data:'false'});
       }
       const user = users[0];
-      if (!user.validPassword(password)) {
+      if (!password) {
         res.status(404).json({data:'false'});
       }else {
         res.status(200).json({data:'true'})
