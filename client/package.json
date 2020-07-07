@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "css-loader": "^0.28.11",
-    "electron": "^2.0.2",
+    "electron": "^7.2.4",
     "electron-packager": "^12.1.0",
     "foreman": "^3.0.1",
     "style-loader": "^0.21.0"
