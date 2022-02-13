@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "*",
     "@material-ui/icons": "*",
-    "ajv": "^6.5.2",
+    "ajv": "^6.12.3",
     "axios": "^0.18.0",
     "cors": "^2.8.4",
     "logger": "0.0.1",
